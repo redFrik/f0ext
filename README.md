@@ -1,6 +1,8 @@
 externals for maxmsp
 ====================
 
+these are externals/plugins to be used with [MaxMSPJitter](http://cycling74.com)
+
 * **f0.auto_scale** - finds min and max values of a stream of numbers and uses them as input scaling range
 * **f0.auto_scale~** - msp
 * **f0.beats_to_frames** - calculates how many [video]frames will fit in x beats
