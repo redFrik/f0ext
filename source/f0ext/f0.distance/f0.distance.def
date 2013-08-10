@@ -1,0 +1,4 @@
+LIBRARY f0.distance.mxe
+
+EXPORTS
+	main

@@ -1,0 +1,4 @@
+LIBRARY f0.snap.mxe
+
+EXPORTS
+	main

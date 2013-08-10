@@ -1,0 +1,4 @@
+LIBRARY f0.auto_scale.mxe
+
+EXPORTS
+	main

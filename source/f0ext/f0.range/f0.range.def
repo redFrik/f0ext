@@ -1,0 +1,4 @@
+LIBRARY f0.range.mxe
+
+EXPORTS
+	main

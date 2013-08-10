@@ -1,0 +1,4 @@
+LIBRARY f0.gcd.mxe
+
+EXPORTS
+	main

@@ -1,0 +1,4 @@
+LIBRARY f0.noergaard.mxe
+
+EXPORTS
+	main

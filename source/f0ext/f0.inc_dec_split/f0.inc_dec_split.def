@@ -1,0 +1,4 @@
+LIBRARY f0.inc_dec_split.mxe
+
+EXPORTS
+	main

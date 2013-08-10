@@ -1,0 +1,4 @@
+LIBRARY f0.beats_to_frames.mxe
+
+EXPORTS
+	main

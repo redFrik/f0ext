@@ -1,0 +1,4 @@
+LIBRARY f0.smooth2.mxe
+
+EXPORTS
+	main
