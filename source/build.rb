@@ -91,7 +91,9 @@ def copy_help_patchers(dir)
   if $mac 
     `mkdir -p ../f0ext_osx/help`
     `cp f0ext/*.maxhelp ../f0ext_osx/help`
-    `cp f0ext/*.png ../f0ext_osx/help`
+    `cp f0ext/f0logo.png ../f0ext_osx/help`
+    `cp f0ext/README.txt ../f0ext_osx`
+    `cp f0ext/gpl.rtf ../f0ext_osx`
   else # $win
     `mkdir ../f0extwin/help`
     Dir.foreach dir do |category|
