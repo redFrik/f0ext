@@ -44,4 +44,8 @@ download&install binaries
 
 (optional) build from source
 ----------------------------
-**osx**: open terminal, cd to source folder and type `ruby build.rb`
+**osx**:
+* download the [MaxSDK](http://cycling74.com/downloads/sdk/)
+* edit the C74SUPPORT line in the file `source/maxmspsdk.xcconfig` to point to the sdk (by default it looks for MaxSDK-6.1.3 next to your f0ext folder).
+* open terminal, cd to source folder and type `ruby build.rb` to build.
+* make sure max finds the newly built externals by including the f0ext_osx folder in the searchpath or copy the externals somewhere where max already looks.
