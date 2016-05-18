@@ -36,6 +36,12 @@ these are externals/plugins to be used with [MaxMSPJitter](http://cycling74.com)
 
 see also <http://www.fredrikolofsson.com/pages/code-max.html>
 
+javascript versions of some of the externals are available <http://github.com/redFrik/f0extjs>
+
+older windows 32bit binaries are available here... <http://www.fredrikolofsson.com/software/f0ext091222win.zip>
+
+**TODO windows 64bit**
+
 the pd equivalents are here... <http://www.fredrikolofsson.com/pages/code-pd.html>
 
 download&install binaries
