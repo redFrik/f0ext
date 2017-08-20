@@ -20,8 +20,6 @@ these are externals/plugins to be used with [MaxMSPJitter](http://cycling74.com)
 * **f0.range2** - similar to f0.range but with an added smooth factor
 * **f0.range2~** - msp
 * **f0.ratio** - keep width/height proportion
-* **f0.round** - round values to nearest quantised value
-* **f0.round~** - msp
 * **f0.slub** - generate cpu spikes - disrupt timing version
 * **f0.slub~** - generate cpu spikes - audio click version
 * **f0.smooth** - single exponential smoothing. good for filtering data from sensors
