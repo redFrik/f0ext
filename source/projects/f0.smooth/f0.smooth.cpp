@@ -37,7 +37,7 @@ public:
 	attribute<number> alpha { this, "alpha", 0.15,
 		description { "Smoothing constant (alpha)." },
 		setter { MIN_FUNCTION {
-            return { MIN_CLAMP(args[0], 0.0, 1.0) };
+            return { clamp(args[0], 0.0, 1.0) };
 		}}
     };
 
