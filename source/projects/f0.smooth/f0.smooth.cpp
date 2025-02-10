@@ -79,7 +79,7 @@ public:
 }
 
 private:
-	number m_value { 0.0 }
+	number m_value { 0.0 };
 
 	void theFunction() {
 		m_value = alpha*m_value+(1.0-alpha)*m_value;	//SES - Single Exponential Smoothing, Hunter (1986)
