@@ -33,7 +33,13 @@ public:
 	attribute<number> alpha { this, "alpha", 0.15,
 		description { "Smoothing constant (alpha)." },
         setter { MIN_FUNCTION {
-            return { pow(max(min(args[0], 1.0), 0.0), 4.0) };
+            number a = args[0];
+			if (a < 0.0) {
+				a = 0.0;
+			} else if(a > 1.0) {
+				a = 1.0;
+			}
+            return { pow(a, 4.0) };
         }}
     };
 
