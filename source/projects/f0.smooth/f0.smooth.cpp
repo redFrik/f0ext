@@ -1,3 +1,8 @@
+/// @file
+///	@ingroup 	f0ext
+///	@copyright	Copyright 2002-2025 Fredrik Olofsson. All rights reserved.
+///	@license	Use of this source code is governed by the GNU GPL License found in the License.md file.
+
 //		----------------------------------------------------------
 //		-- fredrik olofsson 020115								--
 //		-- updated 040225 - for carbon using cw8.0				--
@@ -5,14 +10,84 @@
 //		-- updated 070103 - for ub using xcode					--
 //		-- updated 070106 - clip arg fix						--
 //      -- updated 130630 - ported to max sdk 6.1.1             --
-//		-- distributed under GNU GPL license					--
+//      -- updated 250210 - ported to min-devkit (sdk8)         --
 //		----------------------------------------------------------
 
-#include "ext.h"
-#include "ext_obex.h"
+#include "c74_min.h"
 
-void *f0ext_class;
+using namespace c74::min;
 
+class smooth : public object<smooth> {
+public:
+	MIN_DESCRIPTION { "Single exponential smoothing (SES). Good for filtering data from sensors." };
+	MIN_TAGS        { "f0ext" };
+	MIN_AUTHOR      { "Fredrik Olofsson" };
+	MIN_RELATED     { "f0.smooth~, f0.smooth2" };
+
+	inlet<> m_in1   { this, "(number) Value to be smoothed" };
+	inlet<> m_in2   { this, "(number) Smoothing constant (alpha)" };
+	outlet<> m_out1 { this, "(number) Smoothed output" };
+	
+	argument<number> alpha_arg { this, "alpha", "Initial smoothing constant (alpha).",
+        MIN_ARGUMENT_FUNCTION {
+            alpha = arg;
+        }
+    };
+
+	attribute<number> alpha { this, "alpha", 0.15,
+		description { "Smoothing constant (alpha)." },
+		setter { MIN_FUNCTION {
+            return { MIN_CLAMP(args[0], 0.0, 1.0) };
+		}}
+    };
+
+	message<> bang { this, "bang",
+        MIN_FUNCTION {
+			theFunction();
+            m_out1.send(m_value);
+            return {};
+        }
+    };
+
+	message<> value { this, "value",
+        MIN_FUNCTION {
+			m_value = args[0];
+			bang();
+            return {};
+        }
+    };
+
+	message<> set { this, "set",
+        MIN_FUNCTION {
+			m_value = args[0];
+			return {};
+		}
+	};
+
+    message<> maxclass_setup { this, "maxclass_setup",
+        MIN_FUNCTION {
+            cout << "f0.smooth v2.0; distributed under GNU GPL License" << endl;
+            return {};
+        }
+    };
+}
+
+private:
+	number m_value { 0.0 }
+
+	void theFunction() {
+		m_value = alpha*m_value+(1.0-alpha)*m_value;	//SES - Single Exponential Smoothing, Hunter (1986)
+	}
+
+};
+
+MIN_EXTERNAL(smooth);
+
+
+
+
+
+/*
 typedef struct _f0ext {
 	t_object ob;
 	double valLeft;
@@ -41,7 +116,7 @@ int C74_EXPORT main(void) {
     class_addmethod(c, (method)f0ext_set, "set", A_FLOAT, 0);
     class_register(CLASS_BOX, c);
     f0ext_class= c;
-    post("f0.smooth v2.0; distributed under GNU GPL license");
+    post("f0.smooth v2.0; distributed under GNU GPL License");
     return 0;
 }
 void *f0ext_new(double val) {
@@ -101,3 +176,4 @@ void f0ext_theFunction(t_f0ext *x) {
 	x->temp= x->valLeft;
 	outlet_float(x->out, x->valOut);
 }
+*/
