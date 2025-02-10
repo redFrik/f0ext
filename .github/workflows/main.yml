@@ -11,7 +11,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macos-latest, windows-latest]
+        os: [macos-latest]
         config: [release]
 
     steps:
@@ -29,10 +29,6 @@ jobs:
       if: matrix.os == 'macos-latest'
       run: mkdir build && cd build && cmake -G Xcode .. "-DCMAKE_OSX_ARCHITECTURES=x86_64;arm64"
  
-    - name: configure_windows
-      if: matrix.os == 'windows-latest'
-      run: mkdir build && cd build && cmake ..
-
     - name: build_debug
       if: matrix.config == 'debug'
       run: cmake --build build --config 'Debug'
@@ -82,20 +78,6 @@ jobs:
         if [ -d source ]; then cp -r source $PACKAGE_NAME; fi
         if [ -d tests ]; then cp -r tests $PACKAGE_NAME; fi
         if [ -e $PACKAGE_NAME/ReadMe-Public.md ]; then rm -f $PACKAGE_NAME/ReadMe.md; mv $PACKAGE_NAME/ReadMe-Public.md $PACKAGE_NAME/ReadMe.md; fi
-
-    - name: package_windows
-      if: matrix.os == 'windows-latest'
-      shell: cmd
-      env:
-        GITHUB_REPOSITORY_NAME: ${{ github.event.repository.name }}
-        GITHUB_CONFIG: ${{ matrix.config }}
-      run: |
-        set PACKAGE_NAME=%GITHUB_REPOSITORY_NAME%
-        mkdir %PACKAGE_NAME%
-        if exist extensions cp -r extensions %PACKAGE_NAME%
-        if exist externals cp -r externals %PACKAGE_NAME%
-        if exist support cp -r support %PACKAGE_NAME%
-        if exist tests cp -r tests %PACKAGE_NAME%
         
     - uses: actions/upload-artifact@v4
       with:
