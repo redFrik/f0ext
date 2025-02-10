@@ -76,7 +76,6 @@ public:
             return {};
         }
     };
-}
 
 private:
 	number m_value { 0.0 };
