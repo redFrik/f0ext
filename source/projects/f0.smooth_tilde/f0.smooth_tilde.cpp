@@ -33,7 +33,7 @@ public:
 	attribute<number> alpha { this, "alpha", 0.15,
 		description { "Smoothing constant (alpha)." },
         setter { MIN_FUNCTION {
-            return { pow(clamp(args[0], 0.0, 1.0), 4.0) };
+            return { pow(max(min(args[0], 1.0), 0.0), 4.0) };
         }}
     };
 
@@ -46,7 +46,7 @@ public:
 
 	sample operator()(sample input) {
         
-		return m_in1*alpha;
+		return input*alpha;
         
 		// r= *inR++;
 		// if(r<0.0) r= 0.0; else if(r>1.0) r= 1.0;
