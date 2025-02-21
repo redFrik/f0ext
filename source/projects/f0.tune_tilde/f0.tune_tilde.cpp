@@ -21,7 +21,7 @@ public:
     MIN_RELATED		{ "f0.tune, mtof~, round~" };
 
     inlet<> m_in1	{ this, "(signal) Frequency (Hz)" };
-    inlet<> m_in2	{ this, "(signal/number) Base frequency (Hz)", base };
+    inlet<> m_in2	{ this, "(signal) Base frequency (Hz)", base };
     outlet<> m_out1	{ this, "(signal) Quantised frequency (Hz)", "signal" };
 
     argument<number> base_arg { this, "base", "Initial base frequency.",
@@ -42,15 +42,6 @@ public:
         }
     };
 
-    message<> number { this, "number",
-        MIN_FUNCTION {
-            if (inlet == 1) {
-                tune = args[0];
-            }
-            return {};
-        }
-    };
-
     sample operator()(sample in1, sample in2) {
         sample c = 0.0;
         if ((base != 0.0) && (tonesPerOctave != 0.0)) {
@@ -59,7 +50,7 @@ public:
 		    auto b = round(69.0 + a) - 69.0;
 		    c = fabs(base) * pow(v, b);
         }
-        return { c };
+        return c;
     }
 
 };

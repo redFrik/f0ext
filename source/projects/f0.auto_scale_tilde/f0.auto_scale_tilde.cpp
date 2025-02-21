@@ -54,7 +54,7 @@ public:
 
     message<> factor { this, "factor",
         MIN_FUNCTION {
-            atoms daList[3];
+            atoms daList(3);
             auto rangeIn = fabs(m_max - m_min);
             auto rangeOut = fabs(high - low);
             daList[0] = 0;  //index for routing
@@ -71,7 +71,7 @@ public:
                 daList[1] = 1.0 / (rangeOut / rangeIn);
                 daList[2] = 1.0;
             }
-            return { daList };
+            return daList;
         }
     };
 
@@ -95,16 +95,16 @@ public:
 
     message<> range { this, "range",
         MIN_FUNCTION {
-            atoms daList[3];
+            atoms daList(3);
             daList[0] = 1;  //index for routing
             if (m_min <= m_max) {
-                daList[1] = m_min);
-                daList[2] = m_max);
+                daList[1] = m_min;
+                daList[2] = m_max;
             } else {
-                daList[1] = m_max);
-                daList[2] = m_min);
+                daList[1] = m_max;
+                daList[2] = m_min;
             }
-            return { daList };
+            return daList;
         }
     };
 
@@ -117,9 +117,9 @@ public:
     };
 
     sample operator()(sample in) {
-        auto out;
+        sample out;
         if (!m_flag && m_min == m_max) {
-            flag = true;
+            m_flag = true;
             m_min = in;
             m_max = in;
         }
@@ -130,10 +130,10 @@ public:
             m_max = in;
         }
         auto rangeIn = fabs(m_max - m_min);
-        auto rangeOut = fabs(high - low)
+        auto rangeOut = fabs(high - low);
         if (rangeIn == 0.0) {
             if (low <= high) {
-                out = middle
+                out = low;
             } else {
                 out = high;
             }
@@ -142,13 +142,13 @@ public:
         } else {
             out = fabs((in - m_max) / rangeIn * rangeOut) + high;
         }
-        return { out };
+        return out;
     }
 
 private:
     bool m_flag { false };
-    auto m_max { 0.0 }
-    auto m_min { 0.0 }
+    double m_max { 0.0 };
+    double m_min { 0.0 };
 };
 
 MIN_EXTERNAL(f0_auto_scale_tilde);

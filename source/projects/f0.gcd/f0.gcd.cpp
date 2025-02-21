@@ -27,10 +27,12 @@ public:
     outlet<> m_out1	{ this, "(number) Divisor" };
     
     //TODO check if this is needed
-    /*message<> bang { this, "bang",
-        m_out1.send(m_value);
-        return {};
-    };*/
+    message<> bang { this, "bang",
+        MIN_FUNCTION {
+            m_out1.send(m_value);
+            return {};
+        }
+    };
 
     message<> list { this, "list",
         MIN_FUNCTION {

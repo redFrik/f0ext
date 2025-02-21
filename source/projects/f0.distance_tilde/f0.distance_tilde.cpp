@@ -23,26 +23,21 @@ public:
     inlet<> m_in1	{ this, "(signal) X" };
     outlet<> m_out1	{ this, "(signal) Distance between consecutive numbers (delta)" };
 
-    distance_tilde(const atoms& args = {}) {
+    f0_distance_tilde(const atoms& args = {}) {
         if (args.size() > 0) {
             if (args[0] == 2) {
-                inlet<> m_in2	{ this, "(signal) Y" };
+                auto m_in2 = std::make_unique<inlet<>>(this, "(signal/number) Y");
+                m_inlets.push_back(std::move(m_in2));
             } else if (args[0] == 3) {
-                    inlet<> m_in2	{ this, "(signal/number) Y" };
-                    inlet<> m_in3	{ this, "(signal/number) Z" };
-                }
+                auto m_in2 = std::make_unique<inlet<>>(this, "(signal/number) Y");
+                m_inlets.push_back(std::move(m_in2));
+                auto m_in3 = std::make_unique<inlet<>>(this, "(signal/number) Z");
+                m_inlets.push_back(std::move(m_in3));
             }
         }
-    }
+    };
 
     argument<number> dimensions_arg { this, "dimensions", "Dimensions."};
-
-    message<> bang { this, "bang",
-        MIN_FUNCTION {
-            theFunction();
-            return {};
-        }
-    };
 
 	message<> maxclass_setup { this, "maxclass_setup",
         MIN_FUNCTION {
@@ -54,30 +49,30 @@ public:
     message<> number { this, "number",
         MIN_FUNCTION {
             if (inlet == 1) {
-                y = args[0];
+                m_y = args[0];
             } else if (inlet == 2) {
-                z = args[0];
+                m_z = args[0];
             }
             return {};
         }
     };
 
-    sample operator()(audio_bundle input, audio_bundle output) {
+    void operator()(audio_bundle input, audio_bundle output) {
         auto in = input.samples(0);
         auto out = output.samples(0);
-        if (in.channelcount() == 1) {
-            for (auto i = 0; i < input.framecount(); ++i) {
+        if (input.channel_count() == 1) {
+            for (auto i = 0; i < input.frame_count(); ++i) {
                 m_x = in[i] - m_x;
                 out[i] = fabs(std::sqrt(pow(m_x, 2.0)));
             }
-        } else if (in.channelcount() == 2) {
-            for (auto i = 0; i < input.framecount(); ++i) {
+        } else if (input.channel_count() == 2) {
+            for (auto i = 0; i < input.frame_count(); ++i) {
                 m_x = in[i] - m_x;
                 m_y = in[i + 1] - m_y;
                 out[i] = fabs(std::sqrt(pow(m_x, 2.0) + pow(m_y, 2.0)));
             }
-        } else if (in.channelscount() == 3) {
-            for (auto i = 0; i < input.framecount(); ++i) {
+        } else if (input.channel_count() == 3) {
+            for (auto i = 0; i < input.frame_count(); ++i) {
                 m_x = in[i] - m_x;
                 m_y = in[i + 1] - m_y;
                 m_z = in[i + 2] - m_z;
@@ -87,9 +82,10 @@ public:
     }
 
 private:
-    auto m_x { 0.0 }
-    auto m_y { 0.0 }
-    auto m_z { 0.0 }
+    std::vector< std::unique_ptr<inlet<>> >	m_inlets;
+    double m_x { 0.0 };
+    double m_y { 0.0 };
+    double m_z { 0.0 };
 };
 
 MIN_EXTERNAL(f0_distance_tilde);

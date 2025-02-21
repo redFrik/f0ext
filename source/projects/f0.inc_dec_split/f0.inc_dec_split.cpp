@@ -41,8 +41,10 @@ public:
     attribute<number> start { this, "start", 0.0};
 
     message<> bang { this, "bang",
-        theFunction();
-        return {};
+        MIN_FUNCTION {
+            theFunction();
+            return {};
+        }
     };
 
 	message<> maxclass_setup { this, "maxclass_setup",
@@ -73,9 +75,9 @@ public:
     };
 
 private:
-    bool m_flag { false }
-    auto m_prev { 0.0 };
-    auto m_value { 0.0 };
+    bool m_flag { false };
+    double m_prev { 0.0 };
+    double m_value { 0.0 };
 
     void theFunction() {
         if (m_value > m_prev) {

@@ -115,8 +115,8 @@ public:
 private:
     double m_value { 0.0 };
 
-    auto clipFunction(auto in, auto min, auto max) {
-        auto a;
+    double clipFunction(double in, double min, double max) {
+        double a;
         if (min > max) {
             a = min;
             min = max;
@@ -131,10 +131,10 @@ private:
         } else {
             a = in;
         }
-        return { a };
+        return a;
     }
-    auto wrapFunction(auto in, auto min, auto max) {
-        auto a, b;
+    double wrapFunction(double in, double min, double max) {
+        double a, b;
         if (min > max) {
             a = min;
             min = max;
@@ -154,14 +154,14 @@ private:
         }
         return a;
     }
-    auto foldFunction(auto in, auto min, auto max) {
-        auto a, b, c;
+    double foldFunction(double in, double min, double max) {
+        double a, b, c;
         if (min > max) {
             a = min;
             min = max;
             max = a;
         }
-        if (in >= min && in <= max) || (min == max)) {
+        if ((in >= min && in <= max) || (min == max)) {
             b = in;
         } else {
             step= 0.0 - step;

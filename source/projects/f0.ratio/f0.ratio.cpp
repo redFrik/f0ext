@@ -21,6 +21,7 @@ public:
     MIN_DESCRIPTION	{ "Single exponential smoothing (SES). Good for filtering data from sensors." };
     MIN_TAGS		{ "f0ext" };
     MIN_AUTHOR		{ "Fredrik Olofsson" };
+    MIN_RELATED		{ };
 
     inlet<> m_in1	{ this, "(number) Width" };
     inlet<> m_in2	{ this, "(number) Height" };
@@ -58,10 +59,10 @@ public:
         MIN_FUNCTION {
             if (inlet == 0) {
                 m_width = args[0];
-                m_height = (args[0] / m_proportionWidth) * m_proportionHeight;
+                m_height = (m_width / m_proportionWidth) * m_proportionHeight;
             } else if (inlet == 1) {
-                m_width = (args[0] / m_proportionHeight) * m_proportionWidth;
                 m_height = args[0];
+                m_width = (m_height / m_proportionHeight) * m_proportionWidth;
             }
             bang();
             return {};
@@ -85,10 +86,10 @@ public:
     };
 
 private:
-    auto m_width { 0.0 };
-    auto m_height { 0.0 };
-    auto m_proportionWidth { 1.0 };
-    auto m_proportionHeight { 1.0 };
+    double m_width { 0.0 };
+    double m_height { 0.0 };
+    double m_proportionWidth { 1.0 };
+    double m_proportionHeight { 1.0 };
 
 };
 

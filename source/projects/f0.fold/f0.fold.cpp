@@ -82,25 +82,27 @@ private:
     double m_value { 0.0 };
 
     void theFunction() {
-        auto a;
+        double a, lo, hi;
         if (min > max) {
-            a = min;
-            min = max;
-            max = a;
+            lo = max;
+            hi = min;
+        } else {
+            lo = min;
+            hi = max;
         }
-        if ((m_value >= min && in <= max) || (min == max)) {
+        if ((m_value >= lo && m_value <= hi) || (lo == hi)) {
             a = m_value;
         } else {
-            auto b = fabs(max - min) * 2.0;
-            if (m_value < min) {
-                a = min - fmod(m_value - min, b);
-                if (a < min || a > max) {
-                    a = max + max - a;
+            auto b = fabs(hi - lo) * 2.0;
+            if (m_value < lo) {
+                a = lo - fmod(m_value - lo, b);
+                if (a < min || a > hi) {
+                    a = hi + hi - a;
                 }
             } else {
-                a = max - fmod(m_value - max, b);
-                if (a <= (min - b / 2.0) || a > min ) {
-                    a = min + min - a;
+                a = hi - fmod(m_value - hi, b);
+                if (a <= (lo - b / 2.0) || a > lo ) {
+                    a = lo + lo - a;
                 }
             }
         }

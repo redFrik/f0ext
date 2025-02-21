@@ -60,7 +60,7 @@ public:
 private:
     double m_dummy;
 
-    theFunction() {
+    void theFunction() {
     	long
         i
         ,

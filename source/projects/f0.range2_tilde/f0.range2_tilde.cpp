@@ -58,8 +58,8 @@ public:
                 m_min = m_setMin;
                 m_max = -INFINITY;
             } else {
-                m_min = setMin;
-                m_max = setMax;
+                m_min = m_setMin;
+                m_max = m_setMax;
             }
             return {};
         }
@@ -83,16 +83,18 @@ public:
 
     message<> set { this, "set",
         MIN_FUNCTION {
-            if (args[0] < args[1]) {
-                m_min = args[0];
-                m_max = args[1];
-                m_setMin = args[0];
-                m_setMax = args[1];
+            double lo = args[0];
+            double hi = args[1];
+            if (lo < hi) {
+                m_min = lo;
+                m_max = hi;
+                m_setMin = lo;
+                m_setMax = hi;
             } else {
-                m_min = args[1];
-                m_max = args[0];
-                m_setMin = args[1];
-                m_setMax = args[0];
+                m_min = hi;
+                m_max = lo;
+                m_setMin = hi;
+                m_setMax = lo;
             }
             m_flags = 2;
             return {};
@@ -112,12 +114,12 @@ public:
     }
 
 private:
-    short m_flags { 0 }
-    auto m_max { -INFINITY };
-    auto m_min { INFINITY };
-    auto m_setMax { -INFINITY };
-    auto m_setMin { INFINITY };
-    auto m_smooth { 0.0 }
+    short m_flags { 0 };
+    double m_max { -INFINITY };
+    double m_min { INFINITY };
+    double m_setMax { -INFINITY };
+    double m_setMin { INFINITY };
+    double m_smooth { 0.0 };
 };
 
 MIN_EXTERNAL(f0_range2_tilde);

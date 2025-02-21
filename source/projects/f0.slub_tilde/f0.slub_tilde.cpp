@@ -60,7 +60,7 @@ public:
     void operator()(audio_bundle in, audio_bundle out) {
         if (m_flag) {
             m_flag = false;
-            f0ext_theFunction();
+            theFunction();
         }
     }
 
@@ -68,7 +68,7 @@ private:
     bool m_flag { false };
     double m_dummy;
 
-    theFunction() {
+    void theFunction() {
     	long
         i
         ,
@@ -149,6 +149,6 @@ private:
     	}
     };
 
-}
+};
 
 MIN_EXTERNAL(f0_slub_tilde);

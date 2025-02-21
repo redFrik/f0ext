@@ -25,17 +25,17 @@ public:
     inlet<> m_in1	{ this, "(anything) Bang to draw" };
     outlet<> m_out1	{ this, "(list) [x, y, x+1, y+1" };
 
-    attribute<long, threadsafe::no, limit::clamp> iterations { this, "iterations", 2000, range {1, MAX_LONG}};
-    attribute<short, threadsafe::no, limit::clamp> mapping { this, "mapping", 1, range {1, 16}};
-    attribute<short, threadsafe::no, limit::clamp> variant { this, "variant", 1, range {1, 6}};
-    attribute<long, threadsafe::no, limit::clamp> cols { this, "cols", 3, range {1, MAX_LONG}};
-    attribute<long, threadsafe::no, limit::clamp> rows { this, "rows", 2, range {1, MAX_LONG}};
-    attribute<long, threadsafe::no, limit::clamp> width { this, "width", 200, range {1, MAX_LONG}};
-    attribute<long, threadsafe::no, limit::clamp> height { this, "height", 200, range {1, MAX_LONG}};
-    attribute<number> stepX { this, "stepX", 1.0};
-    attribute<number> stepY { this, "stepY", 1.0};
-    attribute<short, threadsafe::no, limit::clamp> movementX { this, "movementX", 95, range { 0, 100}};
-    attribute<short, threadsafe::no, limit::clamp> movementY { this, "movementY", 93, range { 0, 100}};
+    attribute<int, threadsafe::no, limit::clamp> iterations { this, "iterations", 2000, range { 1, 100000 }};
+    attribute<int, threadsafe::no, limit::clamp> mapping { this, "mapping", 1, range { 1, 16 }};
+    attribute<int, threadsafe::no, limit::clamp> variant { this, "variant", 1, range { 1, 6 }};
+    attribute<int, threadsafe::no, limit::clamp> cols { this, "cols", 3, range { 1, 100000 }};
+    attribute<int, threadsafe::no, limit::clamp> rows { this, "rows", 2, range { 1, 100000 }};
+    attribute<int, threadsafe::no, limit::clamp> width { this, "width", 200, range { 1, 100000 }};
+    attribute<int, threadsafe::no, limit::clamp> height { this, "height", 200, range { 1, 100000 }};
+    attribute<double> stepX { this, "stepX", 1.0 };
+    attribute<double> stepY { this, "stepY", 1.0 };
+    attribute<int, threadsafe::no, limit::clamp> movementX { this, "movementX", 95, range { 0, 100 }};
+    attribute<int, threadsafe::no, limit::clamp> movementY { this, "movementY", 93, range { 0, 100 }};
 
     message<> bang { this, "bang",
         MIN_FUNCTION {
@@ -60,10 +60,10 @@ public:
     };
 
 private:
-    auto m_dx { 1 };
-    auto m_dy { 1 };
-    auto m_x { 10 };
-    auto m_y { 10 };
+    double m_dx { 1.0 };
+    double m_dy { 1.0 };
+    double m_x { 10.0 };
+    double m_y { 10.0 };
 
     void start() {
         for (auto i = 0; i < iterations; i++) {
@@ -376,12 +376,12 @@ private:
         return lib::math::random(0.0, 100000.0);
     }
     void draw(int ox, int oy) {
-        atoms lista[4];
+        atoms lista(4);
         lista[0] = ox;
         lista[1] = oy;
         lista[2] = ox + 1;
         lista[3] = oy + 1;
-        m_out1.send(result);
+        m_out1.send(lista);
     }
 
 };

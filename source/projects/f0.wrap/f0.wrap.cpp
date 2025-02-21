@@ -73,30 +73,32 @@ public:
 
 private:
     double m_value { 0.0 };
-    short intswitch { 0 };  //TODO
+    bool intswitch { false };  //TODO
 
     void theFunction() {
-        auto a;
+        double a, lo, hi;
         if (min > max) {
-            a = min;
-            min = max;
-            max = a;
+            lo = max;
+            hi = min;
+        } else {
+            lo = min;
+            hi = max;
         }
-        if ((m_value >= min && in <= max) || (min == max)) {
+        if ((m_value >= lo && m_value <= hi) || (lo == hi)) {
             a = m_value;
         } else {
-            auto b = fabs(max - min);
-            if (m_value < min) {
-                if (intswitch == 1) {
-                    a = max - fabs(fmod(m_value - min + 1.0, b + 1.0));
+            double b = fabs(hi - lo);
+            if (m_value < lo) {
+                if (intswitch) {
+                    a = hi - fabs(fmod(m_value - lo + 1.0, b + 1.0));
                 } else {
-                    a = max - fabs(fmod(m_value - min, b));
+                    a = hi - fabs(fmod(m_value - lo, b));
                 }
             } else {
-                if (intswitch == 1) {
-                    a = min + fabs(fmod(m_value - 1.0 - max, b + 1.0));
+                if (intswitch) {
+                    a = lo + fabs(fmod(m_value - 1.0 - hi, b + 1.0));
                 } else {
-                    a = min + fabs(fmod(m_value - max, b));
+                    a = lo + fabs(fmod(m_value - hi, b));
                 }
             }
         }

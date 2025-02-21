@@ -21,6 +21,7 @@ public:
     MIN_DESCRIPTION	{ "Per Nørgård's infinity series." };
     MIN_TAGS		{ "f0ext" };
     MIN_AUTHOR		{ "Fredrik Olofsson" };
+    MIN_RELATED		{ };
 
     inlet<> m_in1	{ this, "(int) index (>= 0)" };
     outlet<> m_out1	{ this, "(int) Value" };
@@ -41,8 +42,9 @@ public:
 
     message<> number { this, "int",
         MIN_FUNCTION {
-            if (args[0] >= 0) {
-                m_value = theFunction(args[0]);
+            long a = args[0];
+            if (a >= 0) {
+                m_value = theFunction(a);
                 bang();
             } else {
                 cout << "f0.noergaard warning: only possitive indices" << endl;
@@ -58,7 +60,7 @@ private:
         long i, len, res = 0;
         len = count_bits(index);
         for(i = len - 1; i >= 0; i--) {
-            if ((index >>i) & 01) {
+            if ((index >> i) & 01) {
                 res++;
             } else {
                 if (res >= 0) {

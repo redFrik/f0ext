@@ -54,7 +54,7 @@ public:
     sample operator()(sample in1, sample in2) {
         auto a = pow(alpha, 4.0);
         m_prev = (1.0 - a) * m_prev + a * in1;
-        return { m_prev };
+        return m_prev;
     }
 
 private:

@@ -44,28 +44,30 @@ public:
         }
     };
 
-    attribute<long> floor { this, "floor", C74_LONG_INT_MIN};
+    attribute<long> floor { this, "floor", C74_LONG_INT_MIN };
 
-    attribute<long> ceil { this, "ceil", C74_LONG_INT_MAX};
+    attribute<long> ceil { this, "ceil", C74_LONG_INT_MAX };
 
     message<> bang { this, "bang",
-        if (inlet == 0) {
-            if (m_value < ceil) {
-                m_value++;
+        MIN_FUNCTION {
+            if (inlet == 0) {
+                if (m_value < ceil) {
+                    m_value++;
+                }
+                if (m_value == ceil) {
+                    m_out3.send(k_sym_bang);
+                }
+            } else if (inlet == 1) {
+                if (m_value > floor) {
+                    m_value--;
+                }
+                if (m_value == floor) {
+                    m_out2.send(k_sym_bang);
+                }
             }
-            if (m_value == ceil) {
-                m_out3.send(k_sym_bang);
-            }
-        } else if (inlet == 1) {
-            if (m_value > floor) {
-                m_value--;
-            }
-            if (m_value == floor) {
-                m_out2.send(k_sym_bang);
-            }
+            m_out1.send(m_value);
+            return {};
         }
-        m_out1.send(m_value);
-        return {};
     };
 
 	message<> maxclass_setup { this, "maxclass_setup",

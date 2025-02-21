@@ -27,17 +27,19 @@ public:
     inlet<> m_in1	{ this, "(number/list) X" };
     outlet<> m_out1	{ this, "(number) Distance between consecutive numbers (delta)" };
 
-    distance(const atoms& args = {}) {
+    f0_distance(const atoms& args = {}) {
         if (args.size() > 0) {
             if (args[0] == 2) {
-                inlet<> m_in2	{ this, "(number) Y" };
+                auto m_in2 = std::make_unique<inlet<>>(this, "(number) Y");
+                m_inlets.push_back(std::move(m_in2));
             } else if (args[0] == 3) {
-                    inlet<> m_in2	{ this, "(number) Y" };
-                    inlet<> m_in3	{ this, "(number) Z" };
-                }
+                auto m_in2 = std::make_unique<inlet<>>(this, "(number) Y");
+                m_inlets.push_back(std::move(m_in2));
+                auto m_in3 = std::make_unique<inlet<>>(this, "(number) Z");
+                m_inlets.push_back(std::move(m_in3));
             }
         }
-    }
+    };
 
     argument<number> dimensions_arg { this, "dimensions", "Dimensions."};
 
@@ -90,6 +92,8 @@ public:
     };
 
 private:
+    std::vector< std::unique_ptr<inlet<>> >	m_inlets;
+
     void theFunction() {
         m_out1.send(fabs(std::sqrt(pow(x, 2.0) + pow(y, 2.0) + pow(z, 2.0))));
     }

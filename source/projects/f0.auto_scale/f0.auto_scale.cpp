@@ -57,7 +57,7 @@ public:
 
     message<> factor { this, "factor",
         MIN_FUNCTION {
-            atoms daList[3];
+            atoms daList(3);
             auto rangeIn = fabs(m_max - m_min);
             auto rangeOut = fabs(high - low);
             daList[0] = 0;  //index for routing
@@ -74,7 +74,7 @@ public:
                 daList[1] = 1.0 / (rangeOut / rangeIn);
                 daList[2] = 1.0;
             }
-            return { daList };
+            return daList;
         }
     };
 
@@ -101,16 +101,16 @@ public:
 
     message<> range { this, "range",
         MIN_FUNCTION {
-            atoms daList[3];
+            atoms daList(3);
             daList[0] = 1;  //index for routing
             if (m_min <= m_max) {
-                daList[1] = m_min);
-                daList[2] = m_max);
+                daList[1] = m_min;
+                daList[2] = m_max;
             } else {
-                daList[1] = m_max);
-                daList[2] = m_min);
+                daList[1] = m_max;
+                daList[2] = m_min;
             }
-            return { daList };
+            return daList;
         }
     };
 
@@ -124,9 +124,9 @@ public:
 
 private:
     bool m_flag { false };
-    auto m_max { 0.0 }
-    auto m_min { 0.0 }
-    auto m_value { 0.0 };
+    double m_max { 0.0 };
+    double m_min { 0.0 };
+    double m_value { 0.0 };
 
     void theFunction() {
         if (!m_flag && m_min == m_max) {
