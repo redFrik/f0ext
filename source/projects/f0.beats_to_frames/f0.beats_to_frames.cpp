@@ -16,7 +16,7 @@
 
 using namespace c74::min;
 
-class beats_to_frames : public object<beats_to_frames> {
+class f0_beats_to_frames : public object<f0_beats_to_frames> {
 public:
     MIN_DESCRIPTION	{ "Calculates how many [video]frames will fit in x beats." };
     MIN_TAGS		{ "f0ext" };
@@ -90,4 +90,4 @@ private:
 
 };
 
-MIN_EXTERNAL(beats_to_frames);
+MIN_EXTERNAL(f0_beats_to_frames);

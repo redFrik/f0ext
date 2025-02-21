@@ -17,7 +17,7 @@
 
 using namespace c74::min;
 
-class distance : public object<distance> {
+class f0_distance : public object<f0_distance> {
 public:
     MIN_DESCRIPTION	{ "Calculate delta distance in 1, 2 or 3 dimensions" };
     MIN_TAGS		{ "f0ext" };
@@ -96,4 +96,4 @@ private:
 
 };
 
-MIN_EXTERNAL(distance);
+MIN_EXTERNAL(f0_distance);

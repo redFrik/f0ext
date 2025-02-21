@@ -13,7 +13,7 @@
 
 using namespace c74::min;
 
-class smooth_tilde : public object<smooth_tilde>, public sample_operator<2, 1> {
+class f0_smooth_tilde : public object<f0_smooth_tilde>, public sample_operator<2, 1> {
 public:
     MIN_DESCRIPTION	{ "Single exponential smoothing (SES). Audio version." };
     MIN_TAGS		{ "audio, f0ext" };
@@ -61,4 +61,4 @@ private:
     sample m_prev { 0.0 };
 };
 
-MIN_EXTERNAL(smooth_tilde);
+MIN_EXTERNAL(f0_smooth_tilde);

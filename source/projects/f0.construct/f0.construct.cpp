@@ -15,7 +15,7 @@
 
 using namespace c74::min;
 
-class construct : public object<construct> {
+class f0_construct : public object<f0_construct> {
 public:
     MIN_DESCRIPTION	{ "A constructive constructor." };
     MIN_TAGS		{ "f0ext" };
@@ -386,4 +386,4 @@ private:
 
 };
 
-MIN_EXTERNAL(construct);
+MIN_EXTERNAL(f0_construct);

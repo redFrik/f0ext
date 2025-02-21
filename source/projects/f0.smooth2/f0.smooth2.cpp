@@ -18,7 +18,7 @@
 
 using namespace c74::min;
 
-class smooth2 : public object<smooth2> {
+class f0_smooth2 : public object<f0_smooth2> {
 public:
     MIN_DESCRIPTION	{ "Double exponential smoothing (DES)." };
     MIN_TAGS		{ "f0ext" };
@@ -105,4 +105,4 @@ private:
 
 };
 
-MIN_EXTERNAL(smooth2);
+MIN_EXTERNAL(f0_smooth2);

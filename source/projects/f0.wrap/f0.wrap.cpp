@@ -14,7 +14,7 @@
 
 using namespace c74::min;
 
-class wrap : public object<wrap> {
+class f0_wrap : public object<f0_wrap> {
 public:
     MIN_DESCRIPTION	{ "Frequency quantiser." };
     MIN_TAGS		{ "f0ext" };
@@ -105,4 +105,4 @@ private:
 
 };
 
-MIN_EXTERNAL(wrap);
+MIN_EXTERNAL(f0_wrap);

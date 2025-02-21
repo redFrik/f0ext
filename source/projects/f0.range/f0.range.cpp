@@ -16,7 +16,7 @@
 
 using namespace c74::min;
 
-class range : public object<range> {
+class f0_range : public object<f0_range> {
 public:
     MIN_DESCRIPTION	{ "Finds minimum, middle and maximum values of a stream of numbers." };
     MIN_TAGS		{ "f0ext" };
@@ -112,4 +112,4 @@ private:
     }
 };
 
-MIN_EXTERNAL(range);
+MIN_EXTERNAL(f0_range);

@@ -16,7 +16,7 @@
 
 using namespace c74::min;
 
-class ratio : public object<ratio> {
+class f0_ratio : public object<f0_ratio> {
 public:
     MIN_DESCRIPTION	{ "Single exponential smoothing (SES). Good for filtering data from sensors." };
     MIN_TAGS		{ "f0ext" };
@@ -92,4 +92,4 @@ private:
 
 };
 
-MIN_EXTERNAL(ratio);
+MIN_EXTERNAL(f0_ratio);

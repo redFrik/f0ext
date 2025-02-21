@@ -13,7 +13,7 @@
 
 using namespace c74::min;
 
-class distance_tilde : public object<distance_tilde>, public vector_operator<> {
+class f0_distance_tilde : public object<f0_distance_tilde>, public vector_operator<> {
 public:
     MIN_DESCRIPTION	{ "Calculate delta distance in 1, 2 or 3 dimensions. Audio version." };
     MIN_TAGS		{ "audio, f0ext" };
@@ -92,4 +92,4 @@ private:
     auto m_z { 0.0 }
 };
 
-MIN_EXTERNAL(distance_tilde);
+MIN_EXTERNAL(f0_distance_tilde);

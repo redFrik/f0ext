@@ -17,7 +17,7 @@
 
 using namespace c74::min;
 
-class auto_scale : public object<auto_scale> {
+class f0_auto_scale : public object<f0_auto_scale> {
 public:
     MIN_DESCRIPTION	{ "Finds minimum and maximum values of a stream of values and uses them as input scaling range." };
     MIN_TAGS		{ "f0ext" };
@@ -158,4 +158,4 @@ private:
 
 };
 
-MIN_EXTERNAL(auto_scale);
+MIN_EXTERNAL(f0_auto_scale);

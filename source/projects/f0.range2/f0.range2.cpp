@@ -16,7 +16,7 @@
 
 using namespace c74::min;
 
-class range2 : public object<range2> {
+class f0_range2 : public object<f0_range2> {
 public:
     MIN_DESCRIPTION	{ "Finds minimum, middle and maximum values of a stream of numbers with fallback." };
     MIN_TAGS		{ "f0ext" };
@@ -126,4 +126,4 @@ private:
     }
 };
 
-MIN_EXTERNAL(range2);
+MIN_EXTERNAL(f0_range2);

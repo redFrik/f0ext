@@ -17,7 +17,7 @@
 
 using namespace c74::min;
 
-class smooth : public object<smooth> {
+class f0_smooth : public object<f0_smooth> {
 public:
     MIN_DESCRIPTION	{ "Single exponential smoothing (SES). Good for filtering data from sensors." };
     MIN_TAGS		{ "f0ext" };
@@ -84,4 +84,4 @@ private:
 
 };
 
-MIN_EXTERNAL(smooth);
+MIN_EXTERNAL(f0_smooth);

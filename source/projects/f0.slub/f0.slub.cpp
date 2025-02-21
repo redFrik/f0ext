@@ -15,7 +15,7 @@
 
 using namespace c74::min;
 
-class slub : public object<slub> {
+class f0_slub : public object<f0_slub> {
 public:
     MIN_DESCRIPTION	{ "Generate CPU spikes." };
     MIN_TAGS		{ "f0ext" };
@@ -143,4 +143,4 @@ private:
 
 };
 
-MIN_EXTERNAL(slub);
+MIN_EXTERNAL(f0_slub);

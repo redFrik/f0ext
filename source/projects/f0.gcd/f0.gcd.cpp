@@ -16,7 +16,7 @@
 
 using namespace c74::min;
 
-class gcd : public object<gcd> {
+class f0_gcd : public object<f0_gcd> {
 public:
     MIN_DESCRIPTION	{ "Greatest common divisor." };
     MIN_TAGS		{ "f0ext" };
@@ -80,4 +80,4 @@ private:
     }
 };
 
-MIN_EXTERNAL(gcd);
+MIN_EXTERNAL(f0_gcd);

@@ -19,7 +19,7 @@
 
 using namespace c74::min;
 
-class inc_dec_split : public object<inc_dec_split> {
+class f0_inc_dec_split : public object<f0_inc_dec_split> {
 public:
     MIN_DESCRIPTION	{ "Detect direction of incoming values and split to different outlets." };
     MIN_TAGS		{ "f0ext" };
@@ -96,4 +96,4 @@ private:
     }
 };
 
-MIN_EXTERNAL(inc_dec_split);
+MIN_EXTERNAL(f0_inc_dec_split);

@@ -16,7 +16,7 @@
 
 using namespace c74::min;
 
-class tune : public object<tune> {
+class f0_tune : public object<f0_tune> {
 public:
     MIN_DESCRIPTION	{ "Frequency quantiser." };
     MIN_TAGS		{ "f0ext" };
@@ -74,4 +74,4 @@ private:
 
 };
 
-MIN_EXTERNAL(tune);
+MIN_EXTERNAL(f0_tune);

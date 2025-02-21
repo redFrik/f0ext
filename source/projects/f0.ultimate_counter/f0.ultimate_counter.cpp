@@ -14,7 +14,7 @@
 
 using namespace c74::min;
 
-class ultimate_counter : public object<ultimate_counter> {
+class f0_ultimate_counter : public object<f0_ultimate_counter> {
 public:
     MIN_DESCRIPTION	{ "Counter with fractional direction/rate and loop settings." };
     MIN_TAGS		{ "f0ext" };
@@ -189,4 +189,4 @@ private:
 
 };
 
-MIN_EXTERNAL(ultimate_counter);
+MIN_EXTERNAL(f0_ultimate_counter);

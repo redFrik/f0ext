@@ -14,7 +14,7 @@
 
 using namespace c74::min;
 
-class range_tilde : public object<range_tilde>, public sample_operator<1, 3> {
+class f0_range_tilde : public object<f0_range_tilde>, public sample_operator<1, 3> {
 public:
     MIN_DESCRIPTION	{ "Finds minimum, middle and maximum values of a signal. Audio version." };
     MIN_TAGS		{ "audio, f0ext" };
@@ -103,4 +103,4 @@ private:
     auto m_setMin { INFINITY };
 };
 
-MIN_EXTERNAL(range_tilde);
+MIN_EXTERNAL(f0_range_tilde);

@@ -15,7 +15,7 @@
 
 using namespace c74::min;
 
-class slub_tilde : public object<slub_tilde>, public vector_operator<> {
+class f0_slub_tilde : public object<f0_slub_tilde>, public vector_operator<> {
 public:
     MIN_DESCRIPTION	{ "Generate CPU spikes. Audio version." };
     MIN_TAGS		{ "audio, f0ext" };
@@ -151,4 +151,4 @@ private:
 
 }
 
-MIN_EXTERNAL(slub_tilde);
+MIN_EXTERNAL(f0_slub_tilde);

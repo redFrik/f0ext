@@ -17,7 +17,7 @@
 
 using namespace c74::min;
 
-class limit_counter : public object<limit_counter> {
+class f0_limit_counter : public object<f0_limit_counter> {
 public:
     MIN_DESCRIPTION	{ "Counter with floor and ceil limits." };
     MIN_TAGS		{ "f0ext" };
@@ -93,4 +93,4 @@ private:
 
 };
 
-MIN_EXTERNAL(limit_counter);
+MIN_EXTERNAL(f0_limit_counter);

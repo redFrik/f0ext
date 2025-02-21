@@ -13,7 +13,7 @@
 
 using namespace c74::min;
 
-class tune_tilde : public object<tune_tilde>, public sample_operator<2, 1> {
+class f0_tune_tilde : public object<f0_tune_tilde>, public sample_operator<2, 1> {
 public:
     MIN_DESCRIPTION	{ "Frequency quantiser. Audio version." };
     MIN_TAGS		{ "audio, f0ext" };
@@ -64,4 +64,4 @@ public:
 
 };
 
-MIN_EXTERNAL(tune_tilde);
+MIN_EXTERNAL(f0_tune_tilde);

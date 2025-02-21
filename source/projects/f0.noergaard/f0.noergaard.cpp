@@ -16,7 +16,7 @@
 
 using namespace c74::min;
 
-class noergaard : public object<noergaard> {
+class f0_noergaard : public object<f0_noergaard> {
 public:
     MIN_DESCRIPTION	{ "Per Nørgård's infinity series." };
     MIN_TAGS		{ "f0ext" };
@@ -79,4 +79,4 @@ private:
     }
 };
 
-MIN_EXTERNAL(noergaard);
+MIN_EXTERNAL(f0_noergaard);

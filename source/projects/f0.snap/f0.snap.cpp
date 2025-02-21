@@ -16,7 +16,7 @@
 
 using namespace c74::min;
 
-class snap : public object<snap> {
+class f0_snap : public object<f0_snap> {
 public:
     MIN_DESCRIPTION	{ "Smooth input values by snapping." };
     MIN_TAGS		{ "f0ext" };
@@ -96,4 +96,4 @@ private:
 
 };
 
-MIN_EXTERNAL(snap);
+MIN_EXTERNAL(f0_snap);

@@ -14,7 +14,7 @@
 
 using namespace c74::min;
 
-class smooth2_tilde : public object<smooth2_tilde>, public sample_operator<3, 1> {
+class f0_smooth2_tilde : public object<f0_smooth2_tilde>, public sample_operator<3, 1> {
 public:
     MIN_DESCRIPTION	{ "Double exponential smoothing (DES). Audio version." };
     MIN_TAGS		{ "audio, f0ext" };
@@ -81,4 +81,4 @@ private:
     sample m_prev_trend { 0.0 };
 };
 
-MIN_EXTERNAL(smooth2_tilde);
+MIN_EXTERNAL(f0_smooth2_tilde);
