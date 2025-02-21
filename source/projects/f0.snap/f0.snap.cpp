@@ -4,11 +4,10 @@
 ///	@license	Use of this source code is governed by the GNU GPL License found in the License.md file.
 
 //      ----------------------------------------------------------
-//      -- fredrik olofsson 020115                              --
+//      -- fredrik olofsson 020206                              --
 //      -- updated 040225 - for carbon using cw8.0              --
-//      -- updated 060507 - fix for output on right input       --
+//      -- updated 051016 - for wmax using cygwin               --
 //      -- updated 070103 - for ub using xcode                  --
-//      -- updated 070106 - clip arg fix                        --
 //      -- updated 130630 - ported to max sdk 6.1.1             --
 //      -- updated 250121 - ported to min-devkit (sdk8)         --
 //      ----------------------------------------------------------
@@ -17,27 +16,25 @@
 
 using namespace c74::min;
 
-class smooth : public object<smooth> {
+class snap : public object<snap> {
 public:
-    MIN_DESCRIPTION	{ "Single exponential smoothing (SES). Good for filtering data from sensors." };
+    MIN_DESCRIPTION	{ "Smooth input values by snapping." };
     MIN_TAGS		{ "f0ext" };
     MIN_AUTHOR		{ "Fredrik Olofsson" };
-    MIN_RELATED		{ "f0.smooth~, f0.smooth2" };
+    MIN_RELATED		{ "f0.smooth, f0.smooth2" };
 
     inlet<> m_in1	{ this, "(number) Value to be smoothed" };
-    inlet<> m_in2	{ this, "(number) Smoothing constant (alpha)" };
-    outlet<> m_out1	{ this, "(number) Smoothed output" };
+    inlet<> m_in2	{ this, "(number) Resistance" };
+    outlet<> m_out1	{ this, "(number) Output" };
 
-    argument<number> alpha_arg { this, "alpha", "Initial smoothing constant (alpha).",
+    argument<number> resistance_arg { this, "resistance", "Initial resistance.",
         MIN_ARGUMENT_FUNCTION {
-            alpha = arg;
+            resistance = arg;
         }
     };
 
-    attribute<number, threadsafe::no, limit::clamp> alpha { this, "alpha", 0.15,
-        description { "Smoothing constant (alpha)." },
-        range { 0.0, 1.0 }
-    };
+    //TODO maybe this shouldn't be an attribute?
+    attribute<number> resistance { this, "resistance", 50.0};
 
     message<> bang { this, "bang",
         MIN_FUNCTION {
@@ -48,7 +45,7 @@ public:
 
 	message<> maxclass_setup { this, "maxclass_setup",
         MIN_FUNCTION {
-            cout << "f0.smooth v3.0; distributed under GNU GPL License" << endl;
+            cout << "f0.snap v3.0; distributed under GNU GPL License" << endl;
             return {};
         }
     };
@@ -59,7 +56,7 @@ public:
                 m_value = args[0];
                 theFunction();
             } else if (inlet == 1) {
-                alpha = args[0];
+                resistance = args[0];
             }
             return {};
         }
@@ -77,11 +74,26 @@ private:
     double m_value { 0.0 };
 
     void theFunction() {
-        m_value = (1.0 - alpha) * m_prev + alpha * m_value;
-		m_out1.send(m_value);
-		m_prev = m_value;
+        auto diff = fabs(m_value - m_prev);
+        auto step = 0.0;
+        if (diff != 0.0) {
+            step = resistance / diff;
+        }
+        if (m_value > m_prev) {
+            m_value += step;
+            if (m_value > m_prev) {
+                m_value = m_prev;
+            }
+        } else if (m_value < m_prev) {
+            m_value -= step;
+            if (m_value < m_prev) {
+                m_value = m_prev;
+            }
+        }
+        m_out1.send(m_value);
+        m_prev = m_value;
     }
 
 };
 
-MIN_EXTERNAL(smooth);
+MIN_EXTERNAL(snap);

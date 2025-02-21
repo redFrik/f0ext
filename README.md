@@ -46,8 +46,8 @@ Distributed under GNU GPL license. See the included file.
 
 ## version history
 
------250210
-* modernised using min-devkit (sdk8)
+-----250121
+* modernised everything using min-devkit (sdk8)
 * new builds for macOS (both intel and arm) and win64
 
 -----130810
@@ -145,3 +145,6 @@ Distributed under GNU GPL license. See the included file.
 * finally all externals updated for xmax and compiled with cw8.0
 * helpfiles - fixed spelling/typos
 * f0.construct helpfile - remake and added examples for jitter and softvns
+
+-----010502
+* first externals (f0.construct and f0.fold)
