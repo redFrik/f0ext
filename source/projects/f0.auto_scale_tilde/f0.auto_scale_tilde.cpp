@@ -39,14 +39,14 @@ public:
         }
     };
 
-    attribute<number> low { this, "low", 0.0};
+    attribute<number> low { this, "low", 0.0 };
     
-    attribute<number> high { this, "high", 1.0};
+    attribute<number> high { this, "high", 1.0 };
 
     message<> bang { this, "bang",
         MIN_FUNCTION {
-            low = 0.0;
-            high = 0.0;
+            m_max = 0.0;
+            m_min = 0.0;
             m_flag = false;
             return {};
         }
@@ -71,7 +71,8 @@ public:
                 daList[1] = 1.0 / (rangeOut / rangeIn);
                 daList[2] = 1.0;
             }
-            return daList;
+            m_out2.send(daList);
+            return {};
         }
     };
 
@@ -104,7 +105,8 @@ public:
                 daList[1] = m_max;
                 daList[2] = m_min;
             }
-            return daList;
+            m_out2.send(daList);
+            return {};
         }
     };
 
@@ -118,7 +120,7 @@ public:
 
     sample operator()(sample in) {
         sample out;
-        if (!m_flag && m_min == m_max) {
+        if (!m_flag && (m_min == m_max)) {
             m_flag = true;
             m_min = in;
             m_max = in;

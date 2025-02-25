@@ -59,6 +59,7 @@ public:
 
 private:
     sample m_prev { 0.0 };
+    
 };
 
 MIN_EXTERNAL(f0_smooth_tilde);

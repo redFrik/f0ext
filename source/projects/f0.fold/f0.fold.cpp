@@ -19,7 +19,7 @@ using namespace c74::min;
 
 class f0_fold : public object<f0_fold> {
 public:
-    MIN_DESCRIPTION	{ "Frequency quantiser." };
+    MIN_DESCRIPTION	{ "Fold float and integer numbers." };
     MIN_TAGS		{ "f0ext" };
     MIN_AUTHOR		{ "Fredrik Olofsson" };
     MIN_RELATED		{ "f0.wrap, %" };
@@ -46,13 +46,13 @@ public:
     };
 
     //TODO maybe this shouldn't be an attribute?
-    attribute<number> min { this, "min", 0.0};
+    attribute<number> min { this, "min", 0.0 };
 
-    attribute<number> max { this, "max", 100.0};
+    attribute<number> max { this, "max", 100.0 };
 
     message<> bang { this, "bang",
         MIN_FUNCTION {
-            theFunction();
+            m_out1.send(m_value);
             return {};
         }
     };
@@ -67,8 +67,8 @@ public:
     message<> number { this, "number",
         MIN_FUNCTION {
             if (inlet == 0) {
-                m_value = args[0];
-                theFunction();
+                m_value = theFunction(args[0]);
+                bang();
             } else if (inlet == 1) {
                 min = args[0];
             } else if (inlet == 2) {
@@ -81,8 +81,8 @@ public:
 private:
     double m_value { 0.0 };
 
-    void theFunction() {
-        double a, lo, hi;
+    auto theFunction(auto in) {
+        auto out, lo, hi;
         if (min > max) {
             lo = max;
             hi = min;
@@ -90,23 +90,28 @@ private:
             lo = min;
             hi = max;
         }
-        if ((m_value >= lo && m_value <= hi) || (lo == hi)) {
-            a = m_value;
+        if (((in >= lo) && (in <= hi)) || (lo == hi)) {
+            out = in;
         } else {
-            auto b = fabs(hi - lo) * 2.0;
-            if (m_value < lo) {
-                a = lo - fmod(m_value - lo, b);
-                if (a < min || a > hi) {
-                    a = hi + hi - a;
+            auto a;
+            auto c = fabs(hi - lo) * 2.0;
+            if (in < lo) {
+                a = lo - fmod(in - lo, c);
+                if ((a >= lo) && (a <= hi)) {
+                    out = a;
+                } else {
+                    out = hi + (hi - a);
                 }
             } else {
-                a = hi - fmod(m_value - hi, b);
-                if (a <= (lo - b / 2.0) || a > lo ) {
-                    a = lo + lo - a;
+                a = hi - fmod(in - hi, c);
+                if ((a > (lo - c / 2.0)) && (a <= lo)) {
+                    out = lo + (lo - a);
+                } else {
+                    out = a;
                 }
             }
         }
-	    m_out1.send(a);
+        return out;
     }
 
 };

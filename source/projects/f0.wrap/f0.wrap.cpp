@@ -39,9 +39,9 @@ public:
     };
 
     //TODO maybe this shouldn't be an attribute?
-    attribute<number> min { this, "min", 0.0};
+    attribute<number> min { this, "min", 0.0 };
 
-    attribute<number> max { this, "max", 100.0};
+    attribute<number> max { this, "max", 100.0 };
 
     message<> bang { this, "bang",
         MIN_FUNCTION {
@@ -76,7 +76,7 @@ private:
     bool intswitch { false };  //TODO
 
     void theFunction() {
-        double a, lo, hi;
+        auto a, lo, hi;
         if (min > max) {
             lo = max;
             hi = min;
@@ -84,10 +84,10 @@ private:
             lo = min;
             hi = max;
         }
-        if ((m_value >= lo && m_value <= hi) || (lo == hi)) {
+        if (((m_value >= lo) && (m_value <= hi)) || (lo == hi)) {
             a = m_value;
         } else {
-            double b = fabs(hi - lo);
+            auto b = fabs(hi - lo);
             if (m_value < lo) {
                 if (intswitch) {
                     a = hi - fabs(fmod(m_value - lo + 1.0, b + 1.0));

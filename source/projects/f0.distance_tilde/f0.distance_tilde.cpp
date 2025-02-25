@@ -37,7 +37,7 @@ public:
         }
     };
 
-    argument<number> dimensions_arg { this, "dimensions", "Dimensions."};
+    argument<number> dimensions_arg { this, "dimensions", "Dimensions." };
 
 	message<> maxclass_setup { this, "maxclass_setup",
         MIN_FUNCTION {
@@ -62,21 +62,21 @@ public:
         auto out = output.samples(0);
         if (input.channel_count() == 1) {
             for (auto i = 0; i < input.frame_count(); ++i) {
-                m_x = in[i] - m_x;
-                out[i] = fabs(std::sqrt(pow(m_x, 2.0)));
+                out[i] = fabs(std::sqrt(pow(in[i] - m_x, 2.0)));
+                m_x = in[i];
             }
         } else if (input.channel_count() == 2) {
             for (auto i = 0; i < input.frame_count(); ++i) {
-                m_x = in[i] - m_x;
-                m_y = in[i + 1] - m_y;
-                out[i] = fabs(std::sqrt(pow(m_x, 2.0) + pow(m_y, 2.0)));
+                out[i] = fabs(std::sqrt(pow(in[i] - m_x, 2.0) + pow(in[i + 1] - m_y, 2.0)));
+                m_x = in[i];
+                m_y = in[i + 1];
             }
         } else if (input.channel_count() == 3) {
             for (auto i = 0; i < input.frame_count(); ++i) {
-                m_x = in[i] - m_x;
-                m_y = in[i + 1] - m_y;
-                m_z = in[i + 2] - m_z;
-                out[i] = fabs(std::sqrt(pow(m_x, 2.0) + pow(m_y, 2.0) + pow(m_z, 2.0)));
+                out[i] = fabs(std::sqrt(pow(in[i] - m_x, 2.0) + pow(in[i + 1] - m_y, 2.0) + pow(in[i + 2] - m_z, 2.0)));
+                m_x = in[i];
+                m_y = in[i + 1];
+                m_z = in[i + 2];
             }
         }
     }
@@ -86,6 +86,7 @@ private:
     double m_x { 0.0 };
     double m_y { 0.0 };
     double m_z { 0.0 };
+    
 };
 
 MIN_EXTERNAL(f0_distance_tilde);

@@ -56,13 +56,13 @@ public:
         }
     };
 
-    attribute<number> step { this, "step", 1.0};
+    attribute<number> step { this, "step", 1.0 };
 
-    attribute<int> loop { this, "loop", 0};
+    attribute<int> loop { this, "loop", 0 };
 
-    attribute<long> floor { this, "floor", C74_LONG_INT_MIN};
+    attribute<long> floor { this, "floor", C74_LONG_INT_MIN };
 
-    attribute<long> ceil { this, "ceil", C74_LONG_INT_MAX};
+    attribute<long> ceil { this, "ceil", C74_LONG_INT_MAX };
 
     message<> bang { this, "bang",
         MIN_FUNCTION {
@@ -115,8 +115,8 @@ public:
 private:
     double m_value { 0.0 };
 
-    double clipFunction(double in, double min, double max) {
-        double a;
+    auto clipFunction(auto in, auto min, auto max) {
+        auto a;
         if (min > max) {
             a = min;
             min = max;
@@ -133,14 +133,14 @@ private:
         }
         return a;
     }
-    double wrapFunction(double in, double min, double max) {
-        double a, b;
+    auto wrapFunction(auto in, auto min, auto max) {
+        auto a, b;
         if (min > max) {
             a = min;
             min = max;
             max = a;
         }
-        if ((in >= min && in <= max) || (min == max)) {
+        if (((in >= min) && (in <= max)) || (min == max)) {
             a = in;
         } else {
             b = fabs(max - min);
@@ -154,14 +154,14 @@ private:
         }
         return a;
     }
-    double foldFunction(double in, double min, double max) {
-        double a, b, c;
+    auto foldFunction(auto in, auto min, auto max) {
+        auto a, b, c;
         if (min > max) {
             a = min;
             min = max;
             max = a;
         }
-        if ((in >= min && in <= max) || (min == max)) {
+        if (((in >= min) && (in <= max)) || (min == max)) {
             b = in;
         } else {
             step= 0.0 - step;

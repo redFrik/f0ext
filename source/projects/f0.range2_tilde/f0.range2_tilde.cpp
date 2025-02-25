@@ -51,16 +51,17 @@ public:
         MIN_FUNCTION {
             cout << "TODO check if these are set: " << min_arg <<endl;
             cout << "TODO check if these are set: " << max_arg <<endl;
-            if (m_flags == 0) {
-                m_min = INFINITY;
-                m_max = -INFINITY;
-            } else if (m_flags == 1) {
-                m_min = m_setMin;
-                m_max = -INFINITY;
-            } else {
-                m_min = m_setMin;
-                m_max = m_setMax;
-            }
+            cout << "TODO check flags: " << m_flags << endl;
+            // if (m_flags == 0) {
+            //     m_min = INFINITY;
+            //     m_max = -INFINITY;
+            // } else if (m_flags == 1) {
+            //     m_min = m_setMin;
+            //     m_max = -INFINITY;
+            // } else {
+            //     m_min = m_setMin;
+            //     m_max = m_setMax;
+            // }
             return {};
         }
     };
@@ -83,8 +84,8 @@ public:
 
     message<> set { this, "set",
         MIN_FUNCTION {
-            double lo = args[0];
-            double hi = args[1];
+            auto lo = args[0];
+            auto hi = args[1];
             if (lo < hi) {
                 m_min = lo;
                 m_max = hi;

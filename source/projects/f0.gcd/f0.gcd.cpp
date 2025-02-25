@@ -74,12 +74,13 @@ private:
         if (b == 0) {
             return 0;
         }
-        if (a % b != 0) {
+        if ((a % b) != 0) {
             return greatestCommonDivisor(b, a % b);
         } else {
             return fabs(b);
         }
     }
+
 };
 
 MIN_EXTERNAL(f0_gcd);

@@ -31,9 +31,9 @@ public:
     };
 
     //TODO maybe this shouldn't be an attribute?
-    attribute<number> base { this, "base", 440.0};
+    attribute<number> base { this, "base", 440.0 };
 
-    attribute<number> tonesPerOctave { this, "tonesPerOctave", 12.0};
+    attribute<number> tonesPerOctave { this, "tonesPerOctave", 12.0 };
 
 	message<> maxclass_setup { this, "maxclass_setup",
         MIN_FUNCTION {

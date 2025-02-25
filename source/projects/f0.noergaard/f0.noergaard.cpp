@@ -79,6 +79,7 @@ private:
         }
         return i;
     }
+    
 };
 
 MIN_EXTERNAL(f0_noergaard);
