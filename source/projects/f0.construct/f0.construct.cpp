@@ -196,8 +196,8 @@ private:
     void drawFO() {
         for (auto i = 0; i < cols; i++) {
             for (auto j = 0; j < rows; j++) {
-                int iCol = (width / cols) * i;
-                int jRow = (height / rows) * j;
+                auto iCol = (width / cols) * i;
+                auto jRow = (height / rows) * j;
                 switch (mapping) {                      // kolla mapping
                     case 1:
                         mapping1(iCol, jRow);
@@ -253,34 +253,34 @@ private:
     }
 
     //----------------------------------------------------------------------------------------------
-    void mapping1(auto iCol, auto jRow) {                   // no flip
+    void mapping1(int iCol, int jRow) {                   // no flip
         draw(m_x + iCol, m_y + jRow);
     }
-    void mapping2(auto iCol, auto jRow) {                   // flip all x
+    void mapping2(int iCol, int jRow) {                   // flip all x
         draw(mirrorX(m_x) + iCol, m_y + jRow);
     }
-    void mapping3(auto iCol, auto jRow) {                   // flip all y
+    void mapping3(int iCol, int jRow) {                   // flip all y
         draw(m_x + iCol, mirrorY(m_y) + jRow);
     }
-    void mapping4(auto iCol, auto jRow) {                   // flip all xy
+    void mapping4(int iCol, int jRow) {                   // flip all xy
         draw(mirrorX(m_x) + iCol, mirrorY(m_y) + jRow);
     }
     //--
-    void mapping5(auto i, auto iCol, auto jRow) {           // flip odd col x
+    void mapping5(int i, int iCol, int jRow) {           // flip odd col x
         if ((i % 2) == 1) {
             draw(mirrorX(m_x) + iCol, m_y + jRow);
         } else {
             draw(m_x + iCol, m_y + jRow);
         }
     }
-    void mapping6(auto i, auto iCol, auto jRow) {           // flip odd col y
+    void mapping6(int i, int iCol, int jRow) {           // flip odd col y
         if ((i % 2) == 1) {
             draw(m_x + iCol, mirrorY(m_y) + jRow);
         } else {
             draw(m_x + iCol, m_y + jRow);
         }
     }
-    void mapping7(auto i, auto iCol, auto jRow) {           // flip odd col xy
+    void mapping7(int i, int iCol, int jRow) {           // flip odd col xy
         if ((i % 2) == 1) {
             draw(mirrorX(m_x) + iCol, mirrorY(m_y) + jRow);
         } else {
@@ -288,21 +288,21 @@ private:
         }
     }
     //--
-    void mapping8(auto j, auto iCol, auto jRow) {           // flip odd row x
+    void mapping8(int j, int iCol, int jRow) {           // flip odd row x
         if ((j % 2) == 1) {
             draw(mirrorX(m_x) + iCol, m_y + jRow);
         } else {
             draw(m_x + iCol, m_y + jRow);
         }
     }
-    void mapping9(auto j, auto iCol, auto jRow) {           // flip odd row y
+    void mapping9(int j, int iCol, int jRow) {           // flip odd row y
         if ((j % 2) == 1) {
             draw(m_x + iCol, mirrorY(m_y) + jRow);
         } else {
             draw(m_x + iCol, m_y + jRow);
         }
     }
-    void mapping10(auto j, auto iCol, auto jRow) {          // flip odd row xy
+    void mapping10(int j, int iCol, int jRow) {          // flip odd row xy
         if ((j % 2) == 1) {
             draw(mirrorX(m_x) + iCol, mirrorY(m_y) + jRow);
         } else {
@@ -310,7 +310,7 @@ private:
         }
     }
     //--
-    void mapping11(auto i, auto j, auto iCol, auto jRow) {  // flip odd col & even row x, flip even col & odd row x
+    void mapping11(int i, int j, int iCol, int jRow) {  // flip odd col & even row x, flip even col & odd row x
         if (((i % 2) == 1) && ((j % 2) == 0)) {
             draw(mirrorX(m_x) + iCol, m_y + jRow);
         } else if (((i % 2) == 0) && ((j % 2) == 1)) {
@@ -319,7 +319,7 @@ private:
             draw(m_x + iCol, m_y + jRow);
         }
     }
-    void mapping12(auto i, auto j, auto iCol, auto jRow) {  // flip odd col & even row y, flip even col & odd row y
+    void mapping12(int i, int j, int iCol, int jRow) {  // flip odd col & even row y, flip even col & odd row y
         if (((i % 2) == 1) && ((j % 2) == 0)) {
             draw(m_x + iCol, mirrorY(m_y) + jRow);
         } else if (((i % 2) == 0) && ((j % 2) == 1)) {
@@ -328,7 +328,7 @@ private:
             draw(m_x + iCol, m_y + jRow);
         }
     }
-    void mapping13(auto i, auto j, auto iCol, auto jRow) {  // flip odd col & even row xy, flip even col & odd row xy
+    void mapping13(int i, int j, int iCol, int jRow) {  // flip odd col & even row xy, flip even col & odd row xy
         if (((i % 2) == 1) && ((j % 2) == 0)) {
             draw(mirrorX(m_x) + iCol, mirrorY(m_y) + jRow);
         } else if (((i % 2) == 0) && ((j % 2) == 1)) {
@@ -338,7 +338,7 @@ private:
         }
     }
     //--
-    void mapping14(auto i, auto j, auto iCol, auto jRow) {  // flip even col & even row x, flip odd col & odd row x
+    void mapping14(int i, int j, int iCol, int jRow) {  // flip even col & even row x, flip odd col & odd row x
         if (((i % 2) == 0) && ((j % 2) == 0)) {
             draw(mirrorX(m_x) + iCol, m_y + jRow);
         } else if (((i % 2) == 1) && ((j % 2) == 1)) {
@@ -347,7 +347,7 @@ private:
             draw(m_x + iCol, m_y + jRow);
         }
     }
-    void mapping15(auto i, auto j, auto iCol, auto jRow) {  // flip even col & even row y, flip odd col & odd row y
+    void mapping15(int i, int j, int iCol, int jRow) {  // flip even col & even row y, flip odd col & odd row y
         if (((i % 2) == 0) && ((j % 2) == 0)) {
             draw(m_x + iCol, mirrorY(m_y) + jRow);
         } else if (((i % 2) == 1) && ((j % 2) == 1)) {
@@ -356,7 +356,7 @@ private:
             draw(m_x + iCol, m_y + jRow);
         }
     }
-    void mapping16(auto i, auto j, auto iCol, auto jRow) {  // flip even col & even row xy, flip odd col & odd row xy
+    void mapping16(int i, int j, int iCol, int jRow) {  // flip even col & even row xy, flip odd col & odd row xy
         if (((i % 2) == 0) && ((j % 2) == 0)) {
             draw(mirrorX(m_x) + iCol, mirrorY(m_y) + jRow);
         } else if (((i % 2) == 1) && ((j % 2) == 1)) {
