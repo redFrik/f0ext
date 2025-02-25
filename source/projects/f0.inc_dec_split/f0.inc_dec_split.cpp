@@ -82,7 +82,7 @@ private:
             m_out1.send(in);
             m_value = in;
             m_flag = false;
-        } else if (in < m_prev) {
+        } else if (in < m_value) {
             m_out2.send(in);
             m_value = in;
             m_flag = true;
