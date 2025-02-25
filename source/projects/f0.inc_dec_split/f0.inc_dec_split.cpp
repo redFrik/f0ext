@@ -77,7 +77,7 @@ private:
     bool m_flag { false };
     double m_value { 0.0 };
 
-    void theFunction(dobule in) {
+    void theFunction(double in) {
         if (in > m_value) {
             m_out1.send(in);
             m_value = in;
