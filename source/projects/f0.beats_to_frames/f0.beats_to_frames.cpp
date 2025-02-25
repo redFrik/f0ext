@@ -79,7 +79,7 @@ public:
 private:
     double m_value { 0.0 };
 
-    auto theFunction(double in) {
+    double theFunction(double in) {
         if (tempo != 0.0) {
             return (60.0 / tempo) * (in * fps);
         }
