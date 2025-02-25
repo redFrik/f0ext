@@ -128,8 +128,8 @@ private:
     double m_max { 0.0 };
     double m_min { 0.0 };
 
-    void theFunction(auto in) {
-        auto out;
+    void theFunction(double in) {
+        double out;
         if (!m_flag && (m_min == m_max)) {
             m_flag = true;
             m_min = in;
