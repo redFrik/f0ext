@@ -88,8 +88,8 @@ public:
 
     message<> set { this, "set",
         MIN_FUNCTION {
-            auto lo = args[0];
-            auto hi = args[1];
+            double lo = args[0];
+            double hi = args[1];
             if (lo < hi) {
                 m_min = lo;
                 m_max = hi;
