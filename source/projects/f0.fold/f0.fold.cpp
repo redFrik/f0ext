@@ -81,8 +81,8 @@ public:
 private:
     double m_value { 0.0 };
 
-    auto theFunction(auto in) {
-        auto out, lo, hi;
+    double theFunction(double in) {
+        double out, lo, hi;
         if (min > max) {
             lo = max;
             hi = min;
@@ -93,8 +93,8 @@ private:
         if (((in >= lo) && (in <= hi)) || (lo == hi)) {
             out = in;
         } else {
-            auto a;
-            auto c = fabs(hi - lo) * 2.0;
+            double a;
+            double c = fabs(hi - lo) * 2.0;
             if (in < lo) {
                 a = lo - fmod(in - lo, c);
                 if ((a >= lo) && (a <= hi)) {
