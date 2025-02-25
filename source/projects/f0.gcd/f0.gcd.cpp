@@ -26,7 +26,6 @@ public:
     inlet<> m_in2	{ this, "(number) Value" };
     outlet<> m_out1	{ this, "(number) Divisor" };
     
-    //TODO check if this is needed
     message<> bang { this, "bang",
         MIN_FUNCTION {
             m_out1.send(m_value);
@@ -58,7 +57,6 @@ public:
             if (inlet == 0) {
                 m_value = greatestCommonDivisor(args[0], m_second);
                 m_out1.send(m_value);
-                //TODO maybe calculate in bang instead and then call bang here
             } else if (inlet == 1) {
                 m_second = args[0];
             }
@@ -74,12 +72,13 @@ private:
         if (b == 0) {
             return 0;
         }
-        if (a % b != 0) {
+        if ((a % b) != 0) {
             return greatestCommonDivisor(b, a % b);
         } else {
             return fabs(b);
         }
     }
+
 };
 
 MIN_EXTERNAL(f0_gcd);

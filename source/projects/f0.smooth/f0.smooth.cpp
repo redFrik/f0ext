@@ -35,8 +35,8 @@ public:
     };
 
     attribute<number, threadsafe::no, limit::clamp> alpha { this, "alpha", 0.15,
-        description { "Smoothing constant (alpha)." },
-        range { 0.0, 1.0 }
+        range { 0.0, 1.0 },
+        description { "Smoothing constant (alpha)." }
     };
 
     message<> bang { this, "bang",
@@ -67,19 +67,21 @@ public:
 
     message<> set { this, "set",
         MIN_FUNCTION {
-            m_prev = args[0];
+            m_out = args[0];
             return {};
         }
     };
 
 private:
+    double m_out { 0.0 };
     double m_prev { 0.0 };
     double m_value { 0.0 };
 
     void theFunction() {
-        m_value = (1.0 - alpha) * m_prev + alpha * m_value;
-		m_out1.send(m_value);
-		m_prev = m_value;
+        double a = this->alpha;
+        m_out = a * m_prev + (1.0 - a) * m_out; //SES - Single Exponential Smoothing, Hunter (1986)
+        m_prev = m_value;
+        m_out1.send(m_out);
     }
 
 };

@@ -33,11 +33,17 @@ public:
         }
     };
 
-    //TODO maybe this shouldn't be an attribute?
-    attribute<number> base { this, "base", 440.0};
+    attribute<number> base { this, "base", 440.0 };
 
-    attribute<number> tonesPerOctave { this, "tonesPerOctave", 12.0};
+    attribute<number> tonesPerOctave { this, "tonesPerOctave", 12.0 };
 
+    message<> bang { this, "bang",
+        MIN_FUNCTION {
+            m_out1.send(m_value);
+            return {};
+        }
+    };
+    
 	message<> maxclass_setup { this, "maxclass_setup",
         MIN_FUNCTION {
             cout << "f0.tune v3.0; distributed under GNU GPL License" << endl;
@@ -62,11 +68,11 @@ private:
 
     void theFunction() {
         auto c = 0.0;
-	    if ((base != 0.0) && (tonesPerOctave != 0.0)) {
-		    auto v = pow(2.0, 1.0 / tonesPerOctave);
-		    auto a = (log(fabs(m_value)) - log(fabs(base))) / log(v);
+	    if ((this->base != 0.0) && (this->tonesPerOctave != 0.0)) {
+		    auto v = pow(2.0, 1.0 / this->tonesPerOctave);
+		    auto a = (log(fabs(m_value)) - log(fabs(this->base))) / log(v);
 		    auto b = round(69.0 + a) - 69.0;
-		    c= fabs(base) * pow(v, b);
+		    c= fabs(this->base) * pow(v, b);
 	    }
 	    m_value= c;
 	    m_out1.send(m_value);

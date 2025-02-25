@@ -14,7 +14,7 @@
 
 using namespace c74::min;
 
-class f0_smooth2_tilde : public object<f0_smooth2_tilde>, public sample_operator<3, 1> {
+class f0_smooth2_tilde : public object<f0_smooth2_tilde>, public sample_operator<3, 2> {
 public:
     MIN_DESCRIPTION	{ "Double exponential smoothing (DES). Audio version." };
     MIN_TAGS		{ "audio, f0ext" };
@@ -40,13 +40,13 @@ public:
     };
 
     attribute<number, threadsafe::no, limit::clamp> alpha { this, "alpha", 0.15,
-        description { "Smoothing constant (alpha)." },
-        range { 0.0, 1.0 }
+        range { 0.0, 1.0 },
+        description { "Smoothing constant (alpha)." }
     };
 
     attribute<number, threadsafe::no, limit::clamp> beta { this, "beta", 0.3,
-        description { "Smoothing constant (beta)." },
-        range { 0.0, 1.0 }
+        range { 0.0, 1.0 },
+        description { "Smoothing constant (beta)." }
     };
 
     message<> maxclass_setup { this, "maxclass_setup",
@@ -68,17 +68,35 @@ public:
     };
 
     samples<2> operator()(sample in1, sample in2, sample in3) {
-        auto a = pow(alpha, 4.0);
-        auto b = pow(beta, 4.0);
-        auto value = (1.0 - a) * (m_prev_value + m_prev_trend) + a * in1;
-        m_prev_trend = (1.0 - b) * m_prev_trend + b * (value - m_prev_value);
-        m_prev_value = value;
-        return { m_prev_value, m_prev_trend };
+        sample a;
+        sample b;
+        if (m_in2.has_signal_connection()) {
+            a = in2;
+        } else {
+            a = this->alpha;
+        }
+        if (m_in3.has_signal_connection()) {
+            b = in3;
+        } else {
+            b = this->beta;
+        }
+        a = pow(a, 4.0);
+        b = pow(b, 4.0);
+
+        m_out = a * m_value + (1.0 - a) * (m_out + m_trend);    //DES - Double Exponential Smoothing
+        m_trend = b * (m_out - m_prev) + (1.0 - b) * m_trend;
+        m_prev = m_out;
+        m_value = in1;
+        
+        return { { m_out, m_trend } };
     }
 
 private:
-    sample m_prev_value { 0.0 };
-    sample m_prev_trend { 0.0 };
+    sample m_out { 0.0 };
+    sample m_prev { 0.0 };
+    sample m_trend { 0.0 };
+    sample m_value { 0.0 };
+
 };
 
 MIN_EXTERNAL(f0_smooth2_tilde);

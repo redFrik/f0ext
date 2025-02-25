@@ -131,7 +131,7 @@ private:
                      l++
                      )
     			{
-                    m_dummy= fmod(
+                    m_dummy += fmod(
                                    l				,
                                    3.1415
                                    )

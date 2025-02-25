@@ -31,8 +31,8 @@ public:
     };
 
     attribute<number, threadsafe::no, limit::clamp> alpha { this, "alpha", 0.15,
-        description { "Smoothing constant (alpha)." },
-        range { 0.0, 1.0 }
+        range { 0.0, 1.0 },
+        description { "Smoothing constant (alpha)." }
     };
 
 	message<> maxclass_setup { this, "maxclass_setup",
@@ -52,13 +52,24 @@ public:
     };
 
     sample operator()(sample in1, sample in2) {
-        auto a = pow(alpha, 4.0);
-        m_prev = (1.0 - a) * m_prev + a * in1;
-        return m_prev;
+        sample a;
+        if (m_in2.has_signal_connection()) {
+            a = in2;
+        } else {
+            a = this->alpha;
+        }
+        a = pow(a, 4.0);
+        
+        m_out = a * m_prev + (1.0 - a) * m_out; //SES - Single Exponential Smoothing, Hunter (1986)
+        m_prev = in1;
+
+        return m_out;
     }
 
 private:
+    sample m_out { 0.0 };
     sample m_prev { 0.0 };
+    
 };
 
 MIN_EXTERNAL(f0_smooth_tilde);

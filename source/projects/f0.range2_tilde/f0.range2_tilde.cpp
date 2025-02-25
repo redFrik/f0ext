@@ -14,7 +14,7 @@
 
 using namespace c74::min;
 
-class f0_range2_tilde : public object<f0_range2_tilde>, public sample_operator<1, 3> {
+class f0_range2_tilde : public object<f0_range2_tilde>, public vector_operator<> {
 public:
     MIN_DESCRIPTION	{ "Finds minimum, middle and maximum values of a signal with fallback. Audio version." };
     MIN_TAGS		{ "audio, f0ext" };
@@ -30,6 +30,7 @@ public:
     argument<number> min_arg { this, "min", "Initial anticipated minimum value.",
         MIN_ARGUMENT_FUNCTION {
             m_flags++;
+            m_min = arg;
             m_setMin = arg;
         }
     };
@@ -37,6 +38,7 @@ public:
     argument<number> max_arg { this, "max", "Initial anticipated maximum value.",
         MIN_ARGUMENT_FUNCTION {
             m_flags++;
+            m_max = arg;
             m_setMax = arg;
         }
     };
@@ -49,14 +51,12 @@ public:
 
     message<> bang { this, "bang",
         MIN_FUNCTION {
-            cout << "TODO check if these are set: " << min_arg <<endl;
-            cout << "TODO check if these are set: " << max_arg <<endl;
             if (m_flags == 0) {
-                m_min = INFINITY;
-                m_max = -INFINITY;
+                m_min = std::numeric_limits<double>::max();
+                m_max = -std::numeric_limits<double>::max();
             } else if (m_flags == 1) {
                 m_min = m_setMin;
-                m_max = -INFINITY;
+                m_max = C74_INT64_MIN;
             } else {
                 m_min = m_setMin;
                 m_max = m_setMax;
@@ -83,42 +83,55 @@ public:
 
     message<> set { this, "set",
         MIN_FUNCTION {
-            double lo = args[0];
-            double hi = args[1];
-            if (lo < hi) {
-                m_min = lo;
-                m_max = hi;
-                m_setMin = lo;
-                m_setMax = hi;
+            if (args.size() < 2) {
+                cout << "warning: set needs at least 2 arguments." << endl;
             } else {
-                m_min = hi;
-                m_max = lo;
-                m_setMin = hi;
-                m_setMax = lo;
+                double lo = args[0];
+                double hi = args[1];
+                if (lo < hi) {
+                    m_min = lo;
+                    m_max = hi;
+                    m_setMin = lo;
+                    m_setMax = hi;
+                } else {
+                    m_min = hi;
+                    m_max = lo;
+                    m_setMin = hi;
+                    m_setMax = lo;
+                }
+                m_flags = 2;
             }
-            m_flags = 2;
             return {};
         }
     };
 
-    samples<3> operator()(sample in) {
+    void operator()(audio_bundle input, audio_bundle output) {
+        auto in = input.samples(0);
+        auto out1 = output.samples(0);
+        auto out2 = output.samples(1);
+        auto out3 = output.samples(2);
         m_max -= m_smooth;
         m_min += m_smooth;
-        if (in > m_max) {
-            m_max = in;
+
+        for (auto i = 0; i < input.frame_count(); ++i) {
+            if (in[i] > m_max) {
+                m_max = in[i];
+            }
+            if (in[0] < m_min) {
+                m_min = in[0];
+            }
+            out1[i] = m_min;
+            out2[i] = (m_max - m_min) / 2.0 + m_min;
+            out3[i] = m_max;
         }
-        if (in < m_min) {
-            m_min = in;
-        }
-        return { m_min, (m_max - m_min) / 2.0 + m_min, m_max };
     }
 
 private:
     short m_flags { 0 };
-    double m_max { -INFINITY };
-    double m_min { INFINITY };
-    double m_setMax { -INFINITY };
-    double m_setMin { INFINITY };
+    double m_max { -std::numeric_limits<double>::max() };
+    double m_min { std::numeric_limits<double>::max() };
+    double m_setMax { -std::numeric_limits<double>::max() };
+    double m_setMin { std::numeric_limits<double>::max() };
     double m_smooth { 0.0 };
 };
 

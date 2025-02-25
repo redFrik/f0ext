@@ -29,10 +29,6 @@ jobs:
       if: matrix.os == 'macos-latest'
       run: mkdir build && cd build && cmake -G Xcode .. "-DCMAKE_OSX_ARCHITECTURES=x86_64;arm64"
  
-    - name: build_debug
-      if: matrix.config == 'debug'
-      run: cmake --build build --config 'Debug'
-
     - name: build_release
       if: matrix.config == 'release'
       run: cmake --build build --config 'Release'
@@ -54,8 +50,8 @@ jobs:
         if [ -e package-info.json ]; then cp package-info.json $PACKAGE_NAME; fi
         if [ -e package-info.json.in ]; then cp package-info.json.in $PACKAGE_NAME; fi
         for f in *.md; do [ -e "$f" ] && cp "$f" $PACKAGE_NAME ; done
+        if [ -e gpl-3.0.txt ]; then cp gpl-3.0.txt $PACKAGE_NAME; fi
         if [ -e icon.png ]; then cp icon.png $PACKAGE_NAME; fi
-        if [ -e CMakeLists.txt ]; then cp CMakeLists.txt $PACKAGE_NAME; fi
         if [ -d code ]; then cp -r code $PACKAGE_NAME; fi
         if [ -d docs ]; then cp -r docs $PACKAGE_NAME; fi
         if [ -d examples ]; then cp -r examples $PACKAGE_NAME; fi
@@ -75,7 +71,6 @@ jobs:
         if [ -d patchers ]; then cp -r patchers $PACKAGE_NAME; fi
         if [ -d script ]; then cp -r script $PACKAGE_NAME; fi
         if [ -d support ]; then cp -r support $PACKAGE_NAME; fi
-        if [ -d source ]; then cp -r source $PACKAGE_NAME; fi
         if [ -d tests ]; then cp -r tests $PACKAGE_NAME; fi
         if [ -e $PACKAGE_NAME/ReadMe-Public.md ]; then rm -f $PACKAGE_NAME/ReadMe.md; mv $PACKAGE_NAME/ReadMe-Public.md $PACKAGE_NAME/ReadMe.md; fi
         
@@ -124,3 +119,4 @@ jobs:
         artifacts: ${{ github.event.repository.name }}-package-for-max-${{ steps.get_version.outputs.version }}.zip
         body: "Max Package for all supported platforms"
         token: ${{ secrets.GITHUB_TOKEN }}
+        skipIfReleaseExists: true

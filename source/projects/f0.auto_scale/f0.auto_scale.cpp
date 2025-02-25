@@ -42,14 +42,14 @@ public:
         }
     };
 
-    attribute<number> low { this, "low", 0.0};
+    attribute<number> low { this, "low", 0.0 };
     
-    attribute<number> high { this, "high", 1.0};
+    attribute<number> high { this, "high", 1.0 };
 
     message<> bang { this, "bang",
         MIN_FUNCTION {
-            low = 0.0;
-            high = 0.0;
+            m_max = 0.0;
+            m_min = 0.0;
             m_flag = false;
             return {};
         }
@@ -57,24 +57,16 @@ public:
 
     message<> factor { this, "factor",
         MIN_FUNCTION {
-            atoms daList(3);
             auto rangeIn = fabs(m_max - m_min);
             auto rangeOut = fabs(high - low);
-            daList[0] = 0;  //index for routing
-            if (rangeIn == 0.0) {
-                daList[1] = 0.0;
-                daList[2] = rangeOut;
-            } else if (rangeOut == 0.0) {
-                daList[1] = rangeIn;
-                daList[2] = 0.0;
+            if ((rangeIn == 0.0) || (rangeOut == 0.0)) {
+                m_out2.send(0, rangeIn, rangeOut);
             } else if (rangeIn <= rangeOut) {
-                daList[1] = 1.0;
-                daList[2] = 1.0 / (rangeIn / rangeOut);
+                m_out2.send(0, 1.0, 1.0 / (rangeIn / rangeOut));
             } else {
-                daList[1] = 1.0 / (rangeOut / rangeIn);
-                daList[2] = 1.0;
+                m_out2.send(0, 1.0 / (rangeOut / rangeIn), 1.0);
             }
-            return daList;
+            return {};
         }
     };
 
@@ -88,8 +80,7 @@ public:
     message<> number { this, "number",
         MIN_FUNCTION {
             if (inlet == 0) {
-                m_value = args[0];
-                theFunction();
+                theFunction(args[0]);
             } else if (inlet == 1) {
                 low = args[0];
             } else if (inlet == 2) {
@@ -101,23 +92,23 @@ public:
 
     message<> range { this, "range",
         MIN_FUNCTION {
-            atoms daList(3);
-            daList[0] = 1;  //index for routing
             if (m_min <= m_max) {
-                daList[1] = m_min;
-                daList[2] = m_max;
+                m_out2.send(1, m_min, m_max);
             } else {
-                daList[1] = m_max;
-                daList[2] = m_min;
+                m_out2.send(1, m_max, m_min);
             }
-            return daList;
+            return {};
         }
     };
 
     message<> set { this, "set",
         MIN_FUNCTION {
-            m_min = args[0];
-            m_max = args[1];
+            if (args.size() < 2) {
+                cout << "warning: set needs at least 2 arguments." << endl;
+            } else {
+                m_min = args[0];
+                m_max = args[1];
+            }
             return {};
         }
     };
@@ -126,34 +117,34 @@ private:
     bool m_flag { false };
     double m_max { 0.0 };
     double m_min { 0.0 };
-    double m_value { 0.0 };
 
-    void theFunction() {
-        if (!m_flag && m_min == m_max) {
+    void theFunction(double in) {
+        double out;
+        if ((m_flag == false) && (m_min == m_max)) {
             m_flag = true;
-            m_min = m_value;
-            m_max = m_value;
+            m_min = in;
+            m_max = in;
         }
-        if (m_value < m_min) {
-            m_min = m_value;
+        if (in < m_min) {
+            m_min = in;
         }
-        if (m_value > m_max) {
-            m_max = m_value;
+        if (in > m_max) {
+            m_max = in;
         }
         auto rangeIn = fabs(m_max - m_min);
         auto rangeOut = fabs(high - low);
         if (rangeIn == 0.0) {
             if (low <= high) {
-                m_value = low;
+                out = low;
             } else {
-                m_value = high;
+                out = high;
             }
         } else if (low <= high) {
-            m_value= fabs((m_value - m_min) / rangeIn*rangeOut) + low;
+            out = fabs((in - m_min) / rangeIn * rangeOut) + low;
         } else {
-            m_value= fabs((m_value - m_max) / rangeIn*rangeOut) + high;
+            out = fabs((in - m_max) / rangeIn * rangeOut) + high;
         }
-        m_out1.send(m_value);
+        m_out1.send(out);
     }
 
 };

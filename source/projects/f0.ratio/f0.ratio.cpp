@@ -18,10 +18,10 @@ using namespace c74::min;
 
 class f0_ratio : public object<f0_ratio> {
 public:
-    MIN_DESCRIPTION	{ "Single exponential smoothing (SES). Good for filtering data from sensors." };
+    MIN_DESCRIPTION	{ "keep width/height proportion." };
     MIN_TAGS		{ "f0ext" };
     MIN_AUTHOR		{ "Fredrik Olofsson" };
-    MIN_RELATED		{ };
+    MIN_RELATED		{ "" };
 
     inlet<> m_in1	{ this, "(number) Width" };
     inlet<> m_in2	{ this, "(number) Height" };
@@ -71,15 +71,19 @@ public:
 
     message<> set { this, "set",
         MIN_FUNCTION {
-            if (args[0] == 0.0) {
-                m_proportionWidth = 1.0;
+            if (args.size() < 2) {
+                cout << "warning: set needs at least 2 arguments." << endl;
             } else {
-                m_proportionWidth = args[0];
-            }
-            if (args[1] == 0.0) {
-                m_proportionHeight = 1.0;
-            } else {
-                m_proportionHeight = args[1];
+                if (args[0] == 0.0) {
+                    m_proportionWidth = 1.0;
+                } else {
+                    m_proportionWidth = args[0];
+                }
+                if (args[1] == 0.0) {
+                    m_proportionHeight = 1.0;
+                } else {
+                    m_proportionHeight = args[1];
+                }
             }
             return {};
         }

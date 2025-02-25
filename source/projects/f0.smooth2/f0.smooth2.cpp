@@ -44,13 +44,13 @@ public:
     };
 
     attribute<number, threadsafe::no, limit::clamp> alpha { this, "alpha", 0.15,
-        description { "Smoothing constant (alpha)." },
-        range { 0.0, 1.0 }
+        range { 0.0, 1.0 },
+        description { "Smoothing constant (alpha)." }
     };
 
     attribute<number, threadsafe::no, limit::clamp> beta { this, "beta", 0.3,
-        description { "Smoothing constant (beta)." },
-        range { 0.0, 1.0 }
+        range { 0.0, 1.0 },
+        description { "Smoothing constant (beta)." }
     };
 
     message<> bang { this, "bang",
@@ -83,24 +83,26 @@ public:
 
     message<> set { this, "set",
         MIN_FUNCTION {
-            m_prev_value = args[0];
+            m_out = args[0];
+            m_prev = args[0];
             return {};
         }
     };
 
 private:
-    double m_prev_value { 0.0 };
-    double m_value { 0.0 };
-    double m_prev_trend { 0.0 };
+    double m_out { 0.0 };
+    double m_prev { 0.0 };
     double m_trend { 0.0 };
+    double m_value { 0.0 };
 
     void theFunction() {
-        m_value = (1.0 - alpha) * (m_prev_value + m_prev_trend) + alpha * m_value;
-        m_trend = (1.0 - beta) * m_prev_trend + beta * (m_value - m_prev_value);
+        double a = this->alpha;
+        double b = this->beta;
+        m_out = a * m_value + (1.0 - a) * (m_out + m_trend);    //DES - Double Exponential Smoothing
+        m_trend = b * (m_out - m_prev) + (1.0 - b) * m_trend;
+        m_prev = m_out;
         m_out2.send(m_trend);
-        m_out1.send(m_value);
-        m_prev_value = m_value;
-        m_prev_trend = m_trend;
+        m_out1.send(m_out);
     }
 
 };

@@ -65,8 +65,8 @@ public:
     message<> number { this, "number",
         MIN_FUNCTION {
             if (inlet == 0) {
-                m_value = args[0];
-                theFunction();
+                m_value = theFunction(args[0]);
+                bang();
             } else if (inlet == 1) {
                 tempo = args[0];
             } else if (inlet == 2) {
@@ -79,13 +79,11 @@ public:
 private:
     double m_value { 0.0 };
 
-    void theFunction() {
-        if (tempo == 0.0 || fps == 0.0) {
-            m_value = 0.0;
-        } else {
-            m_value = (m_value / fps) / (60.0 / tempo);
+    double theFunction(double in) {
+        if ((tempo != 0.0) && (fps != 0.0)) {
+            return (in / fps) / (60.0 / tempo);
         }
-        bang();
+        return 0.0;
     }
 
 };

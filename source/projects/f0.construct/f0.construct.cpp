@@ -71,13 +71,13 @@ private:
             m_x += m_dx * stepX;                // flytta position x
             if (m_x < 1) {                      // om vänster kant
                 m_dx = myRandom() % 2;          //   vänd eller stå still i x-led
-            } else if (m_x > width / cols) {    // om höger kant
+            } else if (m_x > (width / cols)) {  // om höger kant
                 m_dx = 0 - myRandom() % 2;      //   vänd eller stå still i x-led
             }
             m_y += m_dy * stepY;                // flytta position y
             if (m_y < 1) {                      // om övre kanten
                 m_dy = myRandom() % 2;          //   vänd eller stå still i y-led
-            } else if (m_y > height / rows) {   // om nedre kanten
+            } else if (m_y > (height / rows)) { // om nedre kanten
                 m_dy = 0 - myRandom() % 2;      //   vänd eller stå still i y-led
             }
             switch (variant) {
@@ -102,75 +102,75 @@ private:
             }
         }
     }
-    void variant1() {                                   // 1. slumpa riktningar individuellt
-        if (myRandom() % 100 >= movementX) {
+    void variant1() {                                       // 1. slumpa riktningar individuellt
+        if ((myRandom() % 100) >= movementX) {
             slumpaRiktningX();
         }
-        if (myRandom() % 100 >= movementY) {
+        if ((myRandom() % 100) >= movementY) {
             slumpaRiktningY();
         }
     }
-    void variant2() {                                   // 2. slumpa alltid riktningar tillsammans
+    void variant2() {                                       // 2. slumpa alltid riktningar tillsammans
         slumpaRiktningXY();
     }
-    void variant3() {                                   // 3. slumpa riktningar individuellt
-        if (myRandom() % 100 >= movementX) {
-            if (m_dx == 0 && m_x >= 1) {                //		dra åt vänster
+    void variant3() {                                       // 3. slumpa riktningar individuellt
+        if ((myRandom() % 100) >= movementX) {
+            if ((m_dx == 0) && (m_x >= 1)) {                //		dra åt vänster
                 m_dx = -1;
             } else {
                 m_dx = 0;
             }
         }
-        if (myRandom() % 100 >= movementY) {
-            if (m_dy == 0 && m_y >= 1) {                //		dra uppåt
+        if ((myRandom() % 100) >= movementY) {
+            if ((m_dy == 0) && (m_y >= 1)) {                //		dra uppåt
                 m_dy = -1;
             } else {
                 m_dy = 0;
             }
         }
     }
-    void variant4() {                                   // 4. slumpa riktningar individuellt
-        if (myRandom() % 100 >= movementX) {
-            if (m_dx == 0 && m_x >=1 ) {                //		dra åt vänster
+    void variant4() {                                       // 4. slumpa riktningar individuellt
+        if ((myRandom() % 100) >= movementX) {
+            if ((m_dx == 0) && (m_x >=1)) {                 //		dra åt vänster
                 m_dx = -1;
             } else {
                 m_dx = 0;
             }
         }
-        if (myRandom() % 100 >= movementY) {
-            if (m_dy == 0 && m_y <= height / rows) {    //		dra nedåt
+        if ((myRandom() % 100) >= movementY) {
+            if ((m_dy == 0) && (m_y <= (height / rows))) {  //		dra nedåt
                 m_dy = 1;
             } else {
                 m_dy = 0;
             }
         }
     }
-    void variant5() {                                   // 5. slumpa riktningar individuellt
-        if (myRandom() % 100 >= movementX) {
-            if (m_dx == 0 && m_x <= width / cols) {     //		dra åt höger
+    void variant5() {                                       // 5. slumpa riktningar individuellt
+        if ((myRandom() % 100) >= movementX) {
+            if ((m_dx == 0) && (m_x <= (width / cols))) {   //		dra åt höger
                 m_dx = 1;
             } else {
                 m_dx = 0;
             }
         }
-        if (myRandom() % 100 >= movementY) {
-            if (m_dy == 0 && m_y >= 1) {                //		dra uppåt
+        if ((myRandom() % 100) >= movementY) {
+            if ((m_dy == 0) && (m_y >= 1)) {                //		dra uppåt
                 m_dy = -1;
             } else {
                 m_dy = 0;
             }
         }
     }
-    void variant6() {                                   // 6. slumpa riktningar individuellt
-        if (myRandom() % 100 >= movementX) {
-            if (m_dx == 0 && m_x <= width / cols) {     //		dra åt höger
+    void variant6() {                                       // 6. slumpa riktningar individuellt
+        if ((myRandom() % 100) >= movementX) {
+            if ((m_dx == 0) && (m_x <= (width / cols))) {   //		dra åt höger
                 m_dx = 1;
             } else {
                 m_dx = 0;
             }
         }
-        if (myRandom() % 100 >= movementY) {
-            if (m_dy == 0 && m_y <= height / rows) {    //		dra nedåt
+        if ((myRandom() % 100) >= movementY) {
+            if ((m_dy == 0) && (m_y <= (height / rows))) {  //		dra nedåt
                 m_dy = 1;
             } else {
                 m_dy = 0;
@@ -180,7 +180,7 @@ private:
 
     //----------------------------------------------------------------------------------------------
     void slumpaRiktningXY() {
-        while (m_dx == 0 && m_dy == 0) {                // kolla att inte båda riktningar blir 0
+        while ((m_dx == 0) && (m_dy == 0)) {                // kolla att inte båda riktningar blir 0
             m_dx = myRandom() % 3 - 1;
             m_dy = myRandom() % 3 - 1;
         }
@@ -194,11 +194,10 @@ private:
 
     //----------------------------------------------------------------------------------------------
     void drawFO() {
-        int i, j, iCol, jRow;
-        for (i = 0; i < cols; i++) {
-            for (j = 0; j < rows; j++) {
-                iCol = (width / cols) * i;
-                jRow = (height / rows) * j;
+        for (auto i = 0; i < cols; i++) {
+            for (auto j = 0; j < rows; j++) {
+                auto iCol = (width / cols) * i;
+                auto jRow = (height / rows) * j;
                 switch (mapping) {                      // kolla mapping
                     case 1:
                         mapping1(iCol, jRow);
@@ -254,57 +253,57 @@ private:
     }
 
     //----------------------------------------------------------------------------------------------
-    void mapping1(int iCol, int jRow) {                 // no flip
+    void mapping1(int iCol, int jRow) {                   // no flip
         draw(m_x + iCol, m_y + jRow);
     }
-    void mapping2(int iCol, int jRow) {                 // flip all x
+    void mapping2(int iCol, int jRow) {                   // flip all x
         draw(mirrorX(m_x) + iCol, m_y + jRow);
     }
-    void mapping3(int iCol, int jRow) {                 // flip all y
+    void mapping3(int iCol, int jRow) {                   // flip all y
         draw(m_x + iCol, mirrorY(m_y) + jRow);
     }
-    void mapping4(int iCol, int jRow) {                 // flip all xy
+    void mapping4(int iCol, int jRow) {                   // flip all xy
         draw(mirrorX(m_x) + iCol, mirrorY(m_y) + jRow);
     }
     //--
-    void mapping5(int i, int iCol, int jRow) {          // flip odd col x
-        if (i % 2 == 1) {
+    void mapping5(int i, int iCol, int jRow) {           // flip odd col x
+        if ((i % 2) == 1) {
             draw(mirrorX(m_x) + iCol, m_y + jRow);
         } else {
             draw(m_x + iCol, m_y + jRow);
         }
     }
-    void mapping6(int i, int iCol, int jRow) {          // flip odd col y
-        if (i % 2 == 1) {
+    void mapping6(int i, int iCol, int jRow) {           // flip odd col y
+        if ((i % 2) == 1) {
             draw(m_x + iCol, mirrorY(m_y) + jRow);
         } else {
             draw(m_x + iCol, m_y + jRow);
         }
     }
-    void mapping7(int i, int iCol, int jRow) {          // flip odd col xy
-        if (i % 2 == 1) {
+    void mapping7(int i, int iCol, int jRow) {           // flip odd col xy
+        if ((i % 2) == 1) {
             draw(mirrorX(m_x) + iCol, mirrorY(m_y) + jRow);
         } else {
             draw(m_x + iCol, m_y + jRow);
         }
     }
     //--
-    void mapping8(int j, int iCol, int jRow) {          // flip odd row x
-        if (j % 2 == 1) {
+    void mapping8(int j, int iCol, int jRow) {           // flip odd row x
+        if ((j % 2) == 1) {
             draw(mirrorX(m_x) + iCol, m_y + jRow);
         } else {
             draw(m_x + iCol, m_y + jRow);
         }
     }
-    void mapping9(int j, int iCol, int jRow) {          // flip odd row y
-        if (j % 2 == 1) {
+    void mapping9(int j, int iCol, int jRow) {           // flip odd row y
+        if ((j % 2) == 1) {
             draw(m_x + iCol, mirrorY(m_y) + jRow);
         } else {
             draw(m_x + iCol, m_y + jRow);
         }
     }
-    void mapping10(int j, int iCol, int jRow) {         // flip odd row xy
-        if (j % 2 == 1) {
+    void mapping10(int j, int iCol, int jRow) {          // flip odd row xy
+        if ((j % 2) == 1) {
             draw(mirrorX(m_x) + iCol, mirrorY(m_y) + jRow);
         } else {
             draw(m_x + iCol, m_y + jRow);
@@ -312,27 +311,27 @@ private:
     }
     //--
     void mapping11(int i, int j, int iCol, int jRow) {  // flip odd col & even row x, flip even col & odd row x
-        if (i % 2 == 1 && j % 2 == 0) {
+        if (((i % 2) == 1) && ((j % 2) == 0)) {
             draw(mirrorX(m_x) + iCol, m_y + jRow);
-        } else if (i % 2 == 0 && j % 2 == 1) {
+        } else if (((i % 2) == 0) && ((j % 2) == 1)) {
             draw(mirrorX(m_x) + iCol, m_y + jRow);
         } else {
             draw(m_x + iCol, m_y + jRow);
         }
     }
     void mapping12(int i, int j, int iCol, int jRow) {  // flip odd col & even row y, flip even col & odd row y
-        if (i % 2 == 1 && j % 2 == 0) {
+        if (((i % 2) == 1) && ((j % 2) == 0)) {
             draw(m_x + iCol, mirrorY(m_y) + jRow);
-        } else if (i % 2 == 0 && j % 2 == 1) {
+        } else if (((i % 2) == 0) && ((j % 2) == 1)) {
             draw(m_x + iCol, mirrorY(m_y) + jRow);
         } else {
             draw(m_x + iCol, m_y + jRow);
         }
     }
     void mapping13(int i, int j, int iCol, int jRow) {  // flip odd col & even row xy, flip even col & odd row xy
-        if (i % 2 == 1 && j % 2 == 0) {
+        if (((i % 2) == 1) && ((j % 2) == 0)) {
             draw(mirrorX(m_x) + iCol, mirrorY(m_y) + jRow);
-        } else if (i % 2 == 0 && j % 2 == 1) {
+        } else if (((i % 2) == 0) && ((j % 2) == 1)) {
             draw(mirrorX(m_x) + iCol, mirrorY(m_y) + jRow);
         } else {
             draw(m_x + iCol, m_y + jRow);
@@ -340,27 +339,27 @@ private:
     }
     //--
     void mapping14(int i, int j, int iCol, int jRow) {  // flip even col & even row x, flip odd col & odd row x
-        if (i % 2 == 0 && j % 2 == 0) {
+        if (((i % 2) == 0) && ((j % 2) == 0)) {
             draw(mirrorX(m_x) + iCol, m_y + jRow);
-        } else if (i % 2 == 1 && j % 2 == 1) {
+        } else if (((i % 2) == 1) && ((j % 2) == 1)) {
             draw(mirrorX(m_x) + iCol, m_y + jRow);
         } else {
             draw(m_x + iCol, m_y + jRow);
         }
     }
     void mapping15(int i, int j, int iCol, int jRow) {  // flip even col & even row y, flip odd col & odd row y
-        if (i % 2 == 0 && j % 2 == 0) {
+        if (((i % 2) == 0) && ((j % 2) == 0)) {
             draw(m_x + iCol, mirrorY(m_y) + jRow);
-        } else if (i % 2 == 1 && j % 2 == 1) {
+        } else if (((i % 2) == 1) && ((j % 2) == 1)) {
             draw(m_x + iCol, mirrorY(m_y) + jRow);
         } else {
             draw(m_x + iCol, m_y + jRow);
         }
     }
     void mapping16(int i, int j, int iCol, int jRow) {  // flip even col & even row xy, flip odd col & odd row xy
-        if (i % 2 == 0 && j % 2 == 0) {
+        if (((i % 2) == 0) && ((j % 2) == 0)) {
             draw(mirrorX(m_x) + iCol, mirrorY(m_y) + jRow);
-        } else if (i % 2 == 1 && j % 2 == 1) {
+        } else if (((i % 2) == 1) && ((j % 2) == 1)) {
             draw(mirrorX(m_x) + iCol, mirrorY(m_y) + jRow);
         } else {
             draw(m_x + iCol, m_y + jRow);

@@ -29,6 +29,7 @@ public:
     argument<number> min_arg { this, "min", "Initial anticipated minimum value.",
         MIN_ARGUMENT_FUNCTION {
             m_flags++;
+            m_min = arg;
             m_setMin = arg;
         }
     };
@@ -36,20 +37,19 @@ public:
     argument<number> max_arg { this, "max", "Initial anticipated maximum value.",
         MIN_ARGUMENT_FUNCTION {
             m_flags++;
+            m_max = arg;
             m_setMax = arg;
         }
     };
 
     message<> bang { this, "bang",
         MIN_FUNCTION {
-            cout << "TODO check if these are set: " << min_arg <<endl;
-            cout << "TODO check if these are set: " << max_arg <<endl;
             if (m_flags == 0) {
-                m_min = INFINITY;
-                m_max = -INFINITY;
+                m_min = std::numeric_limits<sample>::max();
+                m_max = -std::numeric_limits<sample>::max();
             } else if (m_flags == 1) {
                 m_min = m_setMin;
-                m_max = -INFINITY;
+                m_max = -std::numeric_limits<sample>::max();
             } else {
                 m_min = m_setMin;
                 m_max = m_setMax;
@@ -65,24 +65,26 @@ public:
         }
     };
 
-    //TODO check if message number needed here
-
     message<> set { this, "set",
         MIN_FUNCTION {
-            double lo = args[0];
-            double hi = args[1];
-            if (lo < hi) {
-                m_min = lo;
-                m_max = hi;
-                m_setMin = lo;
-                m_setMax = hi;
+            if (args.size() < 2) {
+                cout << "warning: set needs at least 2 arguments." << endl;
             } else {
-                m_min = hi;
-                m_max = lo;
-                m_setMin = hi;
-                m_setMax = lo;
+                double lo = args[0];
+                double hi = args[1];
+                if (lo < hi) {
+                    m_min = lo;
+                    m_max = hi;
+                    m_setMin = lo;
+                    m_setMax = hi;
+                } else {
+                    m_min = hi;
+                    m_max = lo;
+                    m_setMin = hi;
+                    m_setMax = lo;
+                }
+                m_flags = 2;
             }
-            m_flags = 2;
             return {};
         }
     };
@@ -99,10 +101,11 @@ public:
 
 private:
     short m_flags { 0 };
-    double m_max { -INFINITY };
-    double m_min { INFINITY };
-    double m_setMax { -INFINITY };
-    double m_setMin { INFINITY };
+    double m_max { -std::numeric_limits<sample>::max() };
+    double m_min { std::numeric_limits<sample>::max() };
+    double m_setMax { -std::numeric_limits<sample>::max() };
+    double m_setMin { std::numeric_limits<sample>::max() };
+    
 };
 
 MIN_EXTERNAL(f0_range_tilde);

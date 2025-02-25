@@ -14,7 +14,7 @@
 
 using namespace c74::min;
 
-class f0_auto_scale_tilde : public object<f0_auto_scale_tilde>, public sample_operator<1, 1> {
+class f0_auto_scale_tilde : public object<f0_auto_scale_tilde>, public vector_operator<> {
 public:
     MIN_DESCRIPTION	{ "Finds minimum and maximum values of a signal and uses them as input scaling range. Audio version." };
     MIN_TAGS		{ "audio, f0ext" };
@@ -39,14 +39,14 @@ public:
         }
     };
 
-    attribute<number> low { this, "low", 0.0};
+    attribute<number> low { this, "low", 0.0 };
     
-    attribute<number> high { this, "high", 1.0};
+    attribute<number> high { this, "high", 1.0 };
 
     message<> bang { this, "bang",
         MIN_FUNCTION {
-            low = 0.0;
-            high = 0.0;
+            m_max = 0.0;
+            m_min = 0.0;
             m_flag = false;
             return {};
         }
@@ -54,24 +54,16 @@ public:
 
     message<> factor { this, "factor",
         MIN_FUNCTION {
-            atoms daList(3);
             auto rangeIn = fabs(m_max - m_min);
             auto rangeOut = fabs(high - low);
-            daList[0] = 0;  //index for routing
-            if (rangeIn == 0.0) {
-                daList[1] = 0.0;
-                daList[2] = rangeOut;
-            } else if (rangeOut == 0.0) {
-                daList[1] = rangeIn;
-                daList[2] = 0.0;
+            if ((rangeIn == 0.0) || (rangeOut == 0.0)) {
+                m_out2.send(0, rangeIn, rangeOut);
             } else if (rangeIn <= rangeOut) {
-                daList[1] = 1.0;
-                daList[2] = 1.0 / (rangeIn / rangeOut);
+                m_out2.send(0, 1.0, 1.0 / (rangeIn / rangeOut));
             } else {
-                daList[1] = 1.0 / (rangeOut / rangeIn);
-                daList[2] = 1.0;
+                m_out2.send(0, 1.0 / (rangeOut / rangeIn), 1.0);
             }
-            return daList;
+            return {};
         }
     };
 
@@ -95,54 +87,92 @@ public:
 
     message<> range { this, "range",
         MIN_FUNCTION {
-            atoms daList(3);
-            daList[0] = 1;  //index for routing
             if (m_min <= m_max) {
-                daList[1] = m_min;
-                daList[2] = m_max;
+                m_out2.send(1, m_min, m_max);
             } else {
-                daList[1] = m_max;
-                daList[2] = m_min;
+                m_out2.send(1, m_max, m_min);
             }
-            return daList;
+            return {};
         }
     };
 
     message<> set { this, "set",
         MIN_FUNCTION {
-            m_min = args[0];
-            m_max = args[1];
+            if (args.size() < 2) {
+                cout << "warning: set needs at least 2 arguments." << endl;
+            } else {
+                m_min = args[0];
+                m_max = args[1];
+            }
             return {};
         }
     };
 
-    sample operator()(sample in) {
-        sample out;
-        if (!m_flag && m_min == m_max) {
-            m_flag = true;
-            m_min = in;
-            m_max = in;
-        }
-        if (in < m_min) {
-            m_min = in;
-        }
-        if (in > m_max) {
-            m_max = in;
-        }
-        auto rangeIn = fabs(m_max - m_min);
-        auto rangeOut = fabs(high - low);
-        if (rangeIn == 0.0) {
-            if (low <= high) {
-                out = low;
-            } else {
-                out = high;
+    void operator()(audio_bundle input, audio_bundle output) {
+        auto in1 = input.samples(0);
+        auto in2 = input.samples(1);
+        auto in3 = input.samples(2);
+        auto out = output.samples(0);
+        
+        if (m_in2.has_signal_connection() || m_in3.has_signal_connection()) {
+
+            for (auto i = 0; i < input.frame_count(); ++i) {
+                if ((m_flag == false) && (m_min == m_max)) {
+                    m_flag = true;
+                    m_min = in1[i];
+                    m_max = in1[i];
+                }
+                if (in1[i] < m_min) {
+                    m_min = in1[i];
+                }
+                if (in1[i] > m_max) {
+                    m_max = in1[i];
+                }
+                auto rangeIn = fabs(m_max - m_min);
+                auto rangeOut = fabs(in2[i] - in3[i]);
+                if (rangeIn == 0.0) {
+                    if (in2[i] <= in3[i]) {
+                        out[i] = in2[i];
+                    } else {
+                        out[i] = in3[i];
+                    }
+                } else if (in2[i] <= in3[i]) {
+                    out[i] = fabs((in1[i] - m_min) / rangeIn * rangeOut) + in2[i];
+                } else {
+                    out[i] = fabs((in1[i] - m_max) / rangeIn * rangeOut) + in3[i];
+                }
             }
-        } else if (low <= high) {
-            out = fabs((in - m_min) / rangeIn * rangeOut) + low;
+            
         } else {
-            out = fabs((in - m_max) / rangeIn * rangeOut) + high;
+
+            auto flip = this->low <= this->high;
+            auto rangeOut = fabs(this->high - this->low);
+            for (auto i = 0; i < input.frame_count(); ++i) {
+                if ((m_flag == false) && (m_min == m_max)) {
+                    m_flag = true;
+                    m_min = in1[i];
+                    m_max = in1[i];
+                }
+                if (in1[i] < m_min) {
+                    m_min = in1[i];
+                }
+                if (in1[i] > m_max) {
+                    m_max = in1[i];
+                }
+                auto rangeIn = fabs(m_max - m_min);
+                if (rangeIn == 0.0) {
+                    if (flip) {
+                        out[i] = this->low;
+                    } else {
+                        out[i] = this->high;
+                    }
+                } else if (flip) {
+                    out[i] = fabs((in1[i] - m_min) / rangeIn * rangeOut) + this->low;
+                } else {
+                    out[i] = fabs((in1[i] - m_max) / rangeIn * rangeOut) + this->high;
+                }
+            }
         }
-        return out;
     }
 
 private:

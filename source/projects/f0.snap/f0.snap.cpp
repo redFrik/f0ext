@@ -33,8 +33,7 @@ public:
         }
     };
 
-    //TODO maybe this shouldn't be an attribute?
-    attribute<number> resistance { this, "resistance", 50.0};
+    attribute<number> resistance { this, "resistance", 50.0 };
 
     message<> bang { this, "bang",
         MIN_FUNCTION {
@@ -64,34 +63,33 @@ public:
 
     message<> set { this, "set",
         MIN_FUNCTION {
-            m_prev = args[0];
+            m_counter = args[0];
             return {};
         }
     };
 
 private:
-    double m_prev { 0.0 };
+    double m_counter { 0.0 };
     double m_value { 0.0 };
 
     void theFunction() {
-        auto diff = fabs(m_value - m_prev);
+        auto diff = fabs(m_value - m_counter);
         auto step = 0.0;
         if (diff != 0.0) {
-            step = resistance / diff;
+            step = this->resistance / diff;
         }
-        if (m_value > m_prev) {
-            m_value += step;
-            if (m_value > m_prev) {
-                m_value = m_prev;
+        if (m_value > m_counter) {
+            m_counter += step;
+            if (m_counter > m_value) {
+                m_counter = m_value;
             }
-        } else if (m_value < m_prev) {
-            m_value -= step;
-            if (m_value < m_prev) {
-                m_value = m_prev;
+        } else if (m_value < m_counter) {
+            m_counter -= step;
+            if (m_counter < m_value) {
+                m_counter = m_value;
             }
         }
-        m_out1.send(m_value);
-        m_prev = m_value;
+        m_out1.send(m_counter);
     }
 
 };

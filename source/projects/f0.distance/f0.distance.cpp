@@ -41,13 +41,13 @@ public:
         }
     };
 
-    argument<number> dimensions_arg { this, "dimensions", "Dimensions."};
+    argument<number> dimensions_arg { this, "dimensions", "Dimensions." };
 
-    attribute<number> x { this, "x", 0.0};
+    attribute<number> x { this, "x", 0.0 };
 
-    attribute<number> y { this, "y", 0.0};
+    attribute<number> y { this, "y", 0.0 };
 
-    attribute<number> z { this, "z", 0.0};
+    attribute<number> z { this, "z", 0.0 };
 
     message<> bang { this, "bang",
         MIN_FUNCTION {
@@ -65,7 +65,7 @@ public:
                     z = args[2];
                 }
             }
-            bang();
+            theFunction();
             return {};
         }
     };
@@ -93,9 +93,18 @@ public:
 
 private:
     std::vector< std::unique_ptr<inlet<>> >	m_inlets;
+    double m_x { 0.0 };
+    double m_y { 0.0 };
+    double m_z { 0.0 };
 
     void theFunction() {
-        m_out1.send(fabs(std::sqrt(pow(x, 2.0) + pow(y, 2.0) + pow(z, 2.0))));
+        auto xx = this->x - m_x;
+        auto yy = this->y - m_y;
+        auto zz = this->z - m_z;
+        m_out1.send(fabs(std::sqrt(pow(xx, 2.0) + pow(yy, 2.0) + pow(zz, 2.0))));
+        m_x = this->x;
+        m_y = this->y;
+        m_z = this->z;
     }
 
 };

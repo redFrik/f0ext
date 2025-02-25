@@ -32,17 +32,19 @@ public:
     outlet<> m_out2	{ this, "(bang) Counter hits floor" };
     outlet<> m_out3	{ this, "(bang) Counter hits ceil" };
 
-    argument<number> floor_arg { this, "floor", "Minimum.",
-        MIN_ARGUMENT_FUNCTION {
-            floor = arg;
+    f0_limit_counter(const atoms& args = {}) {
+        if (args.size() == 1) {
+            floor = 0;
+            ceil = args[0];
+        } else if (args.size() == 2) {
+            floor = args[0];
+            ceil = args[1];
         }
     };
 
-    argument<number> ceil_arg { this, "ceil", "Maximum.",
-        MIN_ARGUMENT_FUNCTION {
-            ceil = arg;
-        }
-    };
+    argument<number> floor_arg { this, "floor", "Minimum." };
+
+    argument<number> ceil_arg { this, "ceil", "Maximum." };
 
     attribute<long> floor { this, "floor", C74_LONG_INT_MIN };
 
@@ -79,12 +81,19 @@ public:
 
     message<> number { this, "number",
         MIN_FUNCTION {
+            long a = args[0];
             if (inlet == 0) {
-                m_value = args[0];
+                m_value = MIN_CLAMP(a, floor, ceil);
             } else if (inlet == 2) {
-                floor = args[0];
+                floor = a;
+                if (m_value < a) {
+                    m_value = a;
+                }
             } else if (inlet == 3) {
-                ceil = args[0];    
+                ceil = a;
+                if (m_value > a) {
+                    m_value = a;
+                }
             }
             return {};
         }

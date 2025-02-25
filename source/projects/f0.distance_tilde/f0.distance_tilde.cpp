@@ -20,10 +20,11 @@ public:
     MIN_AUTHOR		{ "Fredrik Olofsson" };
     MIN_RELATED		{ "f0.distance" };
 
-    inlet<> m_in1	{ this, "(signal) X" };
-    outlet<> m_out1	{ this, "(signal) Distance between consecutive numbers (delta)" };
+    outlet<> m_out1	{ this, "(signal) Distance between consecutive numbers (delta)", "signal" };
 
     f0_distance_tilde(const atoms& args = {}) {
+        auto m_in1 = std::make_unique<inlet<>>(this, "(signal) X");
+        m_inlets.push_back(std::move(m_in1));
         if (args.size() > 0) {
             if (args[0] == 2) {
                 auto m_in2 = std::make_unique<inlet<>>(this, "(signal/number) Y");
@@ -37,7 +38,7 @@ public:
         }
     };
 
-    argument<number> dimensions_arg { this, "dimensions", "Dimensions."};
+    argument<int> dimensions_arg { this, "dimensions", "Dimensions (1 - 3)." };
 
 	message<> maxclass_setup { this, "maxclass_setup",
         MIN_FUNCTION {
@@ -46,46 +47,39 @@ public:
         }
     };
 
-    message<> number { this, "number",
-        MIN_FUNCTION {
-            if (inlet == 1) {
-                m_y = args[0];
-            } else if (inlet == 2) {
-                m_z = args[0];
-            }
-            return {};
-        }
-    };
-
     void operator()(audio_bundle input, audio_bundle output) {
         auto in = input.samples(0);
         auto out = output.samples(0);
-        if (input.channel_count() == 1) {
+        if (m_inlets.size() == 1) {
             for (auto i = 0; i < input.frame_count(); ++i) {
-                m_x = in[i] - m_x;
-                out[i] = fabs(std::sqrt(pow(m_x, 2.0)));
+                out[i] = fabs(std::sqrt(pow(in[i] - m_x, 2.0)));
+                m_x = in[i];
             }
-        } else if (input.channel_count() == 2) {
+        } else if (m_inlets.size() == 2) {
+            auto in2 = input.samples(1);
             for (auto i = 0; i < input.frame_count(); ++i) {
-                m_x = in[i] - m_x;
-                m_y = in[i + 1] - m_y;
-                out[i] = fabs(std::sqrt(pow(m_x, 2.0) + pow(m_y, 2.0)));
+                out[i] = fabs(std::sqrt(pow(in[i] - m_x, 2.0) + pow(in2[i] - m_y, 2.0)));
+                m_x = in[i];
+                m_y = in2[i];
             }
-        } else if (input.channel_count() == 3) {
+        } else if (m_inlets.size() == 3) {
+            auto in2 = input.samples(1);
+            auto in3 = input.samples(2);
             for (auto i = 0; i < input.frame_count(); ++i) {
-                m_x = in[i] - m_x;
-                m_y = in[i + 1] - m_y;
-                m_z = in[i + 2] - m_z;
-                out[i] = fabs(std::sqrt(pow(m_x, 2.0) + pow(m_y, 2.0) + pow(m_z, 2.0)));
+                out[i] = fabs(std::sqrt(pow(in[i] - m_x, 2.0) + pow(in2[i] - m_y, 2.0) + pow(in3[i] - m_z, 2.0)));
+                m_x = in[i];
+                m_y = in2[i];
+                m_z = in3[i];
             }
         }
     }
 
 private:
-    std::vector< std::unique_ptr<inlet<>> >	m_inlets;
+    std::vector<std::unique_ptr<inlet<>>> m_inlets;
     double m_x { 0.0 };
     double m_y { 0.0 };
     double m_z { 0.0 };
+    
 };
 
 MIN_EXTERNAL(f0_distance_tilde);

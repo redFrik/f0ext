@@ -34,15 +34,15 @@ public:
     argument<number> start_arg { this, "start", "Start value.",
         MIN_ARGUMENT_FUNCTION {
             start = arg;
-            m_prev = arg;
+            m_value = arg;
         }
     };
 
-    attribute<number> start { this, "start", 0.0};
+    attribute<number> start { this, "start", 0.0 };
 
     message<> bang { this, "bang",
         MIN_FUNCTION {
-            theFunction();
+            theFunction(m_value);
             return {};
         }
     };
@@ -57,11 +57,9 @@ public:
     message<> number { this, "number",
         MIN_FUNCTION {
             if (inlet == 0) {
-                m_value = args[0];
-                theFunction();
+                theFunction(args[0]);
             } else if (inlet == 1) {
-                start = args[0];
-                m_prev = args[0];
+                m_value = args[0];
             }
             return {};
         }
@@ -69,25 +67,24 @@ public:
 
     message<> reset { this, "reset",
         MIN_FUNCTION {
-            m_prev = start;
+            m_value = start;
             return {};
         }
     };
 
 private:
     bool m_flag { false };
-    double m_prev { 0.0 };
     double m_value { 0.0 };
 
-    void theFunction() {
-        if (m_value > m_prev) {
-            m_out1.send(m_value);
+    void theFunction(double in) {
+        if (in > m_value) {
+            m_out1.send(in);
+            m_value = in;
             m_flag = false;
-            m_prev = m_value;
-        } else if (m_value < m_prev) {
-            m_out2.send(m_value);
+        } else if (in < m_value) {
+            m_out2.send(in);
+            m_value = in;
             m_flag = true;
-            m_prev = m_value;
         } else {
             if (m_flag) {
                 m_out2.send(m_value);
@@ -96,6 +93,7 @@ private:
             }
         }
     }
+
 };
 
 MIN_EXTERNAL(f0_inc_dec_split);
