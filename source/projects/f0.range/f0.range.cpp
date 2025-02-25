@@ -102,7 +102,7 @@ private:
     double m_setMax { -INFINITY };
     double m_setMin { INFINITY };
 
-    void theFunction(auto val) {
+    void theFunction(double val) {
         if (val > m_max) {
             m_max = val;
         }

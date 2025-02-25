@@ -114,7 +114,7 @@ private:
     double m_setMin { INFINITY };
     double m_smooth { 0.0 };
 
-    void theFunction(auto val) {
+    void theFunction(double val) {
         m_max -= m_smooth;
         m_min += m_smooth;
         if (val > m_max) {
