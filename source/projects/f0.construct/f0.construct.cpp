@@ -365,16 +365,16 @@ private:
             draw(m_x + iCol, m_y + jRow);
         }
     }
-    auto mirrorX(auto ox) {
+    int mirrorX(int ox) {
         return round(width / cols - ox);
     }
-    auto mirrorY(auto oy) {
+    int mirrorY(int oy) {
         return round(height / rows - oy);
     }
-    auto myRandom() {
+    int myRandom() {
         return lib::math::random(0.0, 100000.0);
     }
-    void draw(auto ox, auto oy) {
+    void draw(int ox, int oy) {
         atoms lista(4);
         lista[0] = ox;
         lista[1] = oy;
