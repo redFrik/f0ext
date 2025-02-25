@@ -196,8 +196,8 @@ private:
     void drawFO() {
         for (auto i = 0; i < cols; i++) {
             for (auto j = 0; j < rows; j++) {
-                auto iCol = (width / cols) * i;
-                auto jRow = (height / rows) * j;
+                int iCol = (width / cols) * i;
+                int jRow = (height / rows) * j;
                 switch (mapping) {                      // kolla mapping
                     case 1:
                         mapping1(iCol, jRow);
