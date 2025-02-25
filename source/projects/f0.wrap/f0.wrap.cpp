@@ -76,7 +76,7 @@ private:
     bool intswitch { false };  //TODO
 
     void theFunction() {
-        auto a, lo, hi;
+        double a, lo, hi;
         if (min > max) {
             lo = max;
             hi = min;
@@ -87,7 +87,7 @@ private:
         if (((m_value >= lo) && (m_value <= hi)) || (lo == hi)) {
             a = m_value;
         } else {
-            auto b = fabs(hi - lo);
+            double b = fabs(hi - lo);
             if (m_value < lo) {
                 if (intswitch) {
                     a = hi - fabs(fmod(m_value - lo + 1.0, b + 1.0));
