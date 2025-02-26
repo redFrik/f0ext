@@ -37,7 +37,11 @@ public:
         }
     };
 
-    argument<number> dimensions_arg { this, "dimensions", "Dimensions." };
+    argument<int> dimensions_arg { this, "dimensions", "Dimensions (1 - 3)."
+        MIN_FUNCTION {
+            dimensions = MIN_CLAMP(arg, 1, 3);
+        }
+    };
 
 	message<> maxclass_setup { this, "maxclass_setup",
         MIN_FUNCTION {
@@ -60,23 +64,26 @@ public:
     void operator()(audio_bundle input, audio_bundle output) {
         auto in = input.samples(0);
         auto out = output.samples(0);
-        if (input.channel_count() == 1) {
+        if (this->dimensions == 1) {
             for (auto i = 0; i < input.frame_count(); ++i) {
                 out[i] = fabs(std::sqrt(pow(in[i] - m_x, 2.0)));
                 m_x = in[i];
             }
-        } else if (input.channel_count() == 2) {
+        } else if (this->dimensions == 2) {
+            auto in2 = input.samples(1);
             for (auto i = 0; i < input.frame_count(); ++i) {
-                out[i] = fabs(std::sqrt(pow(in[i] - m_x, 2.0) + pow(in[i + 1] - m_y, 2.0)));
+                out[i] = fabs(std::sqrt(pow(in[i] - m_x, 2.0) + pow(in2 - m_y, 2.0)));
                 m_x = in[i];
-                m_y = in[i + 1];
+                m_y = in2[i];
             }
-        } else if (input.channel_count() == 3) {
+        } else if (this->dimensions == 3) {
+            auto in2 = input.samples(1);
+            auto in3 = input.samples(2);
             for (auto i = 0; i < input.frame_count(); ++i) {
-                out[i] = fabs(std::sqrt(pow(in[i] - m_x, 2.0) + pow(in[i + 1] - m_y, 2.0) + pow(in[i + 2] - m_z, 2.0)));
+                out[i] = fabs(std::sqrt(pow(in[i] - m_x, 2.0) + pow(in2 - m_y, 2.0) + pow(in3 - m_z, 2.0)));
                 m_x = in[i];
-                m_y = in[i + 1];
-                m_z = in[i + 2];
+                m_y = in2[i];
+                m_z = in3[i];
             }
         }
     }

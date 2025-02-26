@@ -40,7 +40,7 @@ public:
 
     argument<int> loop_arg { this, "loop", "Loop settings.",
         MIN_ARGUMENT_FUNCTION {
-            loop = arg;  //TODO int()?
+            loop = <int>arg;
         }
     };
 
@@ -66,16 +66,12 @@ public:
 
     message<> bang { this, "bang",
         MIN_FUNCTION {
-            switch (loop) {
-                case 1:
-                    m_value = wrapFunction(m_value, floor, ceil);
-                    break;
-                case 2:
-                    m_value = foldFunction(m_value, floor, ceil);
-                    break;
-                default:
-                    m_value = clipFunction(m_value, floor, ceil);
-                    break;
+            if (loop < 1.0) {
+                m_value = clipFunction(m_value, floor, ceil);
+            } else if (loop < 2.0) {
+                m_value = wrapFunction(m_value, floor, ceil);
+            } else {
+                m_value = foldFunction(m_value, floor, ceil);
             }
             m_out1.send(m_value);
             m_value += step;

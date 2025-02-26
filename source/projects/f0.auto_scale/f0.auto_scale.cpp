@@ -103,10 +103,12 @@ public:
 
     message<> set { this, "set",
         MIN_FUNCTION {
-            cout << "debug size: " << args.size() << endl;
-            cout << "debug 0, 1: " << args[0] << " " << args[1] << endl;
-            m_min = args[0];
-            m_max = args[1];
+            if (args.size() < 2) {
+                cout << "warning: f0.auto_scale set needs at least 2 arguments." << endl;
+            } else {
+                m_min = args[0];
+                m_max = args[1];
+            }
             return {};
         }
     };

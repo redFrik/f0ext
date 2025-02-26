@@ -31,6 +31,7 @@ public:
     argument<number> alpha_arg { this, "alpha", "Initial smoothing constant (alpha).",
         MIN_ARGUMENT_FUNCTION {
             alpha = arg;
+            m_prev = arg;
         }
     };
 

@@ -14,7 +14,7 @@
 
 using namespace c74::min;
 
-class f0_auto_scale_tilde : public object<f0_auto_scale_tilde>, public sample_operator<1, 1> {
+class f0_auto_scale_tilde : public object<f0_auto_scale_tilde>, public sample_operator<3, 1> {
 public:
     MIN_DESCRIPTION	{ "Finds minimum and maximum values of a signal and uses them as input scaling range. Audio version." };
     MIN_TAGS		{ "audio, f0ext" };

@@ -21,7 +21,7 @@ public:
     MIN_DESCRIPTION	{ "Per Nørgård's infinity series." };
     MIN_TAGS		{ "f0ext" };
     MIN_AUTHOR		{ "Fredrik Olofsson" };
-    MIN_RELATED		{ };
+    MIN_RELATED		{ "" };
 
     inlet<> m_in1	{ this, "(int) index (>= 0)" };
     outlet<> m_out1	{ this, "(int) Value" };

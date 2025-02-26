@@ -54,16 +54,16 @@ public:
             cout << "TODO check if these are set: " << min_arg <<endl;
             cout << "TODO check if these are set: " << max_arg <<endl;
             cout << "TODO check flags: " << m_flags << endl;
-            // if (m_flags == 0) {
-            //     m_min = INFINITY;
-            //     m_max = -INFINITY;
-            // } else if (m_flags == 1) {
-            //     m_min = m_setMin;
-            //     m_max = -INFINITY;
-            // } else {
-            //     m_min = m_setMin;
-            //     m_max = m_setMax;
-            // }
+            if (m_flags == 0) {
+                m_min = C74_INT64_MAX;
+                m_max = C74_INT64_MIN;
+            } else if (m_flags == 1) {
+                m_min = m_setMin;
+                m_max = C74_INT64_MIN;
+            } else {
+                m_min = m_setMin;
+                m_max = m_setMax;
+            }
             return {};
         }
     };
@@ -108,10 +108,10 @@ public:
 
 private:
     short m_flags { 0 };
-    double m_max { static_cast<double>(-INFINITY) };
-    double m_min { static_cast<double>(INFINITY) };
-    double m_setMax { static_cast<double>(-INFINITY) };
-    double m_setMin { static_cast<double>(INFINITY) };
+    double m_max { C74_INT64_MIN };
+    double m_min { C74_INT64_MAX };
+    double m_setMax { C74_INT64_MIN };
+    double m_setMin { C74_INT64_MAX };
     double m_smooth { 0.0 };
 
     void theFunction(double val) {

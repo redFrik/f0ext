@@ -80,11 +80,17 @@ public:
     message<> number { this, "number",
         MIN_FUNCTION {
             if (inlet == 0) {
-                m_value = args[0];
+                m_value = MIN_CLAMP(args[0], floor, ceil);
             } else if (inlet == 2) {
-                this->floor = args[0];
+                floor = args[0];
+                if (m_value < args[0]) {
+                    m_value = args[0];
+                }
             } else if (inlet == 3) {
-                this->ceil = args[0];    
+                ceil = args[0];
+                if (m_value > args[0]) {
+                    m_value = args[0];
+                }
             }
             return {};
         }

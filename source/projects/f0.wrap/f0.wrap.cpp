@@ -16,7 +16,7 @@ using namespace c74::min;
 
 class f0_wrap : public object<f0_wrap> {
 public:
-    MIN_DESCRIPTION	{ "Frequency quantiser." };
+    MIN_DESCRIPTION	{ "Wrap float or integer numbers." };
     MIN_TAGS		{ "f0ext" };
     MIN_AUTHOR		{ "Fredrik Olofsson" };
     MIN_RELATED		{ "f0.fold, %" };
@@ -38,14 +38,13 @@ public:
         }
     };
 
-    //TODO maybe this shouldn't be an attribute?
     attribute<number> min { this, "min", 0.0 };
 
     attribute<number> max { this, "max", 100.0 };
 
     message<> bang { this, "bang",
         MIN_FUNCTION {
-            theFunction();
+            m_out1.send(m_value);
             return {};
         }
     };
@@ -60,8 +59,8 @@ public:
     message<> number { this, "number",
         MIN_FUNCTION {
             if (inlet == 0) {
-                m_value = args[0];
-                theFunction();
+                m_value = theFunction(args[0]);
+                bang();
             } else if (inlet == 1) {
                 min = args[0];
             } else if (inlet == 2) {
@@ -75,8 +74,8 @@ private:
     double m_value { 0.0 };
     bool intswitch { false };  //TODO
 
-    void theFunction() {
-        double a, lo, hi;
+    double theFunction(double in) {
+        double lo, hi;
         if (this->min > this->max) {
             lo = this->max;
             hi = this->min;
@@ -84,25 +83,23 @@ private:
             lo = this->min;
             hi = this->max;
         }
-        if (((m_value >= lo) && (m_value <= hi)) || (lo == hi)) {
-            a = m_value;
-        } else {
+        if (!(((in >= lo) && (in <= hi)) || (lo == hi))) {
             double b = fabs(hi - lo);
-            if (m_value < lo) {
+            if (in < lo) {
                 if (intswitch) {
-                    a = hi - fabs(fmod(m_value - lo + 1.0, b + 1.0));
+                    in = hi - fabs(fmod(in - lo + 1.0, b + 1.0));
                 } else {
-                    a = hi - fabs(fmod(m_value - lo, b));
+                    in = hi - fabs(fmod(in - lo, b));
                 }
             } else {
                 if (intswitch) {
-                    a = lo + fabs(fmod(m_value - 1.0 - hi, b + 1.0));
+                    in = lo + fabs(fmod(in - 1.0 - hi, b + 1.0));
                 } else {
-                    a = lo + fabs(fmod(m_value - hi, b));
+                    in = lo + fabs(fmod(in - hi, b));
                 }
             }
         }
-	    m_out1.send(a);
+        return in;
     }
 
 };

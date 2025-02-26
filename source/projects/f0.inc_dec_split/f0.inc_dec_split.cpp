@@ -59,7 +59,6 @@ public:
             if (inlet == 0) {
                 theFunction(args[0]);
             } else if (inlet == 1) {
-                start = args[0];
                 m_value = args[0];
             }
             return {};

@@ -18,10 +18,10 @@ using namespace c74::min;
 
 class f0_ratio : public object<f0_ratio> {
 public:
-    MIN_DESCRIPTION	{ "Single exponential smoothing (SES). Good for filtering data from sensors." };
+    MIN_DESCRIPTION	{ "keep width/height proportion." };
     MIN_TAGS		{ "f0ext" };
     MIN_AUTHOR		{ "Fredrik Olofsson" };
-    MIN_RELATED		{ };
+    MIN_RELATED		{ "" };
 
     inlet<> m_in1	{ this, "(number) Width" };
     inlet<> m_in2	{ this, "(number) Height" };

@@ -45,16 +45,16 @@ public:
             cout << "TODO check if these are set: " << min_arg <<endl;
             cout << "TODO check if these are set: " << max_arg <<endl;
             cout << "TODO check flags: " << m_flags << endl;
-            // if (m_flags == 0) {
-            //     m_min = INFINITY;
-            //     m_max = -INFINITY;
-            // } else if (m_flags == 1) {
-            //     m_min = m_setMin;
-            //     m_max = -INFINITY;
-            // } else {
-            //     m_min = m_setMin;
-            //     m_max = m_setMax;
-            // }
+            if (m_flags == 0) {
+                m_min = <double>(INFINITY);
+                m_max = <double>(-INFINITY);
+            } else if (m_flags == 1) {
+                m_min = m_setMin;
+                m_max = <double>(-INFINITY);
+            } else {
+                m_min = m_setMin;
+                m_max = m_setMax;
+            }
             return {};
         }
     };
@@ -100,10 +100,10 @@ public:
 
 private:
     short m_flags { 0 };
-    double m_max { static_cast<double>(-INFINITY) };
-    double m_min { static_cast<double>(INFINITY) };
-    double m_setMax { static_cast<double>(-INFINITY) };
-    double m_setMin { static_cast<double>(INFINITY) };
+    double m_max { <double>(-INFINITY) };
+    double m_min { <double>(INFINITY) };
+    double m_setMax { <double>(-INFINITY) };
+    double m_setMin { <double>(INFINITY) };
     
 };
 

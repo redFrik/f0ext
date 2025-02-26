@@ -29,9 +29,11 @@ public:
     inlet<> m_in3	{ this, "(number) Maximum" };
     outlet<> m_out1	{ this, "(number) Folded number" };
 
-
-    //TODO
-    //"if only one argument given, it will be used as maximum"
+    f0_fold(const atoms& args = {}) {
+        if (args.size() == 1) {
+            max = args[0];
+        }
+    };
 
     argument<number> min_arg { this, "min", "Minimum.",
         MIN_ARGUMENT_FUNCTION {
@@ -45,7 +47,6 @@ public:
         }
     };
 
-    //TODO maybe this shouldn't be an attribute?
     attribute<number> min { this, "min", 0.0 };
 
     attribute<number> max { this, "max", 100.0 };

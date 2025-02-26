@@ -33,7 +33,6 @@ public:
         }
     };
 
-    //TODO maybe this shouldn't be an attribute?
     attribute<number> resistance { this, "resistance", 50.0 };
 
     message<> bang { this, "bang",

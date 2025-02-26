@@ -30,7 +30,6 @@ public:
         }
     };
 
-    //TODO maybe this shouldn't be an attribute?
     attribute<number> base { this, "base", 440.0 };
 
     attribute<number> tonesPerOctave { this, "tonesPerOctave", 12.0 };
@@ -38,6 +37,15 @@ public:
 	message<> maxclass_setup { this, "maxclass_setup",
         MIN_FUNCTION {
             cout << "f0.tune~ v3.0; distributed under GNU GPL License" << endl;
+            return {};
+        }
+    };
+
+    message<> number { this, "number",
+        MIN_FUNCTION {
+            if (inlet == 1) {
+                base = args[0];
+            }
             return {};
         }
     };

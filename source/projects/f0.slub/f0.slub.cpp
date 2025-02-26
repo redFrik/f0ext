@@ -136,7 +136,7 @@ private:
                     m_dummy= fmod(
                                    l				,
                                    3.1415
-                                   )
+                                   ) + lib::math::random(0.0, 1.0)
                     ;
                 }
             }}

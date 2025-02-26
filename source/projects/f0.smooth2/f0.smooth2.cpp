@@ -34,12 +34,14 @@ public:
     argument<number> alpha_arg { this, "alpha", "Initial smoothing constant (alpha).",
         MIN_ARGUMENT_FUNCTION {
             alpha = arg;
+            m_prev = arg;
         }
     };
 
     argument<number> beta_arg { this, "beta", "Initial smoothing constant (beta).",
         MIN_ARGUMENT_FUNCTION {
             beta = arg;
+            m_trend = arg;
         }
     };
 
