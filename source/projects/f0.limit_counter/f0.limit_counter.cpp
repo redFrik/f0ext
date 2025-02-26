@@ -79,17 +79,18 @@ public:
 
     message<> number { this, "number",
         MIN_FUNCTION {
+            long a = args[0];
             if (inlet == 0) {
-                m_value = MIN_CLAMP(args[0], floor, ceil);
+                m_value = MIN_CLAMP(a, floor, ceil);
             } else if (inlet == 2) {
-                floor = args[0];
-                if (m_value < args[0]) {
-                    m_value = args[0];
+                floor = a;
+                if (m_value < a) {
+                    m_value = a;
                 }
             } else if (inlet == 3) {
-                ceil = args[0];
-                if (m_value > args[0]) {
-                    m_value = args[0];
+                ceil = a;
+                if (m_value > a) {
+                    m_value = a;
                 }
             }
             return {};
