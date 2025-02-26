@@ -60,7 +60,8 @@ public:
     void operator()(audio_bundle in, audio_bundle out) {
         if (m_flag) {
             m_flag = false;
-            theFunction();
+            auto x = theFunction();
+            x += 1.0;
         }
     }
 
@@ -68,7 +69,7 @@ private:
     bool m_flag { false };
     double m_dummy;
 
-    void theFunction() {
+    double theFunction() {
     	long
         i
         ,
@@ -146,7 +147,8 @@ private:
                     ;
                 }
             }}
-    	}
+    	};
+        return m_dummy;
     };
 
 };

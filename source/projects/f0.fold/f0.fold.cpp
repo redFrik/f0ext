@@ -83,12 +83,12 @@ private:
 
     double theFunction(double in) {
         double out, lo, hi;
-        if (min > max) {
-            lo = max;
-            hi = min;
+        if (this->min > this->max) {
+            lo = this->max;
+            hi = this->min;
         } else {
-            lo = min;
-            hi = max;
+            lo = this->min;
+            hi = this->max;
         }
         if (((in >= lo) && (in <= hi)) || (lo == hi)) {
             out = in;

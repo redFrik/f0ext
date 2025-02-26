@@ -65,7 +65,7 @@ public:
                     z = args[2];
                 }
             }
-            bang();
+            theFunction();
             return {};
         }
     };
@@ -98,13 +98,13 @@ private:
     double m_z { 0.0 };
 
     void theFunction() {
-        auto xx = x - m_x;
-        auto yy = y - m_y;
-        auto zz = z - m_z;
+        auto xx = this->x - m_x;
+        auto yy = this->y - m_y;
+        auto zz = this->z - m_z;
         m_out1.send(fabs(std::sqrt(pow(xx, 2.0) + pow(yy, 2.0) + pow(zz, 2.0))));
-        m_x = x;
-        m_y = y;
-        m_z = z;
+        m_x = this->x;
+        m_y = this->y;
+        m_z = this->z;
     }
 
 };

@@ -77,7 +77,7 @@ private:
         auto diff = fabs(m_value - m_counter);
         auto step = 0.0;
         if (diff != 0.0) {
-            step = resistance / diff;
+            step = this->resistance / diff;
         }
         if (m_value > m_counter) {
             m_counter += step;

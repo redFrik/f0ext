@@ -57,24 +57,15 @@ public:
 
     message<> factor { this, "factor",
         MIN_FUNCTION {
-            atoms daList(3);
             auto rangeIn = fabs(m_max - m_min);
             auto rangeOut = fabs(high - low);
-            daList[0] = 0;  //index for routing
-            if (rangeIn == 0.0) {
-                daList[1] = 0.0;
-                daList[2] = rangeOut;
-            } else if (rangeOut == 0.0) {
-                daList[1] = rangeIn;
-                daList[2] = 0.0;
+            if ((rangeIn == 0.0) || (rangeOut == 0.0)) {
+                m_out2.send(0, rangeIn, rangeOut);
             } else if (rangeIn <= rangeOut) {
-                daList[1] = 1.0;
-                daList[2] = 1.0 / (rangeIn / rangeOut);
+                m_out2.send(0, 1.0, 1.0 / (rangeIn / rangeOut));
             } else {
-                daList[1] = 1.0 / (rangeOut / rangeIn);
-                daList[2] = 1.0;
+                m_out2.send(0, 1.0 / (rangeOut / rangeIn), 1.0);
             }
-            m_out2.send(daList);
             return {};
         }
     };
@@ -101,22 +92,19 @@ public:
 
     message<> range { this, "range",
         MIN_FUNCTION {
-            atoms daList(3);
-            daList[0] = 1;  //index for routing
             if (m_min <= m_max) {
-                daList[1] = m_min;
-                daList[2] = m_max;
+                m_out2.send(1, m_min, m_max);
             } else {
-                daList[1] = m_max;
-                daList[2] = m_min;
+                m_out2.send(1, m_max, m_min);
             }
-            m_out2.send(daList);
             return {};
         }
     };
 
     message<> set { this, "set",
         MIN_FUNCTION {
+            cout << "debug size: " << args.size() << endl;
+            cout << "debug 0, 1: " << args[0] << " " << args[1] << endl;
             m_min = args[0];
             m_max = args[1];
             return {};
@@ -130,7 +118,7 @@ private:
 
     void theFunction(double in) {
         double out;
-        if (!m_flag && (m_min == m_max)) {
+        if ((m_flag == false) && (m_min == m_max)) {
             m_flag = true;
             m_min = in;
             m_max = in;

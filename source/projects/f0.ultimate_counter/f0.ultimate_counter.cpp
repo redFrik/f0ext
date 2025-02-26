@@ -164,7 +164,7 @@ private:
         if (((in >= min) && (in <= max)) || (min == max)) {
             b = in;
         } else {
-            step= 0.0 - step;
+            this->step= 0.0 - this->step;
             c = fabs(max - min) * 2.0;
             if (in < min) {
                 m_out2.send(k_sym_bang);

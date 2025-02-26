@@ -44,11 +44,11 @@ public:
 
     sample operator()(sample in1, sample in2) {
         sample c = 0.0;
-        if ((base != 0.0) && (tonesPerOctave != 0.0)) {
-            auto v = pow(2.0, 1.0 / tonesPerOctave);
-            auto a = (log(fabs(in1)) - log(fabs(base))) / log(v);
+        if ((this->base != 0.0) && (this->tonesPerOctave != 0.0)) {
+            auto v = pow(2.0, 1.0 / this->tonesPerOctave);
+            auto a = (log(fabs(in1)) - log(fabs(this->base))) / log(v);
 		    auto b = round(69.0 + a) - 69.0;
-		    c = fabs(base) * pow(v, b);
+		    c = fabs(this->base) * pow(v, b);
         }
         return c;
     }

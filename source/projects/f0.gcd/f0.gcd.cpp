@@ -27,12 +27,12 @@ public:
     outlet<> m_out1	{ this, "(number) Divisor" };
     
     //TODO check if this is needed
-    message<> bang { this, "bang",
-        MIN_FUNCTION {
-            m_out1.send(m_value);
-            return {};
-        }
-    };
+    // message<> bang { this, "bang",
+    //     MIN_FUNCTION {
+    //         m_out1.send(m_value);
+    //         return {};
+    //     }
+    // };
 
     message<> list { this, "list",
         MIN_FUNCTION {
@@ -58,7 +58,6 @@ public:
             if (inlet == 0) {
                 m_value = greatestCommonDivisor(args[0], m_second);
                 m_out1.send(m_value);
-                //TODO maybe calculate in bang instead and then call bang here
             } else if (inlet == 1) {
                 m_second = args[0];
             }

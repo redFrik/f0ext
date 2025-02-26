@@ -100,10 +100,10 @@ public:
 
 private:
     short m_flags { 0 };
-    double m_max { -INFINITY };
-    double m_min { INFINITY };
-    double m_setMax { -INFINITY };
-    double m_setMin { INFINITY };
+    double m_max { static_cast<double>(-INFINITY) };
+    double m_min { static_cast<double>(INFINITY) };
+    double m_setMax { static_cast<double>(-INFINITY) };
+    double m_setMin { static_cast<double>(INFINITY) };
     
 };
 

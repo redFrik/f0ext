@@ -82,9 +82,9 @@ public:
             if (inlet == 0) {
                 m_value = args[0];
             } else if (inlet == 2) {
-                floor = args[0];
+                this->floor = args[0];
             } else if (inlet == 3) {
-                ceil = args[0];    
+                this->ceil = args[0];    
             }
             return {};
         }

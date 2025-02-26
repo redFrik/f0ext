@@ -68,8 +68,8 @@ public:
     };
 
     samples<2> operator()(sample in1, sample in2, sample in3) {
-        auto a = pow(alpha, 4.0);
-        auto b = pow(beta, 4.0);
+        auto a = pow(this->alpha, 4.0);
+        auto b = pow(this->beta, 4.0);
         auto value = (1.0 - a) * (m_prev_value + m_prev_trend) + a * in1;
         m_prev_trend = (1.0 - b) * m_prev_trend + b * (value - m_prev_value);
         m_prev_value = value;

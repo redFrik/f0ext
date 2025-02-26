@@ -54,24 +54,15 @@ public:
 
     message<> factor { this, "factor",
         MIN_FUNCTION {
-            atoms daList(3);
             auto rangeIn = fabs(m_max - m_min);
             auto rangeOut = fabs(high - low);
-            daList[0] = 0;  //index for routing
-            if (rangeIn == 0.0) {
-                daList[1] = 0.0;
-                daList[2] = rangeOut;
-            } else if (rangeOut == 0.0) {
-                daList[1] = rangeIn;
-                daList[2] = 0.0;
+            if ((rangeIn == 0.0) || (rangeOut == 0.0)) {
+                m_out2.send(0, rangeIn, rangeOut);
             } else if (rangeIn <= rangeOut) {
-                daList[1] = 1.0;
-                daList[2] = 1.0 / (rangeIn / rangeOut);
+                m_out2.send(0, 1.0, 1.0 / (rangeIn / rangeOut));
             } else {
-                daList[1] = 1.0 / (rangeOut / rangeIn);
-                daList[2] = 1.0;
+                m_out2.send(0, 1.0 / (rangeOut / rangeIn), 1.0);
             }
-            m_out2.send(daList);
             return {};
         }
     };
@@ -96,16 +87,11 @@ public:
 
     message<> range { this, "range",
         MIN_FUNCTION {
-            atoms daList(3);
-            daList[0] = 1;  //index for routing
             if (m_min <= m_max) {
-                daList[1] = m_min;
-                daList[2] = m_max;
+                m_out2.send(1, m_min, m_max);
             } else {
-                daList[1] = m_max;
-                daList[2] = m_min;
+                m_out2.send(1, m_max, m_min);
             }
-            m_out2.send(daList);
             return {};
         }
     };
@@ -120,7 +106,7 @@ public:
 
     sample operator()(sample in) {
         sample out;
-        if (!m_flag && (m_min == m_max)) {
+        if ((m_flag == false) && (m_min == m_max)) {
             m_flag = true;
             m_min = in;
             m_max = in;
@@ -132,17 +118,17 @@ public:
             m_max = in;
         }
         auto rangeIn = fabs(m_max - m_min);
-        auto rangeOut = fabs(high - low);
+        auto rangeOut = fabs(this->high - this->low);
         if (rangeIn == 0.0) {
-            if (low <= high) {
-                out = low;
+            if (this->low <= this->high) {
+                out = this->low;
             } else {
-                out = high;
+                out = this->high;
             }
-        } else if (low <= high) {
-            out = fabs((in - m_min) / rangeIn * rangeOut) + low;
+        } else if (this->low <= this->high) {
+            out = fabs((in - m_min) / rangeIn * rangeOut) + this->low;
         } else {
-            out = fabs((in - m_max) / rangeIn * rangeOut) + high;
+            out = fabs((in - m_max) / rangeIn * rangeOut) + this->high;
         }
         return out;
     }

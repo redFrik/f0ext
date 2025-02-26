@@ -29,10 +29,6 @@ jobs:
       if: matrix.os == 'macos-latest'
       run: mkdir build && cd build && cmake -G Xcode .. "-DCMAKE_OSX_ARCHITECTURES=x86_64;arm64"
  
-    - name: build_debug
-      if: matrix.config == 'debug'
-      run: cmake --build build --config 'Debug'
-
     - name: build_release
       if: matrix.config == 'release'
       run: cmake --build build --config 'Release'

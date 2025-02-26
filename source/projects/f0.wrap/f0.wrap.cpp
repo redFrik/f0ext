@@ -77,12 +77,12 @@ private:
 
     void theFunction() {
         double a, lo, hi;
-        if (min > max) {
-            lo = max;
-            hi = min;
+        if (this->min > this->max) {
+            lo = this->max;
+            hi = this->min;
         } else {
-            lo = min;
-            hi = max;
+            lo = this->min;
+            hi = this->max;
         }
         if (((m_value >= lo) && (m_value <= hi)) || (lo == hi)) {
             a = m_value;

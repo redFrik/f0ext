@@ -35,7 +35,8 @@ public:
 
     message<> bang { this, "bang",
         MIN_FUNCTION {
-            theFunction();
+            auto x = theFunction();
+            x += 1.0;
             return {};
         }
     };
@@ -51,7 +52,8 @@ public:
         MIN_FUNCTION {
             amount = args[0];
             if (inlet == 0) {
-                theFunction();
+                auto x = theFunction();
+                x += 1.0;
             }
             return {};
         }
@@ -60,7 +62,7 @@ public:
 private:
     double m_dummy;
 
-    void theFunction() {
+    double theFunction() {
     	long
         i
         ,
@@ -139,6 +141,7 @@ private:
                 }
             }}
     	}
+        return m_dummy;
     };
 
 };

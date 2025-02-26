@@ -77,7 +77,7 @@ private:
     double m_value { 0.0 };
 
     void theFunction() {
-        m_value = (1.0 - alpha) * m_prev + alpha * m_value;
+        m_value = (1.0 - this->alpha) * m_prev + this->alpha * m_value;
 		m_out1.send(m_value);
 		m_prev = m_value;
     }
