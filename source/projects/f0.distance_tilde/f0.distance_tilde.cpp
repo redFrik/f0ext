@@ -26,9 +26,11 @@ public:
     f0_distance_tilde(const atoms& args = {}) {
         if (args.size() > 0) {
             if (args[0] == 2) {
+                m_dimensions = 2;
                 auto m_in2 = std::make_unique<inlet<>>(this, "(signal/number) Y");
                 m_inlets.push_back(std::move(m_in2));
             } else if (args[0] == 3) {
+                m_dimensions = 3;
                 auto m_in2 = std::make_unique<inlet<>>(this, "(signal/number) Y");
                 m_inlets.push_back(std::move(m_in2));
                 auto m_in3 = std::make_unique<inlet<>>(this, "(signal/number) Z");
@@ -37,12 +39,7 @@ public:
         }
     };
 
-    argument<int> dimensions_arg { this, "dimensions", "Dimensions (1 - 3).",
-        MIN_FUNCTION {
-            m_dimensions = MIN_CLAMP(arg, 1, 3);
-            return {};
-        }
-    };
+    argument<int> dimensions_arg { this, "dimensions", "Dimensions (1 - 3)." };
 
 	message<> maxclass_setup { this, "maxclass_setup",
         MIN_FUNCTION {
