@@ -97,8 +97,8 @@ private:
     double m_trend { 0.0 };
 
     void theFunction() {
-        auto a = this->alpha;
-        auto b = this->beta;
+        double a = this->alpha;
+        double b = this->beta;
         m_value = a * m_value + (1.0 - a) * (m_prev_value + m_prev_trend);
         m_trend = b * (m_value - m_prev_value) + (1.0 - b) * m_prev_trend;
         m_out2.send(m_trend);
