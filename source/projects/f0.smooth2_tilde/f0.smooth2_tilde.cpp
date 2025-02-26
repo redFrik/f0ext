@@ -83,15 +83,16 @@ public:
         a = pow(a, 4.0);
         b = pow(b, 4.0);
 
-        auto value = a * (m_prev_value + m_prev_trend) + (1.0 - a) * in1;
-        m_prev_trend = b * m_prev_trend + (1.0 - b) * (value - m_prev_value);
-        m_prev_value = value;
-        return { m_prev_value, m_prev_trend };
+        in1 = a * in1 + (1.0 - a) * (m_prev + m_trend); //DES - Double Exponential Smoothing
+        m_trend = b * (in1 - m_prev) + (1.0 - b) * m_trend;
+        m_prev = in1;
+        
+        return { in1, m_trend };
     }
 
 private:
-    sample m_prev_value { 0.0 };
-    sample m_prev_trend { 0.0 };
+    sample m_prev { 0.0 };
+    sample m_trend { 0.0 };
 };
 
 MIN_EXTERNAL(f0_smooth2_tilde);

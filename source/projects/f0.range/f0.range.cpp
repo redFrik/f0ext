@@ -31,6 +31,7 @@ public:
     argument<number> min_arg { this, "min", "Initial anticipated minimum value.",
         MIN_ARGUMENT_FUNCTION {
             m_flags++;
+            m_min = arg;
             m_setMin = arg;
         }
     };
@@ -38,6 +39,7 @@ public:
     argument<number> max_arg { this, "max", "Initial anticipated maximum value.",
         MIN_ARGUMENT_FUNCTION {
             m_flags++;
+            m_max = arg;
             m_setMax = arg;
         }
     };
@@ -61,6 +63,8 @@ public:
 	message<> maxclass_setup { this, "maxclass_setup",
         MIN_FUNCTION {
             cout << "f0.range v3.0; distributed under GNU GPL License" << endl;
+            cout << "min: " << std::numeric_limits<double>::min() << endl;
+            cout << "max: " << std::numeric_limits<double>::max() << endl;
             return {};
         }
     };

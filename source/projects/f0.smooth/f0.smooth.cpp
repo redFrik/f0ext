@@ -79,9 +79,14 @@ private:
 
     void theFunction() {
         double a = this->alpha;
-        m_value = a * m_value + (1.0 - a) * m_prev;
-		m_out1.send(m_value);
-		m_prev = m_value;
+        m_value = a * m_prev + (1.0 - a) * m_value; //SES - Single Exponential Smoothing, Hunter (1986)
+        m_prev = m_value;
+        m_out1.send(m_value);
+
+        // double a = this->alpha;
+        // m_value = a * m_value + (1.0 - a) * m_prev;
+		// m_out1.send(m_value);
+		// m_prev = m_value;
     }
 
 };

@@ -29,6 +29,7 @@ public:
     argument<number> min_arg { this, "min", "Initial anticipated minimum value.",
         MIN_ARGUMENT_FUNCTION {
             m_flags++;
+            m_min = arg;
             m_setMin = arg;
         }
     };
@@ -36,6 +37,7 @@ public:
     argument<number> max_arg { this, "max", "Initial anticipated maximum value.",
         MIN_ARGUMENT_FUNCTION {
             m_flags++;
+            m_max = arg;
             m_setMax = arg;
         }
     };

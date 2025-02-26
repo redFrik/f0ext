@@ -25,7 +25,7 @@ public:
 
     f0_distance_tilde(const atoms& args = {}) {
         if (args.size() > 0) {
-            /*if (args[0] == 2) {
+            if (args[0] == 2) {
                 m_dimensions = 2;
                 auto m_in2 = std::make_unique<inlet<>>(this, "(signal/number) Y");
                 m_inlets.push_back(std::move(m_in2));
@@ -35,7 +35,7 @@ public:
                 m_inlets.push_back(std::move(m_in2));
                 auto m_in3 = std::make_unique<inlet<>>(this, "(signal/number) Z");
                 m_inlets.push_back(std::move(m_in3));
-            }*/
+            }
         }
     };
 
