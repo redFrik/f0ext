@@ -40,7 +40,7 @@ public:
 
     argument<int> loop_arg { this, "loop", "Loop settings.",
         MIN_ARGUMENT_FUNCTION {
-            loop = <int>arg;
+            loop = arg;
         }
     };
 
