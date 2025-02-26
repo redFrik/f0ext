@@ -68,8 +68,8 @@ public:
     };
 
     samples<2> operator()(sample in1, sample in2, sample in3) {
-        auto a;
-        auto b;
+        sample a;
+        sample b;
         if (m_in2.has_signal_connection()) {
             a = in2;
         } else {

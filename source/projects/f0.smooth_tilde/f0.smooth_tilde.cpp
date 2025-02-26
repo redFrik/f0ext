@@ -52,7 +52,7 @@ public:
     };
 
     sample operator()(sample in1, sample in2) {
-        auto a;
+        sample a;
         if (m_in2.has_signal_connection()) {
             a = in2;
         } else {
