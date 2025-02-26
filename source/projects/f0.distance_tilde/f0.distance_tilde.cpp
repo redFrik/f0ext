@@ -72,7 +72,7 @@ public:
         } else if (m_dimensions == 2) {
             auto in2 = input.samples(1);
             for (auto i = 0; i < input.frame_count(); ++i) {
-                out[i] = fabs(std::sqrt(pow(in[i] - m_x, 2.0) + pow(in2 - m_y, 2.0)));
+                out[i] = fabs(std::sqrt(pow(in[i] - m_x, 2.0) + pow(in2[i] - m_y, 2.0)));
                 m_x = in[i];
                 m_y = in2[i];
             }
@@ -80,7 +80,7 @@ public:
             auto in2 = input.samples(1);
             auto in3 = input.samples(2);
             for (auto i = 0; i < input.frame_count(); ++i) {
-                out[i] = fabs(std::sqrt(pow(in[i] - m_x, 2.0) + pow(in2 - m_y, 2.0) + pow(in3 - m_z, 2.0)));
+                out[i] = fabs(std::sqrt(pow(in[i] - m_x, 2.0) + pow(in2[i] - m_y, 2.0) + pow(in3[i] - m_z, 2.0)));
                 m_x = in[i];
                 m_y = in2[i];
                 m_z = in3[i];
