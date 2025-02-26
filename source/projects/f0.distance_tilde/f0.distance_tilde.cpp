@@ -37,7 +37,7 @@ public:
         }
     };
 
-    argument<int> dimensions_arg { this, "dimensions", "Dimensions (1 - 3)."
+    argument<int> dimensions_arg { this, "dimensions", "Dimensions (1 - 3).",
         MIN_FUNCTION {
             m_dimensions = MIN_CLAMP(arg, 1, 3);
         }
