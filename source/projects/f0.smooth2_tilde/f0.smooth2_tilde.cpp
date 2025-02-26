@@ -83,8 +83,8 @@ public:
         a = pow(a, 4.0);
         b = pow(b, 4.0);
 
-        auto value = a * in1 + (1.0 - a) * (m_prev_value + m_prev_trend);
-        m_prev_trend = b * (value - m_prev_value) + (1.0 - b) * m_prev_trend;
+        auto value = a * (m_prev_value + m_prev_trend) + (1.0 - a) * in1;
+        m_prev_trend = b * m_prev_trend + (1.0 - b) * (value - m_prev_value);
         m_prev_value = value;
         return { m_prev_value, m_prev_trend };
     }

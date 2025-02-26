@@ -61,9 +61,9 @@ public:
 
     attribute<int> loop { this, "loop", 0 };
 
-    attribute<long> floor { this, "floor", C74_LONG_INT_MIN };
+    attribute<double> floor { this, "floor", std::numeric_limits<double>::min() };
 
-    attribute<long> ceil { this, "ceil", C74_LONG_INT_MAX };
+    attribute<double> ceil { this, "ceil", std::numeric_limits<double>::max() };
 
     message<> bang { this, "bang",
         MIN_FUNCTION {

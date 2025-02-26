@@ -44,15 +44,12 @@ public:
 
     message<> bang { this, "bang",
         MIN_FUNCTION {
-            cout << "TODO check if these are set: " << min_arg <<endl;
-            cout << "TODO check if these are set: " << max_arg <<endl;
-            cout << "TODO check flags: " << m_flags << endl;
             if (m_flags == 0) {
-                m_min = C74_INT64_MAX;
-                m_max = C74_INT64_MIN;
+                m_min = std::numeric_limits<double>::max();
+                m_max = std::numeric_limits<double>::min();
             } else if (m_flags == 1) {
                 m_min = m_setMin;
-                m_max = C74_INT64_MIN;
+                m_max = std::numeric_limits<double>::min();
             } else {
                 m_min = m_setMin;
                 m_max = m_setMax;
@@ -101,10 +98,10 @@ public:
 
 private:
     short m_flags { 0 };
-    double m_max { C74_INT64_MIN };
-    double m_min { C74_INT64_MAX };
-    double m_setMax {C74_INT64_MIN };
-    double m_setMin { C74_INT64_MAX };
+    double m_max { std::numeric_limits<double>::min() };
+    double m_min { std::numeric_limits<double>::max() };
+    double m_setMax { std::numeric_limits<double>::min() };
+    double m_setMin { std::numeric_limits<double>::max() };
 
     void theFunction(double val) {
         if (val > m_max) {

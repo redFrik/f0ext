@@ -23,9 +23,9 @@ public:
     inlet<> m_in1	{ this, "(signal) X" };
     outlet<> m_out1	{ this, "(signal) Distance between consecutive numbers (delta)" };
 
-    /*f0_distance_tilde(const atoms& args = {}) {
+    f0_distance_tilde(const atoms& args = {}) {
         if (args.size() > 0) {
-            if (args[0] == 2) {
+            /*if (args[0] == 2) {
                 m_dimensions = 2;
                 auto m_in2 = std::make_unique<inlet<>>(this, "(signal/number) Y");
                 m_inlets.push_back(std::move(m_in2));
@@ -35,9 +35,9 @@ public:
                 m_inlets.push_back(std::move(m_in2));
                 auto m_in3 = std::make_unique<inlet<>>(this, "(signal/number) Z");
                 m_inlets.push_back(std::move(m_in3));
-            }
+            }*/
         }
-    };*/
+    };
 
     argument<int> dimensions_arg { this, "dimensions", "Dimensions (1 - 3)." };
 
@@ -62,12 +62,12 @@ public:
     void operator()(audio_bundle input, audio_bundle output) {
         auto in = input.samples(0);
         auto out = output.samples(0);
-        if (m_dimensions == 1) {
+        /*if (m_dimensions == 1) {
             for (auto i = 0; i < input.frame_count(); ++i) {
                 out[i] = fabs(std::sqrt(pow(in[i] - m_x, 2.0)));
                 m_x = in[i];
             }
-        }/* else if (m_dimensions == 2) {
+        } else if (m_dimensions == 2) {
             auto in2 = input.samples(1);
             for (auto i = 0; i < input.frame_count(); ++i) {
                 out[i] = fabs(std::sqrt(pow(in[i] - m_x, 2.0) + pow(in2[i] - m_y, 2.0)));

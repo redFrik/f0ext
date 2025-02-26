@@ -99,8 +99,8 @@ private:
     void theFunction() {
         double a = this->alpha;
         double b = this->beta;
-        m_value = a * m_value + (1.0 - a) * (m_prev_value + m_prev_trend);
-        m_trend = b * (m_value - m_prev_value) + (1.0 - b) * m_prev_trend;
+        m_value = a * (m_prev_value + m_prev_trend) + (1.0 - a) * m_value;
+        m_trend = b * m_prev_trend + (1.0 - b) * (m_value - m_prev_value);
         m_out2.send(m_trend);
         m_out1.send(m_value);
         m_prev_value = m_value;

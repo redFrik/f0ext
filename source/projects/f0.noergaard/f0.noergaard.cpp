@@ -47,7 +47,7 @@ public:
                 m_value = theFunction(a);
                 bang();
             } else {
-                cout << "f0.noergaard warning: only possitive indices" << endl;
+                cout << "warning: only possitive indices" << endl;
             }
             return {};
         }

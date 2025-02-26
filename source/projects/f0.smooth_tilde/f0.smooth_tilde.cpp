@@ -59,7 +59,7 @@ public:
             a = this->alpha;
         }
         a = pow(a, 4.0);
-        m_prev = a * m_prev + (1.0 - a) * in1;
+        m_prev = a * in1 + (1.0 - a) * m_prev;
         return m_prev;
     }
 
