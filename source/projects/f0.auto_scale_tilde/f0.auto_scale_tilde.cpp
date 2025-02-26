@@ -104,8 +104,14 @@ public:
         }
     };
 
-    sample operator()(sample in) {
+    sample operator()(sample in, sample in2, sample in3) {
         sample out;
+        if (m_in2.has_signal_connection()) {
+            m_min = in2;
+        }
+        if (m_in3.has_signal_connection()) {
+            m_max = in3;
+        }
         if ((m_flag == false) && (m_min == m_max)) {
             m_flag = true;
             m_min = in;
