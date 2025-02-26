@@ -32,17 +32,19 @@ public:
     outlet<> m_out2	{ this, "(bang) Counter hits floor" };
     outlet<> m_out3	{ this, "(bang) Counter hits ceil" };
 
-    argument<number> floor_arg { this, "floor", "Minimum.",
-        MIN_ARGUMENT_FUNCTION {
-            floor = arg;
+    f0_limit_counter(const atoms& args = {}) {
+        if (args.size() == 1) {
+            floor = 0;
+            ceil = args[0];
+        } else if (args.size() == 2) {
+            floor = args[0];
+            ceil = args[1];
         }
     };
 
-    argument<number> ceil_arg { this, "ceil", "Maximum.",
-        MIN_ARGUMENT_FUNCTION {
-            ceil = arg;
-        }
-    };
+    argument<number> floor_arg { this, "floor", "Minimum." };
+
+    argument<number> ceil_arg { this, "ceil", "Maximum." };
 
     attribute<long> floor { this, "floor", C74_LONG_INT_MIN };
 

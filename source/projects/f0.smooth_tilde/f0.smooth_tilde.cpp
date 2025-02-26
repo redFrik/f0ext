@@ -52,8 +52,14 @@ public:
     };
 
     sample operator()(sample in1, sample in2) {
-        auto a = pow(this->alpha, 4.0);
-        m_prev = (1.0 - a) * m_prev + a * in1;
+        auto a;
+        if (m_in2.has_signal_connection()) {
+            a = in2;
+        } else {
+            a = this->alpha;
+        }
+        a = pow(a, 4.0);
+        m_prev = a * m_prev + (1.0 - a) * in1;
         return m_prev;
     }
 

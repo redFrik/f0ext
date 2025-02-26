@@ -104,7 +104,7 @@ public:
     message<> set { this, "set",
         MIN_FUNCTION {
             if (args.size() < 2) {
-                cout << "warning: f0.auto_scale set needs at least 2 arguments." << endl;
+                cout << "warning: set needs at least 2 arguments." << endl;
             } else {
                 m_min = args[0];
                 m_max = args[1];

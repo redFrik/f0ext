@@ -23,7 +23,7 @@ public:
     inlet<> m_in1	{ this, "(signal) X" };
     outlet<> m_out1	{ this, "(signal) Distance between consecutive numbers (delta)" };
 
-    f0_distance_tilde(const atoms& args = {}) {
+    /*f0_distance_tilde(const atoms& args = {}) {
         if (args.size() > 0) {
             if (args[0] == 2) {
                 m_dimensions = 2;
@@ -37,7 +37,7 @@ public:
                 m_inlets.push_back(std::move(m_in3));
             }
         }
-    };
+    };*/
 
     argument<int> dimensions_arg { this, "dimensions", "Dimensions (1 - 3)." };
 
@@ -67,7 +67,7 @@ public:
                 out[i] = fabs(std::sqrt(pow(in[i] - m_x, 2.0)));
                 m_x = in[i];
             }
-        } else if (m_dimensions == 2) {
+        }/* else if (m_dimensions == 2) {
             auto in2 = input.samples(1);
             for (auto i = 0; i < input.frame_count(); ++i) {
                 out[i] = fabs(std::sqrt(pow(in[i] - m_x, 2.0) + pow(in2[i] - m_y, 2.0)));
@@ -83,7 +83,7 @@ public:
                 m_y = in2[i];
                 m_z = in3[i];
             }
-        }
+        }*/
     }
 
 private:

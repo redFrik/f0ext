@@ -77,20 +77,24 @@ public:
 
     message<> set { this, "set",
         MIN_FUNCTION {
-            double lo = args[0];
-            double hi = args[1];
-            if (lo < hi) {
-                m_min = lo;
-                m_max = hi;
-                m_setMin = lo;
-                m_setMax = hi;
+            if (args.size() < 2) {
+                cout << "warning: set needs at least 2 arguments." << endl;
             } else {
-                m_min = hi;
-                m_max = lo;
-                m_setMin = hi;
-                m_setMax = lo;
+                double lo = args[0];
+                double hi = args[1];
+                if (lo < hi) {
+                    m_min = lo;
+                    m_max = hi;
+                    m_setMin = lo;
+                    m_setMax = hi;
+                } else {
+                    m_min = hi;
+                    m_max = lo;
+                    m_setMin = hi;
+                    m_setMax = lo;
+                }
+                m_flags = 2;
             }
-            m_flags = 2;
             return {};
         }
     };

@@ -35,8 +35,7 @@ public:
 
     message<> bang { this, "bang",
         MIN_FUNCTION {
-            auto x = theFunction();
-            x += 1.0;
+            theFunction();
             return {};
         }
     };
@@ -52,8 +51,7 @@ public:
         MIN_FUNCTION {
             amount = args[0];
             if (inlet == 0) {
-                auto x = theFunction();
-                x += 1.0;
+                theFunction();
             }
             return {};
         }
@@ -62,7 +60,7 @@ public:
 private:
     double m_dummy;
 
-    double theFunction() {
+    void theFunction() {
     	long
         i
         ,
@@ -133,15 +131,14 @@ private:
                      l++
                      )
     			{
-                    m_dummy= fmod(
+                    m_dummy += fmod(
                                    l				,
                                    3.1415
-                                   ) + lib::math::random(0.0, 1.0)
+                                   )
                     ;
                 }
             }}
     	}
-        return m_dummy;
     };
 
 };

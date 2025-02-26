@@ -71,15 +71,19 @@ public:
 
     message<> set { this, "set",
         MIN_FUNCTION {
-            if (args[0] == 0.0) {
-                m_proportionWidth = 1.0;
+            if (args.size() < 2) {
+                cout << "warning: set needs at least 2 arguments." << endl;
             } else {
-                m_proportionWidth = args[0];
-            }
-            if (args[1] == 0.0) {
-                m_proportionHeight = 1.0;
-            } else {
-                m_proportionHeight = args[1];
+                if (args[0] == 0.0) {
+                    m_proportionWidth = 1.0;
+                } else {
+                    m_proportionWidth = args[0];
+                }
+                if (args[1] == 0.0) {
+                    m_proportionHeight = 1.0;
+                } else {
+                    m_proportionHeight = args[1];
+                }
             }
             return {};
         }

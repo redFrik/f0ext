@@ -98,8 +98,12 @@ public:
 
     message<> set { this, "set",
         MIN_FUNCTION {
-            m_min = args[0];
-            m_max = args[1];
+            if (args.size() < 2) {
+                cout << "warning: set needs at least 2 arguments." << endl;
+            } else {
+                m_min = args[0];
+                m_max = args[1];
+            }
             return {};
         }
     };

@@ -42,15 +42,12 @@ public:
 
     message<> bang { this, "bang",
         MIN_FUNCTION {
-            cout << "TODO check if these are set: " << min_arg <<endl;
-            cout << "TODO check if these are set: " << max_arg <<endl;
-            cout << "TODO check flags: " << m_flags << endl;
             if (m_flags == 0) {
-                m_min = C74_INT64_MAX;
-                m_max = C74_INT64_MIN;
+                m_min = std::numeric_limits<sample>::max();
+                m_max = std::numeric_limits<sample>::min();
             } else if (m_flags == 1) {
                 m_min = m_setMin;
-                m_max = C74_INT64_MIN;
+                m_max = std::numeric_limits<sample>::min();
             } else {
                 m_min = m_setMin;
                 m_max = m_setMax;
@@ -70,20 +67,24 @@ public:
 
     message<> set { this, "set",
         MIN_FUNCTION {
-            double lo = args[0];
-            double hi = args[1];
-            if (lo < hi) {
-                m_min = lo;
-                m_max = hi;
-                m_setMin = lo;
-                m_setMax = hi;
+            if (args.size() < 2) {
+                cout << "warning: set needs at least 2 arguments." << endl;
             } else {
-                m_min = hi;
-                m_max = lo;
-                m_setMin = hi;
-                m_setMax = lo;
+                double lo = args[0];
+                double hi = args[1];
+                if (lo < hi) {
+                    m_min = lo;
+                    m_max = hi;
+                    m_setMin = lo;
+                    m_setMax = hi;
+                } else {
+                    m_min = hi;
+                    m_max = lo;
+                    m_setMin = hi;
+                    m_setMax = lo;
+                }
+                m_flags = 2;
             }
-            m_flags = 2;
             return {};
         }
     };
@@ -100,10 +101,10 @@ public:
 
 private:
     short m_flags { 0 };
-    double m_max { C74_INT64_MIN };
-    double m_min { C74_INT64_MAX };
-    double m_setMax { C74_INT64_MIN };
-    double m_setMin { C74_INT64_MAX };
+    double m_max { std::numeric_limits<sample>::min() };
+    double m_min { std::numeric_limits<sample>::max() };
+    double m_setMax { std::numeric_limits<sample>::min() };
+    double m_setMin { std::numeric_limits<sample>::max() };
     
 };
 

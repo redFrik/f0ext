@@ -83,20 +83,20 @@ private:
             lo = this->min;
             hi = this->max;
         }
-        if (!(((in >= lo) && (in <= hi)) || (lo == hi))) {
+        if (((in < lo) || (in > hi)) && (lo != hi)) {
             double b = fabs(hi - lo);
             if (in < lo) {
-                if (intswitch) {
-                    in = hi - fabs(fmod(in - lo + 1.0, b + 1.0));
-                } else {
+                //if (intswitch) {
+                    //in = hi - fabs(fmod(in - lo + 1.0, b + 1.0));
+                //} else {
                     in = hi - fabs(fmod(in - lo, b));
-                }
+                //}
             } else {
-                if (intswitch) {
-                    in = lo + fabs(fmod(in - 1.0 - hi, b + 1.0));
-                } else {
+                //if (intswitch) {
+                    //in = lo + fabs(fmod(in - 1.0 - hi, b + 1.0));
+                //} else {
                     in = lo + fabs(fmod(in - hi, b));
-                }
+                //}
             }
         }
         return in;

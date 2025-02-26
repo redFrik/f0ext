@@ -68,10 +68,23 @@ public:
     };
 
     samples<2> operator()(sample in1, sample in2, sample in3) {
-        auto a = pow(this->alpha, 4.0);
-        auto b = pow(this->beta, 4.0);
-        auto value = (1.0 - a) * (m_prev_value + m_prev_trend) + a * in1;
-        m_prev_trend = (1.0 - b) * m_prev_trend + b * (value - m_prev_value);
+        auto a;
+        auto b;
+        if (m_in2.has_signal_connection()) {
+            a = in2;
+        } else {
+            a = this->alpha;
+        }
+        if (m_in3.has_signal_connection()) {
+            b = in3;
+        } else {
+            b = this->beta;
+        }
+        a = pow(a, 4.0);
+        b = pow(b, 4.0);
+
+        auto value = a * in1 + (1.0 - a) * (m_prev_value + m_prev_trend);
+        m_prev_trend = b * (value - m_prev_value) + (1.0 - b) * m_prev_trend;
         m_prev_value = value;
         return { m_prev_value, m_prev_trend };
     }

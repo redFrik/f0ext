@@ -60,8 +60,7 @@ public:
     void operator()(audio_bundle in, audio_bundle out) {
         if (m_flag) {
             m_flag = false;
-            auto x = theFunction();
-            x += 1.0;
+            theFunction();
         }
     }
 
@@ -69,7 +68,7 @@ private:
     bool m_flag { false };
     double m_dummy;
 
-    double theFunction() {
+    void theFunction() {
     	long
         i
         ,
@@ -140,15 +139,14 @@ private:
                      l++
                      )
     			{
-                    m_dummy= fmod(
+                    m_dummy += fmod(
                                    l				,
                                    3.1415
-                                   ) + lib::math::random(0.0, 1.0)
+                                   )
                     ;
                 }
             }}
-    	};
-        return m_dummy;
+    	}
     };
 
 };

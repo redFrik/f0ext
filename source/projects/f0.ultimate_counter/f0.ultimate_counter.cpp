@@ -47,6 +47,7 @@ public:
     argument<number> floor_arg { this, "floor", "Minimum.",
         MIN_ARGUMENT_FUNCTION {
             floor = arg;
+            m_value = arg;
         }
     };
 

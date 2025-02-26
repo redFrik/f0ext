@@ -32,20 +32,15 @@ public:
     f0_fold(const atoms& args = {}) {
         if (args.size() == 1) {
             max = args[0];
+        } else if (args.size() == 2) {
+            min = args[0];
+            max = args[1];
         }
     };
 
-    argument<number> min_arg { this, "min", "Minimum.",
-        MIN_ARGUMENT_FUNCTION {
-            min = arg;
-        }
-    };
+    argument<number> min_arg { this, "min", "Minimum." };
 
-    argument<number> max_arg { this, "max", "Maximum.",
-        MIN_ARGUMENT_FUNCTION {
-            max = arg;
-        }
-    };
+    argument<number> max_arg { this, "max", "Maximum." };
 
     attribute<number> min { this, "min", 0.0 };
 
@@ -83,7 +78,7 @@ private:
     double m_value { 0.0 };
 
     double theFunction(double in) {
-        double out, lo, hi;
+        double lo, hi;
         if (this->min > this->max) {
             lo = this->max;
             hi = this->min;
@@ -91,28 +86,26 @@ private:
             lo = this->min;
             hi = this->max;
         }
-        if (((in >= lo) && (in <= hi)) || (lo == hi)) {
-            out = in;
-        } else {
+        if (((in < lo) || (in > hi)) && (lo != hi)) {
             double a;
             double c = fabs(hi - lo) * 2.0;
             if (in < lo) {
                 a = lo - fmod(in - lo, c);
                 if ((a >= lo) && (a <= hi)) {
-                    out = a;
+                    in = a;
                 } else {
-                    out = hi + (hi - a);
+                    in = hi + (hi - a);
                 }
             } else {
                 a = hi - fmod(in - hi, c);
                 if ((a > (lo - c / 2.0)) && (a <= lo)) {
-                    out = lo + (lo - a);
+                    in = lo + (lo - a);
                 } else {
-                    out = a;
+                    in = a;
                 }
             }
         }
-        return out;
+        return in;
     }
 
 };
