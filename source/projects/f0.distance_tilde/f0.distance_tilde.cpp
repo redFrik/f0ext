@@ -39,7 +39,7 @@ public:
 
     argument<int> dimensions_arg { this, "dimensions", "Dimensions (1 - 3)."
         MIN_FUNCTION {
-            dimensions = MIN_CLAMP(arg, 1, 3);
+            m_dimensions = MIN_CLAMP(arg, 1, 3);
         }
     };
 
@@ -64,19 +64,19 @@ public:
     void operator()(audio_bundle input, audio_bundle output) {
         auto in = input.samples(0);
         auto out = output.samples(0);
-        if (this->dimensions == 1) {
+        if (m_dimensions == 1) {
             for (auto i = 0; i < input.frame_count(); ++i) {
                 out[i] = fabs(std::sqrt(pow(in[i] - m_x, 2.0)));
                 m_x = in[i];
             }
-        } else if (this->dimensions == 2) {
+        } else if (m_dimensions == 2) {
             auto in2 = input.samples(1);
             for (auto i = 0; i < input.frame_count(); ++i) {
                 out[i] = fabs(std::sqrt(pow(in[i] - m_x, 2.0) + pow(in2 - m_y, 2.0)));
                 m_x = in[i];
                 m_y = in2[i];
             }
-        } else if (this->dimensions == 3) {
+        } else if (m_dimensions == 3) {
             auto in2 = input.samples(1);
             auto in3 = input.samples(2);
             for (auto i = 0; i < input.frame_count(); ++i) {
@@ -90,6 +90,7 @@ public:
 
 private:
     std::vector< std::unique_ptr<inlet<>> >	m_inlets;
+    short m_dimensions { 1 };
     double m_x { 0.0 };
     double m_y { 0.0 };
     double m_z { 0.0 };
