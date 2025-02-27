@@ -107,7 +107,9 @@ public:
 
     void operator()(audio_bundle input, audio_bundle output) {
         auto in = input.samples(0);
-        auto out = output.samples(0);
+        auto out1 = output.samples(0);
+        auto out2 = output.samples(1);
+        auto out3 = output.samples(2);
         m_max -= m_smooth;
         m_min += m_smooth;
 
@@ -118,9 +120,9 @@ public:
             if (in[0] < m_min) {
                 m_min = in[0];
             }
-            m_out1[i] = m_min;
-            m_out2[i] = (m_max - m_min) / 2.0 + m_min;
-            m_out3[i] = m_max;
+            out1[i] = m_min;
+            out2[i] = (m_max - m_min) / 2.0 + m_min;
+            out3[i] = m_max;
         }
     }
 
