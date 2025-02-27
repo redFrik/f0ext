@@ -29,13 +29,13 @@ public:
     f0_wrap(const atoms& args = {}) {
         if (args.size() == 1) {
             max = args[0];
-            if (args[0].type() == int_argument) {
+            if (args[0].type() == message_type::int_argument) {
                 m_intswitch = false;
             }
         } else if (args.size() == 2) {
             min = args[0];
             max = args[1];
-            if ((args[0].type() == int_argument) || (args[1].type() == int_argument)) {
+            if ((args[0].type() == message_type::int_argument) || (args[1].type() == message_type::int_argument)) {
                 m_intswitch = false;
             }
         }
