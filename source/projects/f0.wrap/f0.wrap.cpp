@@ -29,13 +29,13 @@ public:
     f0_wrap(const atoms& args = {}) {
         if (args.size() == 1) {
             max = args[0];
-            if (args[0].type() == max::A_LONG) {
+            if (args[0].type() == A_LONG) {
                 m_intswitch = false;
             }
         } else if (args.size() == 2) {
             min = args[0];
             max = args[1];
-            if ((args[0].type() == max::A_LONG) || (args[1].type() == max::A_LONG)) {
+            if ((args[0].type() == A_LONG) || (args[1].type() == A_LONG)) {
                 m_intswitch = false;
             }
         }
