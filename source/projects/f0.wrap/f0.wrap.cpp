@@ -28,12 +28,26 @@ public:
 
     argument<number> min_arg { this, "min", "Minimum.",
         MIN_ARGUMENT_FUNCTION {
+            if (atom_gettype(arg) == A_FLOAT) {
+                cout << "min type float!" << endl;
+                m_intswitch = false;
+            }
+            if (atom_gettype(arg) == A_LONG) {
+                cout << "min type long!" << endl;
+            }
             min = arg;
         }
     };
 
     argument<number> max_arg { this, "max", "Maximum.",
         MIN_ARGUMENT_FUNCTION {
+            if (atom_gettype(arg) == A_FLOAT) {
+                cout << "max type float!" << endl;
+                m_intswitch = false;
+            }
+            if (atom_gettype(arg) == A_LONG) {
+                cout << "max type long!" << endl;
+            }
             max = arg;
         }
     };
@@ -72,7 +86,7 @@ public:
 
 private:
     double m_value { 0.0 };
-    bool intswitch { false };  //TODO
+    bool m_intswitch { true };
 
     double theFunction(double in) {
         double lo, hi;
@@ -86,17 +100,17 @@ private:
         if (((in < lo) || (in > hi)) && (lo != hi)) {
             double b = fabs(hi - lo);
             if (in < lo) {
-                //if (intswitch) {
+                if (m_intswitch) {
                     in = hi - fabs(fmod(in - lo + 1.0, b + 1.0));
-                //} else {
-                    //in = hi - fabs(fmod(in - lo, b));
-                //}
+                } else {
+                    in = hi - fabs(fmod(in - lo, b));
+                }
             } else {
-                //if (intswitch) {
+                if (m_intswitch) {
                     in = lo + fabs(fmod(in - 1.0 - hi, b + 1.0));
-                //} else {
-                    //in = lo + fabs(fmod(in - hi, b));
-                //}
+                } else {
+                    in = lo + fabs(fmod(in - hi, b));
+                }
             }
         }
         return in;

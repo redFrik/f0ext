@@ -14,7 +14,7 @@
 
 using namespace c74::min;
 
-class f0_range2_tilde : public object<f0_range2_tilde>, public sample_operator<1, 3> {
+class f0_range2_tilde : public object<f0_range2_tilde>, public vector_operator<> {
 public:
     MIN_DESCRIPTION	{ "Finds minimum, middle and maximum values of a signal with fallback. Audio version." };
     MIN_TAGS		{ "audio, f0ext" };
@@ -105,16 +105,23 @@ public:
         }
     };
 
-    samples<3> operator()(sample in) {
+    void operator()(audio_bundle input, audio_bundle output) {
+        auto in = input.samples(0);
+        auto out = output.samples(0);
         m_max -= m_smooth;
         m_min += m_smooth;
-        if (in > m_max) {
-            m_max = in;
+
+        for (auto i = 0; i < input.frame_count(); ++i) {
+            if (in[i] > m_max) {
+                m_max = in[i];
+            }
+            if (in[0] < m_min) {
+                m_min = in[0];
+            }
+            m_out1[i] = m_min;
+            m_out2[i] = (m_max - m_min) / 2.0 + m_min;
+            m_out3[i] = m_max;
         }
-        if (in < m_min) {
-            m_min = in;
-        }
-        return { m_min, (m_max - m_min) / 2.0 + m_min, m_max };
     }
 
 private:

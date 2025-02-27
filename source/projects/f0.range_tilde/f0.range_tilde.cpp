@@ -65,8 +65,6 @@ public:
         }
     };
 
-    //TODO check if message number needed here
-
     message<> set { this, "set",
         MIN_FUNCTION {
             if (args.size() < 2) {

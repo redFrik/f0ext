@@ -70,6 +70,7 @@ public:
     samples<2> operator()(sample in1, sample in2, sample in3) {
         sample a;
         sample b;
+        sample out;
         if (m_in2.has_signal_connection()) {
             a = in2;
         } else {
@@ -83,11 +84,11 @@ public:
         a = pow(a, 4.0);
         b = pow(b, 4.0);
 
-        in1 = a * in1 + (1.0 - a) * (m_prev + m_trend); //DES - Double Exponential Smoothing
+        out = a * in1 + (1.0 - a) * (m_prev + m_trend); //DES - Double Exponential Smoothing
         m_trend = b * (in1 - m_prev) + (1.0 - b) * m_trend;
         m_prev = in1;
         
-        return { in1, m_trend };
+        return { out, m_trend };
     }
 
 private:

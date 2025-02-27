@@ -23,7 +23,7 @@ public:
 
     inlet<> m_in1	{ this, "(bang/number) Bang counts, number sets counter value" };
     inlet<> m_in2	{ this, "(number) Step size / direction / rate" };
-    inlet<> m_in3	{ this, "(number) Loop settings (0=limit, 1=loop, 2=palindrome)" };
+    inlet<> m_in3	{ this, "(int) Loop settings (0=limit, 1=loop, 2=palindrome)" };
     inlet<> m_in4	{ this, "(number) Reset counter to number on next clock" };
     inlet<> m_in5	{ this, "(number) Reset counter to number immediately" };
     inlet<> m_in6	{ this, "(number) Floor (min)" };
@@ -59,7 +59,7 @@ public:
 
     attribute<number> step { this, "step", 1.0 };
 
-    attribute<int> loop { this, "loop", 0 };
+    attribute<short> loop { this, "loop", 0 };
 
     attribute<double> floor { this, "floor", std::numeric_limits<double>::min() };
 
@@ -67,9 +67,9 @@ public:
 
     message<> bang { this, "bang",
         MIN_FUNCTION {
-            if (loop < 1.0) {
+            if (loop < 1) {
                 m_value = clipFunction(m_value, floor, ceil);
-            } else if (loop < 2.0) {
+            } else if (loop < 2) {
                 m_value = wrapFunction(m_value, floor, ceil);
             } else {
                 m_value = foldFunction(m_value, floor, ceil);
@@ -98,7 +98,7 @@ public:
             } else if (inlet == 3) {
                 m_value = args[0];
             } else if (inlet == 4) {
-                m_value = args[0];
+                m_value = clipFunction(args[0], floor, ceil);
                 m_out1.send(m_value);
             } else if (inlet == 5) {
                 floor = args[0];
@@ -166,7 +166,7 @@ private:
             if (in < min) {
                 m_out2.send(k_sym_bang);
                 a = min - fmod(in - min, c);
-                if (a >= min && a <= max) {
+                if ((a >= min) && (a <= max)) {
                     b = a;
                 } else {
                     b = max + (max - a);
@@ -174,7 +174,7 @@ private:
             } else {
                 m_out3.send(k_sym_bang);
                 a = max - fmod(in - max, c);
-                if (a > (min - c / 2.0) && a <= min) {
+                if ((a > (min - c / 2.0)) && (a <= min)) {
                     b = min + (min - a);
                 } else {
                     b = a;

@@ -63,8 +63,6 @@ public:
 	message<> maxclass_setup { this, "maxclass_setup",
         MIN_FUNCTION {
             cout << "f0.range v3.0; distributed under GNU GPL License" << endl;
-            cout << "min: " << std::numeric_limits<double>::min() << endl;
-            cout << "max: " << std::numeric_limits<double>::max() << endl;
             return {};
         }
     };

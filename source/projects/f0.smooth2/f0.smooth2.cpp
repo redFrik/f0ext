@@ -72,6 +72,7 @@ public:
     message<> number { this, "number",
         MIN_FUNCTION {
             if (inlet == 0) {
+                m_prev = m_value;
                 m_value = args[0];
                 theFunction();
             } else if (inlet == 1) {
@@ -98,21 +99,10 @@ private:
     void theFunction() {
         double a = this->alpha;
         double b = this->beta;
-
         m_value = a * m_value + (1.0 - a) * (m_prev + m_trend); //DES - Double Exponential Smoothing
         m_trend = b * (m_value - m_prev) + (1.0 - b) * m_trend;
-        m_prev = m_value;
         m_out2.send(m_trend);
         m_out1.send(m_value);
-
-
-
-        // m_value = a * (m_prev_value + m_prev_trend) + (1.0 - a) * m_value;
-        // m_trend = b * m_prev_trend + (1.0 - b) * (m_value - m_prev_value);
-        // m_out2.send(m_trend);
-        // m_out1.send(m_value);
-        // m_prev_value = m_value;
-        // m_prev_trend = m_trend;
     }
 
 };

@@ -62,12 +62,12 @@ public:
     void operator()(audio_bundle input, audio_bundle output) {
         auto in = input.samples(0);
         auto out = output.samples(0);
-        /*if (m_dimensions == 1) {
+        if (m_dimensions == 1) {
             for (auto i = 0; i < input.frame_count(); ++i) {
                 out[i] = fabs(std::sqrt(pow(in[i] - m_x, 2.0)));
                 m_x = in[i];
             }
-        } else if (m_dimensions == 2) {
+        }/* else if (m_dimensions == 2) {
             auto in2 = input.samples(1);
             for (auto i = 0; i < input.frame_count(); ++i) {
                 out[i] = fabs(std::sqrt(pow(in[i] - m_x, 2.0) + pow(in2[i] - m_y, 2.0)));

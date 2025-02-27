@@ -60,11 +60,8 @@ public:
         }
         a = pow(a, 4.0);
         
-        in1 = a * m_prev + (1.0 - a) * in1; //SES - Single Exponential Smoothing, Hunter (1986)
+        in1 = a * in1 + (1.0 - a) * m_prev; //SES - Single Exponential Smoothing, Hunter (1986)
         m_prev = in1;
-        m_out1.send(in1);
-        
-        //m_prev = a * in1 + (1.0 - a) * m_prev;
         
         return m_prev;
     }
