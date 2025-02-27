@@ -26,21 +26,24 @@ public:
     inlet<> m_in3	{ this, "(number) Maximum" };
     outlet<> m_out1	{ this, "(number) Wrapped number" };
 
-    argument<number> min_arg { this, "min", "Minimum.",
-        MIN_ARGUMENT_FUNCTION {
-            cout << "min type: " << arg.type() << endl;
-            m_intswitch = false;
-            min = arg;
+    f0_wrap(const atoms& args = {}) {
+        if (args.size() == 1) {
+            max = args[0];
+            if (args[0].type() == max::A_LONG) {
+                m_intswitch = false;
+            }
+        } else if (args.size() == 2) {
+            min = args[0];
+            max = args[1];
+            if ((args[0].type() == max::A_LONG) || (args[1].type() == max::A_LONG)) {
+                m_intswitch = false;
+            }
         }
     };
 
-    argument<number> max_arg { this, "max", "Maximum.",
-        MIN_ARGUMENT_FUNCTION {
-            cout << "max type: " << arg.type() << endl;
-            m_intswitch = false;
-            max = arg;
-        }
-    };
+    argument<number> min_arg { this, "min", "Minimum." };
+
+    argument<number> max_arg { this, "max", "Maximum." };
 
     attribute<number> min { this, "min", 0.0 };
 

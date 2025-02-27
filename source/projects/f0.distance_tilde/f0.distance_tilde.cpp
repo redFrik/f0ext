@@ -64,7 +64,7 @@ public:
         auto out = output.samples(0);
         if (m_dimensions == 1) {
             for (auto i = 0; i < input.frame_count(); ++i) {
-                out[i] = fabs(std::sqrt(pow(in[i] - m_x, 2.0)));
+                //out[i] = fabs(std::sqrt(pow(in[i] - m_x, 2.0)));
                 m_x = in[i];
             }
         }/* else if (m_dimensions == 2) {

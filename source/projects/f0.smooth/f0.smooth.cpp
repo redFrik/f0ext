@@ -57,7 +57,6 @@ public:
     message<> number { this, "number",
         MIN_FUNCTION {
             if (inlet == 0) {
-                m_prev = m_value;
                 m_value = args[0];
                 theFunction();
             } else if (inlet == 1) {
@@ -76,11 +75,14 @@ public:
 
 private:
     double m_prev { 0.0 };
+    double m_prev2 { 0.0 };
     double m_value { 0.0 };
 
     void theFunction() {
         double a = this->alpha;
-        m_value = a * m_value + (1.0 - a) * m_prev; //SES - Single Exponential Smoothing, Hunter (1986)
+        m_value = a * m_prev + (1.0 - a) * m_prev2; //SES - Single Exponential Smoothing, Hunter (1986)
+        m_prev2 = m_prev;
+        m_prev = m_value;
         m_out1.send(m_value);
     }
 

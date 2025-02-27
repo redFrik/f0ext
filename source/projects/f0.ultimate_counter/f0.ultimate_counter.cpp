@@ -57,9 +57,11 @@ public:
         }
     };
 
-    attribute<number> step { this, "step", 1.0 };
+    attribute<number, threadsafe::no, limit::none> step { this, "step", 1.0 };
 
-    attribute<int> loop { this, "loop", 0 };
+    attribute<int, threadsafe::no, limit::clamp> loop { this, "loop", 0,
+        range { 0, 2 }
+    };
 
     attribute<double> floor { this, "floor", std::numeric_limits<double>::min() };
 
@@ -122,7 +124,7 @@ private:
         if (in > max) {
             m_out3.send(k_sym_bang);
             a = max;
-        } else if(in < min) {
+        } else if (in < min) {
             m_out2.send(k_sym_bang);
             a = min;
         } else {
@@ -161,7 +163,7 @@ private:
         if (((in >= min) && (in <= max)) || (min == max)) {
             b = in;
         } else {
-            this->step= 0.0 - this->step;
+            this->step = 0.0 - this->step;
             c = fabs(max - min) * 2.0;
             if (in < min) {
                 m_out2.send(k_sym_bang);
