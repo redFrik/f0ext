@@ -59,7 +59,7 @@ public:
 
     attribute<number> step { this, "step", 1.0 };
 
-    attribute<short> loop { this, "loop", 0 };
+    attribute<int> loop { this, "loop", 0 };
 
     attribute<double> floor { this, "floor", std::numeric_limits<double>::min() };
 
