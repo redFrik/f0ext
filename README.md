@@ -4,12 +4,10 @@ these are externals/plugins to be used with [MaxMSPJitter](https://cycling74.com
 
 * **f0.auto_scale** - finds min and max values of a stream of numbers and uses them as input scaling range
 * **f0.auto_scale~** - MSP
-* **f0.beats_to_frames** - calculates how many [video]frames will fit in x beats
 * **f0.construct** - a constructive constructor. Connect to a standard 2d graphics object like Max's [lcd], Jitter's [jit.lcd], SoftVNS' [v.draw] or nato.0+55's [242.qd]
 * **f0.distance** - calculate the distance between successive (delta) points in 1, 2 or 3 dimensions
 * **f0.distance~** - MSP
 * **f0.fold** - fold float and integer numbers to a specified range
-* **f0.frames_to_beats** - calculates how many beats will fit in x [video]frames
 * **f0.gcd** - find the greatest common divisor
 * **f0.inc_dec_split** - detect direction of incoming values and split to different outlets
 * **f0.limit_counter** - a different counter with floor and ceiling
@@ -18,7 +16,6 @@ these are externals/plugins to be used with [MaxMSPJitter](https://cycling74.com
 * **f0.range~** - MSP
 * **f0.range2** - similar to f0.range but with an added smooth factor
 * **f0.range2~** - MSP
-* **f0.ratio** - keep width/height proportion
 * **f0.slub** - generate cpu spikes - disrupt timing version
 * **f0.slub~** - generate cpu spikes - audio click version
 * **f0.smooth** - single exponential smoothing. good for filtering data from sensors
@@ -29,7 +26,6 @@ these are externals/plugins to be used with [MaxMSPJitter](https://cycling74.com
 * **f0.tune** - an external that "quantise" frequencies
 * **f0.tune~** - MSP
 * **f0.ultimate_counter** - counter with float direction/rate and loop settings
-* **f0.wrap** - wrap float or integer numbers
 
 see also <https://fredrikolofsson.com/code/max/>
 
@@ -46,9 +42,12 @@ Distributed under GNU GPL license. See the included file.
 
 ## version history
 
------250121
+-----250301
 * modernised everything using min-devkit (sdk8)
 * new builds for macOS (both intel and arm) and win64
+* deleted f0.wrap (it was made back when stock [%] did not accept floating-point numbers)
+* moved f0.beats_to_frames, f0.frames_to_beats and f0.ratio to the f0.abs package
+* f0.smooth2~ bugfix for third inlet float (argument or signal not affected)
 
 -----130810
 * uploaded to github

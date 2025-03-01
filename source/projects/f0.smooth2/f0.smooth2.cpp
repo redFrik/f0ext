@@ -11,7 +11,8 @@
 //      -- updated 070106 - clip arg and speed improve fix      --
 //      -- updated 130630 - ported to max sdk 6.1.1             --
 //      -- updated 130702 - rewrote argument handling in new    --
-//      -- updated 250221 - ported to min-devkit (sdk8)         --
+//      -- updated 250301 - bugfix for third inlet float        --
+//      -- updated 250301 - ported to min-devkit (sdk8)         --
 //      ----------------------------------------------------------
 
 #include "c74_min.h"

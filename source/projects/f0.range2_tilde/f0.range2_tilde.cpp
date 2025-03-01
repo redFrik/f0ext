@@ -7,7 +7,7 @@
 //      -- fredrik olofsson 070106                              --
 //      -- updated 130630 - ported to max sdk 6.1.1             --
 //      -- updated 130702 - rewrote argument handling in new    --
-//      -- updated 250121 - ported to min-devkit (sdk8)         --
+//      -- updated 250301 - ported to min-devkit (sdk8)         --
 //      ----------------------------------------------------------
 
 #include "c74_min.h"

@@ -9,7 +9,7 @@
 //      -- updated 060507 - minor updates                       --
 //      -- updated 070103 - for ub using xcode                  --
 //      -- updated 130630 - ported to max sdk 6.1.1             --
-//      -- updated 250121 - ported to min-devkit (sdk8)         --
+//      -- updated 250301 - ported to min-devkit (sdk8)         --
 //      ----------------------------------------------------------
 
 #include "c74_min.h"
