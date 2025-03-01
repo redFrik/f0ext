@@ -1,49 +1,50 @@
 # externals for maxmsp
 
-these are externals/plugins to be used with [MaxMSPJitter](https://cycling74.com)
+Externals / plugins to be used with [MaxMSPJitter](https://cycling74.com)
 
-* **f0.auto_scale** - finds min and max values of a stream of numbers and uses them as input scaling range
+* **f0.auto_scale** - Find minimum and maximum values from a stream of numbers and use them as input scaling range.
 * **f0.auto_scale~** - MSP
-* **f0.construct** - a constructive constructor. Connect to a standard 2d graphics object like Max's [lcd], Jitter's [jit.lcd], SoftVNS' [v.draw] or nato.0+55's [242.qd]
-* **f0.distance** - calculate the distance between successive (delta) points in 1, 2 or 3 dimensions
+* **f0.construct** - A constructive constructor. Connect to a standard 2D graphics object like Max's [lcd], Jitter's [jit.lcd], SoftVNS' [v.draw] or nato.0+55's [242.qd]
+* **f0.distance** - Calculate delta distance in 1, 2 or 3 dimensions.
 * **f0.distance~** - MSP
-* **f0.fold** - fold float and integer numbers to a specified range
-* **f0.gcd** - find the greatest common divisor
-* **f0.inc_dec_split** - detect direction of incoming values and split to different outlets
-* **f0.limit_counter** - a different counter with floor and ceiling
-* **f0.noergaard** - per nørgård's infinity series
-* **f0.range** - finds minimum, middle and maximum values from a stream of values
+* **f0.fold** - Fold float and integer numbers to a specified range.
+* **f0.gcd** - Greatest common divisor.
+* **f0.inc_dec_split** - Detect direction of incoming values and split to different outlets.
+* **f0.limit_counter** - A different counter with floor and ceiling.
+* **f0.noergaard** - Per Nørgård's infinity series.
+* **f0.range** - Find minimum, middle and maximum values from a stream of values.
 * **f0.range~** - MSP
-* **f0.range2** - similar to f0.range but with an added smooth factor
+* **f0.range2** - Similar to f0.range but with an added smooth factor.
 * **f0.range2~** - MSP
-* **f0.slub** - generate cpu spikes - disrupt timing version
-* **f0.slub~** - generate cpu spikes - audio click version
-* **f0.smooth** - single exponential smoothing. good for filtering data from sensors
+* **f0.slub** - Generate CPU spikes - disrupt timing version.
+* **f0.slub~** - Generate CPU spikes - audio click version.
+* **f0.smooth** - Single exponential smoothing. Good for filtering data from sensors.
 * **f0.smooth~** - MSP
-* **f0.smooth2** - double exponential smoothing
+* **f0.smooth2** - Double exponential smoothing.
 * **f0.smooth2~** - MSP
-* **f0.snap** - smooth by snapping
-* **f0.tune** - an external that "quantise" frequencies
+* **f0.snap** - Smooth by snapping.
+* **f0.tune** - Frequency quantiser.
 * **f0.tune~** - MSP
-* **f0.ultimate_counter** - counter with float direction/rate and loop settings
+* **f0.ultimate_counter** - Counter with floating-point direction/rate and loop settings.
 
-see also <https://fredrikolofsson.com/code/max/>
+Latest version (Max8, Max9, x86_64 and arm64) available for download from... [releases/latest](http://github.com/redFrik/f0ext/releases/latest).
 
-javascript versions of some of the externals are available <https://github.com/redFrik/f0js>
+For older releases (Max4 to Max7) see... <https://fredrikolofsson.com/code/max/>
 
-older windows 32bit binaries are available here... <https://www.fredrikolofsson.com/software/f0ext091222win.zip>
+Older windows 32-bit binaries are available here... <https://www.fredrikolofsson.com/software/f0ext091222win.zip>
+
+JavaScript versions of some of the externals are available here... <https://github.com/redFrik/f0js>
 
 Pd equivalents are here... <https://fredrikolofsson.com/code/pd/>
 
 Distributed under GNU GPL license. See the included file.
 
 
-
-
 ## version history
 
 -----250301
 * modernised everything using min-devkit (sdk8)
+* helpfiles cleanup
 * new builds for macOS (both intel and arm) and win64
 * deleted f0.wrap (it was made back when stock [%] did not accept floating-point numbers)
 * moved f0.beats_to_frames, f0.frames_to_beats and f0.ratio to the f0.abs package
