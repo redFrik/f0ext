@@ -43,7 +43,7 @@ Distributed under GNU GPL license. See the included file.
 ## version history
 
 -----250319
-* f0.limit_counter bugfix set minimum
+* f0.limit_counter bugfix minimum and maximum arguments
 
 -----250301
 * modernised everything using min-devkit (sdk8)

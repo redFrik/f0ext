@@ -53,6 +53,7 @@ public:
 
     message<> bang { this, "bang",
         MIN_FUNCTION {
+            m_value = MIN_CLAMP(m_value, floor, ceil);
             if (inlet == 0) {
                 if (m_value < ceil) {
                     m_value++;
@@ -63,8 +64,6 @@ public:
             } else if (inlet == 1) {
                 if (m_value > floor) {
                     m_value--;
-                } else {
-                    m_value = floor;
                 }
                 if (m_value == floor) {
                     m_out2.send(k_sym_bang);
@@ -77,7 +76,7 @@ public:
 
 	message<> maxclass_setup { this, "maxclass_setup",
         MIN_FUNCTION {
-            cout << "f0.limit_counter v3.0.1; distributed under GNU GPL License" << endl;
+            cout << "f0.limit_counter v3.0.2; distributed under GNU GPL License" << endl;
             return {};
         }
     };
