@@ -11,6 +11,7 @@
 //      -- updated 130630 - ported to max sdk 6.1.1             --
 //      -- updated 130702 - rewrote argument handling in new    --
 //      -- updated 250301 - ported to min-devkit (sdk8)         --
+//      -- bugfix 250319 - set minimum                          --
 //      ----------------------------------------------------------
 
 #include "c74_min.h"
@@ -62,6 +63,8 @@ public:
             } else if (inlet == 1) {
                 if (m_value > floor) {
                     m_value--;
+                } else {
+                    m_value = floor;
                 }
                 if (m_value == floor) {
                     m_out2.send(k_sym_bang);
@@ -74,7 +77,7 @@ public:
 
 	message<> maxclass_setup { this, "maxclass_setup",
         MIN_FUNCTION {
-            cout << "f0.limit_counter v3.0; distributed under GNU GPL License" << endl;
+            cout << "f0.limit_counter v3.0.1; distributed under GNU GPL License" << endl;
             return {};
         }
     };

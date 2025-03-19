@@ -2,36 +2,36 @@
 
 Externals / plugins to be used with [MaxMSPJitter](https://cycling74.com)
 
-* **f0.auto_scale** - Find minimum and maximum values from a stream of numbers and use them as input scaling range.
-* **f0.auto_scale~** - MSP
-* **f0.construct** - A constructive constructor. Connect to a standard 2D graphics object like Max's [lcd], Jitter's [jit.lcd], SoftVNS' [v.draw] or nato.0+55's [242.qd]
-* **f0.distance** - Calculate delta distance in 1, 2 or 3 dimensions.
-* **f0.distance~** - MSP
-* **f0.fold** - Fold float and integer numbers to a specified range.
-* **f0.gcd** - Greatest common divisor.
-* **f0.inc_dec_split** - Detect direction of incoming values and split to different outlets.
-* **f0.limit_counter** - A different counter with floor and ceiling.
-* **f0.noergaard** - Per Nørgård's infinity series.
-* **f0.range** - Find minimum, middle and maximum values from a stream of values.
-* **f0.range~** - MSP
-* **f0.range2** - Similar to f0.range but with an added smooth factor.
-* **f0.range2~** - MSP
-* **f0.slub** - Generate CPU spikes - disrupt timing version.
-* **f0.slub~** - Generate CPU spikes - audio click version.
-* **f0.smooth** - Single exponential smoothing. Good for filtering data from sensors.
-* **f0.smooth~** - MSP
-* **f0.smooth2** - Double exponential smoothing.
-* **f0.smooth2~** - MSP
-* **f0.snap** - Smooth by snapping.
-* **f0.tune** - Frequency quantiser.
-* **f0.tune~** - MSP
-* **f0.ultimate_counter** - Counter with floating-point direction/rate and loop settings.
+- f0.auto_scale - Find minimum and maximum values from a stream of numbers and use them as input scaling range.
+- f0.auto_scale~ - audio version
+- f0.construct - A constructive constructor. Connect to a standard 2D graphics object like Max's [lcd], Jitter's [jit.lcd], SoftVNS' [v.draw] or nato.0+55's [242.qd]
+- f0.distance - Calculate delta distance in 1, 2 or 3 dimensions.
+- f0.distance~ - audio version
+- f0.fold - Fold float and integer numbers to a specified range.
+- f0.gcd - Greatest common divisor.
+- f0.inc_dec_split - Detect direction of incoming values and split to different outlets.
+- f0.limit_counter - A different counter with floor and ceiling.
+- f0.noergaard - Per Nørgård's infinity series.
+- f0.range - Find minimum, middle and maximum values from a stream of values.
+- f0.range~ - audio version
+- f0.range2 - Similar to f0.range but with an added smooth factor.
+- f0.range2~ - audio version
+- f0.slub - Generate CPU spikes - disrupt timing version.
+- f0.slub~ - Generate CPU spikes - audio click version.
+- f0.smooth - Single exponential smoothing. Good for filtering data from sensors.
+- f0.smooth~ - audio version
+- f0.smooth2 - Double exponential smoothing.
+- f0.smooth2~ - audio version
+- f0.snap - Smooth by snapping.
+- f0.tune - Frequency quantiser.
+- f0.tune~ - audio version
+- f0.ultimate_counter - Counter with floating-point direction/rate and loop settings.
 
 Latest version (Max8, Max9, x86_64 and arm64) available for download from... [releases/latest](http://github.com/redFrik/f0ext/releases/latest).
 
-For older releases (Max4 to Max7) see... <https://fredrikolofsson.com/code/max/>
+For older 32- and 64-bit macOS/OSX releases (Max4 to Max7) see... <https://fredrikolofsson.com/code/max/>
 
-Older windows 32-bit binaries are available here... <https://www.fredrikolofsson.com/software/f0ext091222win.zip>
+Older Windows 32-bit binaries are available here... <https://www.fredrikolofsson.com/software/f0ext091222win.zip>
 
 JavaScript versions of some of the externals are available here... <https://github.com/redFrik/f0js>
 
@@ -42,12 +42,15 @@ Distributed under GNU GPL license. See the included file.
 
 ## version history
 
+-----250319
+* f0.limit_counter bugfix set minimum
+
 -----250301
 * modernised everything using min-devkit (sdk8)
 * helpfiles cleanup
-* new builds for macOS (both intel and arm) and win64
+* new builds for macOS (both intel and arm)
 * deleted f0.wrap (it was made back when stock [%] did not accept floating-point numbers)
-* moved f0.beats_to_frames, f0.frames_to_beats and f0.ratio to the f0.abs package
+* moved f0.beats_to_frames, f0.frames_to_beats and f0.ratio to the [f0abs](https://github.com/redFrik/f0abs) package
 * f0.smooth2~ bugfix for third inlet float (argument or signal not affected)
 
 -----130810
